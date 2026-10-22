@@ -2,12 +2,13 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>المكتبة</title>
 <meta name="description" content="مكتبة رقمية لتصفّح الكتب وقراءتها">
 <meta name="theme-color" content="#f6f1e7">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23a8843f'/%3E%3Cpath d='M14 18c7-3 13-2 18 2v28c-5-4-11-5-18-2zM50 18c-7-3-13-2-18 2v28c5-4 11-5 18-2z' fill='%23fffdf8'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/style.css?v=3">
 </head>
 <body>
 <div class="datebar" id="today" aria-label="تاريخ اليوم"></div>
@@ -30,7 +31,7 @@
 <main class="shelf" id="shelf" aria-live="polite"></main>
 <footer class="lib-foot" id="foot"></footer>
 
-<script src="assets/common.js"></script>
+<script src="assets/common.js?v=3"></script>
 <script>
 (async function () {
   const { loadLibrary, readerUrl, ar } = window.Lib;
@@ -49,7 +50,7 @@
   [fmtH(now), fmtG(now)].forEach((txt, i) => { if (i) { const s = document.createElement("span"); s.className = "sep"; s.textContent = "•"; tb.appendChild(s); } const x = document.createElement("span"); x.textContent = txt; tb.appendChild(x); });
 
   const foot = document.getElementById("foot");
-  foot.textContent = "اضغط على أي كتاب لتصفّحه";
+  const hint = document.createElement("span"); hint.className = "hint"; hint.textContent = "اضغط على أي كتاب لتصفّحه"; foot.appendChild(hint);
   if (site.preparedDate) {
     const d = new Date(site.preparedDate + "T12:00:00");
     const pr = document.createElement("span"); pr.className = "prep";

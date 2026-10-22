@@ -1,0 +1,25 @@
+{
+  "site": {
+    "title": "مؤلفات علي بن عبدالله الشهري",
+    "subtitle": "مكتبة رقمية لتصفّح الكتب وقراءتها",
+    "allowDownload": false
+  },
+  "books": [
+    {
+      "id": "fatawa-aqeedah",
+      "title": "فتاوى كبار العلماء في العقيدة",
+      "file": "books/fatawa-aqeedah.pdf",
+      "cover": "covers/fatawa-aqeedah.jpg",
+      "pages": 136,
+      "added": "2026-10-22"
+    },
+    {
+      "id": "salat-almusafir",
+      "title": "فتاوى صلاة المسافر",
+      "file": "books/salat-almusafir.pdf",
+      "cover": "covers/salat-almusafir.jpg",
+      "pages": 29,
+      "added": "2026-10-22"
+    }
+  ]
+}

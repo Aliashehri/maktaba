@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>المكتبة</title>
+<meta name="description" content="مكتبة رقمية لتصفّح الكتب وقراءتها">
+<meta name="theme-color" content="#f6f1e7">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23a8843f'/%3E%3Cpath d='M14 18c7-3 13-2 18 2v28c-5-4-11-5-18-2zM50 18c-7-3-13-2-18 2v28c5-4 11-5 18-2z' fill='%23fffdf8'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header class="lib-head">
+  <svg class="ornament" viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6">
+    <rect x="11" y="11" width="26" height="26"/><rect x="11" y="11" width="26" height="26" transform="rotate(45 24 24)"/><circle cx="24" cy="24" r="5"/>
+  </svg>
+  <h1 class="lib-title" id="title">المكتبة</h1>
+  <p class="lib-sub" id="subtitle"></p>
+  <div class="lib-tools">
+    <label class="search">
+      <span class="sr">ابحث عن كتاب</span>
+      <input id="q" type="search" placeholder="ابحث باسم الكتاب…" autocomplete="off">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    </label>
+    <span class="count" id="count"></span>
+  </div>
+</header>
+
+<main class="shelf" id="shelf" aria-live="polite"></main>
+<footer class="lib-foot" id="foot"></footer>
+
+<script src="assets/common.js"></script>
+<script>
+(async function () {
+  const { loadLibrary, readerUrl, ar } = window.Lib;
+  const data = await loadLibrary();
+  const site = data.site, books = data.books;
+  const shelf = document.getElementById("shelf");
+
+  if (site.title) { document.getElementById("title").textContent = site.title; document.title = site.title; }
+  document.getElementById("subtitle").textContent = site.subtitle || "";
+  document.getElementById("count").textContent = "عدد الكتب: " + ar(books.length);
+  document.getElementById("foot").textContent = "اضغط على أي كتاب لتصفّحه";
+
+  const needCover = [];
+  const cards = books.map((b) => {
+    const a = document.createElement("a");
+    a.className = "book"; a.href = readerUrl(b);
+    a.dataset.q = (b.title || "").toLowerCase();
+    const cv = document.createElement("div"); cv.className = "cover";
+    if (b.cover) {
+      const img = new Image(); img.loading = "lazy"; img.decoding = "async"; img.alt = "";
+      img.src = b.cover; cv.appendChild(img);
+    } else {
+      const ph = document.createElement("div"); ph.className = "ph"; ph.textContent = b.title; cv.appendChild(ph);
+      needCover.push({ el: cv, file: b.file });
+    }
+    const h = document.createElement("h2"); h.textContent = b.title;
+    a.append(cv, h);
+    if (b.pages) { const m = document.createElement("div"); m.className = "meta"; m.textContent = ar(b.pages) + " صفحة"; a.appendChild(m); }
+    shelf.appendChild(a);
+    return a;
+  });
+
+  const empty = document.createElement("p"); empty.className = "empty"; empty.hidden = true;
+  empty.textContent = books.length ? "لا توجد نتائج مطابقة" : "لا توجد كتب بعد";
+  empty.hidden = books.length > 0;
+  shelf.appendChild(empty);
+
+  const norm = (s) => s.toLowerCase().replace(/[أإآ]/g, "ا").replace(/ة/g, "ه").replace(/ى/g, "ي").replace(/[ً-ْـ]/g, "");
+  document.getElementById("q").addEventListener("input", (e) => {
+    const q = norm(e.target.value.trim()); let n = 0;
+    cards.forEach((c) => { const show = !q || norm(c.dataset.q).includes(q); c.hidden = !show; if (show) n++; });
+    empty.hidden = n > 0;
+  });
+
+  // الكتب بلا غلاف: نعرض صفحتها الأولى كغلاف
+  if (needCover.length) {
+    const pdfjs = await import("./lib/pdf.min.mjs");
+    pdfjs.GlobalWorkerOptions.workerSrc = "lib/pdf.worker.min.mjs";
+    const io = new IntersectionObserver((ents) => {
+      ents.forEach(async (en) => {
+        if (!en.isIntersecting) return; io.unobserve(en.target);
+        const item = needCover.find((x) => x.el === en.target);
+        try {
+          const doc = await pdfjs.getDocument({ url: item.file, disableAutoFetch: true }).promise;
+          const page = await doc.getPage(1);
+          const vp0 = page.getViewport({ scale: 1 });
+          const vp = page.getViewport({ scale: 400 / vp0.width });
+          const c = document.createElement("canvas"); c.width = vp.width; c.height = vp.height;
+          await page.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
+          item.el.innerHTML = ""; item.el.appendChild(c); doc.destroy();
+        } catch (e) { console.warn(e); }
+      });
+    }, { rootMargin: "200px" });
+    needCover.forEach((x) => io.observe(x.el));
+  }
+})();
+</script>
+</body>
+</html>

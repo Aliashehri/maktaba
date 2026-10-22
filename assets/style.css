@@ -24,6 +24,11 @@ a{color:inherit}
 [hidden]{display:none!important}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
+/* ===== شريط التاريخ ===== */
+.datebar{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;padding:8px 16px;background:var(--ink);color:#efe3c6;font-size:14px}
+.datebar .sep{color:var(--gold-2)}
+.lib-foot .prep{display:block;margin-top:6px;color:var(--ink);font-weight:500}
+
 /* ===== رأس المكتبة ===== */
 .lib-head{position:relative;text-align:center;padding:56px 16px 34px;background:
   radial-gradient(ellipse at 50% -20%,rgba(201,169,97,.22),transparent 60%),var(--paper);
@@ -92,7 +97,7 @@ body.reader{background:var(--stage);color:var(--on-dark);height:100vh;height:100
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 /* نافذة التكبير */
-.zoom{position:fixed;inset:0;z-index:30;background:rgba(18,15,11,.97);display:none;flex-direction:column}
+.zoom{position:fixed;inset:0;z-index:30;background:#16130e;display:none;flex-direction:column}
 .zoom.open{display:flex}
 .zoom .z-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bar)}
 .zoom .z-scroll{flex:1;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y pinch-zoom}

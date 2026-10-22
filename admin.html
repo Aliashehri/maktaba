@@ -92,6 +92,7 @@
     <h2><span class="n">٤</span> إعدادات الموقع</h2>
     <label class="field"><span>عنوان المكتبة</span><input class="input" id="sTitle"></label>
     <label class="field"><span>الوصف تحت العنوان</span><input class="input" id="sSub"></label>
+    <label class="field"><span>تاريخ الإعداد <small>يظهر أسفل الصفحة الرئيسية بالهجري والميلادي.</small></span><input class="input" id="sDate" type="date" dir="ltr" style="max-width:240px"></label>
     <label class="check"><input type="checkbox" id="sDl"> السماح للقرّاء بتحميل الكتب (يظهر زر تحميل في صفحة القراءة)</label>
     <button class="btn" id="saveSite">حفظ الإعدادات</button>
     <div class="status" id="siteStatus"></div>
@@ -207,7 +208,7 @@ async function loadLib() {
     extra = files.filter((f) => f.type === "file" && /\.pdf$/i.test(f.name) && !known.has("books/" + f.name));
   } catch (e) {}
   render(extra);
-  $("sTitle").value = lib.site.title || ""; $("sSub").value = lib.site.subtitle || ""; $("sDl").checked = !!lib.site.allowDownload;
+  $("sTitle").value = lib.site.title || ""; $("sSub").value = lib.site.subtitle || ""; $("sDl").checked = !!lib.site.allowDownload; $("sDate").value = lib.site.preparedDate || "";
 }
 const saveLib = (msg, more = []) => commit([...more, { path: "books.json", text: JSON.stringify(lib, null, 2) + "\n" }], msg);
 
@@ -360,8 +361,8 @@ $("publish").onclick = async () => {
     else {
       const p1 = await doc.getPage(1); const v0 = p1.getViewport({ scale: 1 });
       const vp = p1.getViewport({ scale: 600 / v0.width });
-      const c = document.createElement("canvas"); c.width = vp.width; c.height = vp.height;
-      const ctx = c.getContext("2d"); ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height);
+      const c = document.createElement("canvas"); c.width = vp.width; c.height = vp.height; c.dir = "ltr";
+      const ctx = c.getContext("2d"); ctx.direction = "ltr"; ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height);
       await p1.render({ canvasContext: ctx, viewport: vp }).promise; coverBuf = await canvasToJpeg(c);
     }
     doc.destroy();
@@ -389,7 +390,7 @@ $("publish").onclick = async () => {
 
 // ===== إعدادات الموقع =====
 $("saveSite").onclick = () => run("siteStatus", async () => {
-  lib.site.title = $("sTitle").value.trim(); lib.site.subtitle = $("sSub").value.trim(); lib.site.allowDownload = $("sDl").checked;
+  lib.site.title = $("sTitle").value.trim(); lib.site.subtitle = $("sSub").value.trim(); lib.site.allowDownload = $("sDl").checked; lib.site.preparedDate = $("sDate").value;
   await saveLib("تعديل إعدادات الموقع");
 }, "تم حفظ الإعدادات ✓");
 

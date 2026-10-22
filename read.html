@@ -17,6 +17,10 @@
   <a class="ibtn" id="download" hidden title="تحميل الكتاب" aria-label="تحميل الكتاب" download>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
   </a>
+  <button class="ibtn" id="soundBtn" title="صوت تقليب الصفحات" aria-label="صوت تقليب الصفحات" aria-pressed="true">
+    <svg id="sndOn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+    <svg id="sndOff" hidden viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9 6 6m0-6-6 6"/></svg>
+  </button>
   <button class="ibtn" id="zoomBtn" title="تكبير" aria-label="تكبير">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M11 8v6M8 11h6"/></svg>
   </button>
@@ -164,7 +168,8 @@ async function pump() {
       const vp = page.getViewport({ scale: target / vp0.width });
       const c = document.createElement("canvas");
       c.width = Math.round(vp.width); c.height = Math.round(vp.height);
-      const ctx = c.getContext("2d", { alpha: false });
+      c.dir = "ltr";
+      const ctx = c.getContext("2d", { alpha: false }); ctx.direction = "ltr";
       ctx.fillStyle = "#fff"; ctx.fillRect(0, 0, c.width, c.height);
       await page.render({ canvasContext: ctx, viewport: vp }).promise;
       const el = els[idxOf(p)];
@@ -225,6 +230,46 @@ flip.on("init", () => { onChange(); $("loader").hidden = true; if (startP > 1) t
 flip.on("flip", onChange);
 flip.on("changeOrientation", onChange);
 
+
+// ===== صوت تقليب الورق =====
+let soundOn = store.get("sound") !== "off", actx = null, noiseBuf = null;
+function paintSound() {
+  $("sndOn").hidden = !soundOn; $("sndOff").hidden = soundOn;
+  $("soundBtn").setAttribute("aria-pressed", String(soundOn));
+  $("soundBtn").title = soundOn ? "كتم صوت التقليب" : "تشغيل صوت التقليب";
+}
+function audio() {
+  if (!actx) {
+    const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
+    actx = new AC();
+    noiseBuf = actx.createBuffer(1, Math.floor(actx.sampleRate * 0.6), actx.sampleRate);
+    const d = noiseBuf.getChannelData(0); let last = 0;
+    for (let i = 0; i < d.length; i++) { const w = Math.random() * 2 - 1; last = (last + 0.06 * w) / 1.06; d[i] = (w * 0.55 + last * 3) * 0.5; }
+  }
+  if (actx.state === "suspended") actx.resume();
+  return actx;
+}
+function playFlip() {
+  if (!soundOn) return;
+  const a = audio(); if (!a) return;
+  const t = a.currentTime;
+  const src = a.createBufferSource(); src.buffer = noiseBuf; src.playbackRate.value = 0.9 + Math.random() * 0.25;
+  const bp = a.createBiquadFilter(); bp.type = "bandpass"; bp.Q.value = 0.8;
+  bp.frequency.setValueAtTime(1800, t); bp.frequency.exponentialRampToValueAtTime(4200, t + 0.18); bp.frequency.exponentialRampToValueAtTime(1200, t + 0.45);
+  const hp = a.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 400;
+  const g = a.createGain();
+  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.32, t + 0.05);
+  g.gain.exponentialRampToValueAtTime(0.12, t + 0.22); g.gain.exponentialRampToValueAtTime(0.25, t + 0.3);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
+  src.connect(bp); bp.connect(hp); hp.connect(g); g.connect(a.destination);
+  src.start(t); src.stop(t + 0.55);
+}
+paintSound();
+$("soundBtn").onclick = () => { soundOn = !soundOn; store.set("sound", soundOn ? "on" : "off"); paintSound(); if (soundOn) audio(); toast(soundOn ? "تم تشغيل الصوت" : "تم كتم الصوت"); };
+["pointerdown", "keydown", "touchstart"].forEach((ev) => window.addEventListener(ev, () => { if (soundOn) audio(); }, { once: true, passive: true }));
+let lastState = "";
+flip.on("changeState", (e) => { if (e.data === "flipping" && lastState !== "flipping") playFlip(); lastState = e.data; });
+
 // ===== التنقل =====
 const next = () => flip.flipPrev(); // للأمام في الكتاب العربي
 const prev = () => flip.flipNext();
@@ -265,7 +310,9 @@ $("fsBtn").onclick = () => {
 
 // ===== التكبير =====
 let zLevel = 1, zPages = [];
+let zToken = 0;
 async function drawZoom() {
+  const token = ++zToken;
   $("zLevel").textContent = Math.round(zLevel * 100) + "%";
   const box = $("zPages"); box.innerHTML = "";
   const fitW = Math.min(window.innerWidth - 32, 900) / (zPages.length > 1 && window.innerWidth > 700 ? 2 : 1);
@@ -278,8 +325,12 @@ async function drawZoom() {
     const c = document.createElement("canvas");
     c.width = Math.round(vp.width); c.height = Math.round(vp.height);
     c.style.width = w + "px"; c.style.height = Math.round(w / RATIO) + "px";
+    c.dir = "ltr";
+    const zctx = c.getContext("2d", { alpha: false }); zctx.direction = "ltr";
+    zctx.fillStyle = "#fff"; zctx.fillRect(0, 0, c.width, c.height);
+    await page.render({ canvasContext: zctx, viewport: vp }).promise;
+    if (token !== zToken) return;
     box.appendChild(c);
-    await page.render({ canvasContext: c.getContext("2d"), viewport: vp }).promise;
   }
 }
 function openZoom() { zPages = visiblePages(); zLevel = 1; $("zoom").classList.add("open"); drawZoom(); }

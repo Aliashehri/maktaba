@@ -1,8 +1,9 @@
 {
   "site": {
-    "title": "مؤلفات علي بن عبدالله الشهري",
+    "title": "مؤلفات الدكتور علي بن عبدالله الشهري",
     "subtitle": "مكتبة رقمية لتصفّح الكتب وقراءتها",
-    "allowDownload": false
+    "allowDownload": false,
+    "preparedDate": "2026-10-22"
   },
   "books": [
     {

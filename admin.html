@@ -371,7 +371,7 @@ $("publish").onclick = async () => {
     const id = "b" + Date.now().toString(36);
     const file = `books/${id}.pdf`, cover = `covers/${id}.jpg`;
     say("addStatus", "info", "جارٍ رفع الكتاب… لا تغلق الصفحة" + (pdfFile.size > 30 * 1048576 ? " (الملف كبير وقد يستغرق عدة دقائق)" : ""));
-    lib.books.push({ id, title, file, cover, pages, added: today() });
+    lib.books.push({ id, title, file, cover, pages, date: today(), added: today() });
     await commit([
       { path: file, buf, big: true },
       { path: cover, buf: coverBuf },

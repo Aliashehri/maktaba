@@ -1,17 +1,315 @@
 {
   "site": {
-    "title": "مؤلفات الدكتور علي بن عبدالله الشهري",
+    "title": "مؤلفات الأستاذ علي بن عبدالله الشهري",
     "subtitle": "مكتبة رقمية لتصفّح الكتب وقراءتها",
     "allowDownload": false,
     "preparedDate": "2026-10-22"
   },
   "books": [
     {
-      "id": "fatawa-aqeedah",
-      "title": "فتاوى كبار العلماء في العقيدة",
-      "file": "books/fatawa-aqeedah.pdf",
-      "cover": "covers/fatawa-aqeedah.jpg",
-      "pages": 136,
+      "id": "qutuf-daniya",
+      "title": "قطوف دانية",
+      "file": "books/qutuf-daniya.pdf",
+      "cover": "covers/qutuf-daniya.jpg",
+      "pages": 37,
+      "date": "2022-11-30",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "bina-shakhsiyat-alabna",
+      "title": "بناء شخصيّة الأبناء",
+      "file": "books/bina-shakhsiyat-alabna.pdf",
+      "cover": "covers/bina-shakhsiyat-alabna.jpg",
+      "pages": 28,
+      "date": "2023-01-17",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "alqulub",
+      "title": "القلوب (أنواعها - أمراضها - علاجها)",
+      "file": "books/alqulub.pdf",
+      "cover": "covers/alqulub.jpg",
+      "pages": 18,
+      "date": "2023-01-17",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "ahkam-sujud-alsahw",
+      "title": "أحكام سجود السهو",
+      "file": "books/ahkam-sujud-alsahw.pdf",
+      "cover": "covers/ahkam-sujud-alsahw.jpg",
+      "pages": 31,
+      "date": "2023-01-17",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "nabi-alrahma",
+      "title": "نبيّ الرَّحمة محمد ﷺ",
+      "file": "books/nabi-alrahma.pdf",
+      "cover": "covers/nabi-alrahma.jpg",
+      "pages": 41,
+      "date": "2023-01-17",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "masail-altahara",
+      "title": "مسائل في الطهارة",
+      "file": "books/masail-altahara.pdf",
+      "cover": "covers/masail-altahara.jpg",
+      "pages": 46,
+      "date": "2023-01-23",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "masail-alsalat",
+      "title": "مسائل في الصلاة",
+      "file": "books/masail-alsalat.pdf",
+      "cover": "covers/masail-alsalat.jpg",
+      "pages": 28,
+      "date": "2023-01-24",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "fatawa-alshaykhayn",
+      "title": "من فتاوى الشيخين (ابن باز - ابن عثيمين)",
+      "file": "books/fatawa-alshaykhayn.pdf",
+      "cover": "covers/fatawa-alshaykhayn.jpg",
+      "pages": 47,
+      "date": "2023-01-25",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "masail-alsiyam",
+      "title": "مسائل في الصيام",
+      "file": "books/masail-alsiyam.pdf",
+      "cover": "covers/masail-alsiyam.jpg",
+      "pages": 54,
+      "date": "2023-02-04",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "mukhtasar-alwasitiya",
+      "title": "المختصر من شرح العقيدة الواسطية",
+      "file": "books/mukhtasar-alwasitiya.pdf",
+      "cover": "covers/mukhtasar-alwasitiya.jpg",
+      "pages": 125,
+      "date": "2023-02-11",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "masail-alhajj",
+      "title": "مسائل في الحجّ",
+      "file": "books/masail-alhajj.pdf",
+      "cover": "covers/masail-alhajj.jpg",
+      "pages": 65,
+      "date": "2023-02-14",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "bida-alam",
+      "title": "بِدَع العام",
+      "file": "books/bida-alam.pdf",
+      "cover": "covers/bida-alam.jpg",
+      "pages": 67,
+      "date": "2023-02-16",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "aldua",
+      "title": "الدعاء (فضائله - شروطه - آدابه)",
+      "file": "books/aldua.pdf",
+      "cover": "covers/aldua.jpg",
+      "pages": 22,
+      "date": "2023-02-20",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "alistighfar",
+      "title": "الاستغفار (فضائله - أوقاته - صيغه)",
+      "file": "books/alistighfar.pdf",
+      "cover": "covers/alistighfar.jpg",
+      "pages": 18,
+      "date": "2023-02-20",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "khayr-alzad",
+      "title": "خير الزاد",
+      "file": "books/khayr-alzad.pdf",
+      "cover": "covers/khayr-alzad.jpg",
+      "pages": 25,
+      "date": "2023-02-22",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "ahsan-alqawl",
+      "title": "أحسن القول",
+      "file": "books/ahsan-alqawl.pdf",
+      "cover": "covers/ahsan-alqawl.jpg",
+      "pages": 19,
+      "date": "2023-02-23",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "alawaiq-alarba",
+      "title": "العوائق الأربع",
+      "file": "books/alawaiq-alarba.pdf",
+      "cover": "covers/alawaiq-alarba.jpg",
+      "pages": 33,
+      "date": "2023-02-26",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "alilm",
+      "title": "العلم (فضائله - آدابه - آفاته)",
+      "file": "books/alilm.pdf",
+      "cover": "covers/alilm.jpg",
+      "pages": 28,
+      "date": "2023-02-27",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "dar-albawar",
+      "title": "دار البوار",
+      "file": "books/dar-albawar.pdf",
+      "cover": "covers/dar-albawar.jpg",
+      "pages": 44,
+      "date": "2023-03-05",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "muqtatafat-sayd-alkhatir",
+      "title": "مقتطفات من (صيد الخاطر) لابن الجوزي",
+      "file": "books/muqtatafat-sayd-alkhatir.pdf",
+      "cover": "covers/muqtatafat-sayd-alkhatir.jpg",
+      "pages": 18,
+      "date": "2023-03-06",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "khutab-aljalal",
+      "title": "الخطب الجلل",
+      "file": "books/khutab-aljalal.pdf",
+      "cover": "covers/khutab-aljalal.jpg",
+      "pages": 26,
+      "date": "2023-03-07",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "alqawaid-alfiqhiya",
+      "title": "القواعد الفقهية الكبرى",
+      "file": "books/alqawaid-alfiqhiya.pdf",
+      "cover": "covers/alqawaid-alfiqhiya.jpg",
+      "pages": 22,
+      "date": "2023-03-10",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "ahadith-sunan-altirmidhi",
+      "title": "أحاديث من سنن الترمذي",
+      "file": "books/ahadith-sunan-altirmidhi.pdf",
+      "cover": "covers/ahadith-sunan-altirmidhi.jpg",
+      "pages": 17,
+      "date": "2023-03-12",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "dar-alsalam",
+      "title": "دار السلام",
+      "file": "books/dar-alsalam.pdf",
+      "cover": "covers/dar-alsalam.jpg",
+      "pages": 44,
+      "date": "2023-03-13",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "silat-alrahim",
+      "title": "صِلة الرَّحم",
+      "file": "books/silat-alrahim.pdf",
+      "cover": "covers/silat-alrahim.jpg",
+      "pages": 44,
+      "date": "2023-03-13",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "lataif-ayat",
+      "title": "لطائف آيات",
+      "file": "books/lataif-ayat.pdf",
+      "cover": "covers/lataif-ayat.jpg",
+      "pages": 45,
+      "date": "2023-03-13",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "altawheed",
+      "title": "التوحيد",
+      "file": "books/altawheed.pdf",
+      "cover": "covers/altawheed.jpg",
+      "pages": 53,
+      "date": "2023-03-14",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "khasais-manhaj-ahl-alsunna",
+      "title": "خصائص وسِمات منهج أهل السنة والجماعة",
+      "file": "books/khasais-manhaj-ahl-alsunna.pdf",
+      "cover": "covers/khasais-manhaj-ahl-alsunna.jpg",
+      "pages": 19,
+      "date": "2023-03-14",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "min-qasas-alquran",
+      "title": "من قصص القرآن",
+      "file": "books/min-qasas-alquran.pdf",
+      "cover": "covers/min-qasas-alquran.jpg",
+      "pages": 25,
+      "date": "2023-03-14",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "alsaa-washratuha",
+      "title": "الساعة وأشراطها",
+      "file": "books/alsaa-washratuha.pdf",
+      "cover": "covers/alsaa-washratuha.jpg",
+      "pages": 42,
+      "date": "2023-03-15",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "shadharat",
+      "title": "شذرات",
+      "file": "books/shadharat.pdf",
+      "cover": "covers/shadharat.jpg",
+      "pages": 22,
+      "date": "2023-03-15",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "masail-alzakat",
+      "title": "مسائل في الزكاة",
+      "file": "books/masail-alzakat.pdf",
+      "cover": "covers/masail-alzakat.jpg",
+      "pages": 44,
+      "date": "2023-03-26",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "hidayat-ayat",
+      "title": "هداية آيات",
+      "file": "books/hidayat-ayat.pdf",
+      "cover": "covers/hidayat-ayat.jpg",
+      "pages": 71,
+      "date": "2024-09-06",
+      "added": "2026-10-22"
+    },
+    {
+      "id": "fiqhiyyat",
+      "title": "فقهيات",
+      "file": "books/fiqhiyyat.pdf",
+      "cover": "covers/fiqhiyyat.jpg",
+      "pages": 214,
+      "date": "2024-09-07",
       "added": "2026-10-22"
     },
     {
@@ -20,7 +318,17 @@
       "file": "books/salat-almusafir.pdf",
       "cover": "covers/salat-almusafir.jpg",
       "pages": 29,
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "date": "2026-06-06"
+    },
+    {
+      "id": "fatawa-aqeedah",
+      "title": "فتاوى كبار العلماء في العقيدة",
+      "file": "books/fatawa-aqeedah.pdf",
+      "cover": "covers/fatawa-aqeedah.jpg",
+      "pages": 136,
+      "added": "2026-10-22",
+      "date": "2026-06-08"
     }
   ]
 }

@@ -7,7 +7,7 @@
 <title>قراءة كتاب</title>
 <meta name="theme-color" content="#221d16">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23a8843f'/%3E%3Cpath d='M14 18c7-3 13-2 18 2v28c-5-4-11-5-18-2zM50 18c-7-3-13-2-18 2v28c5-4 11-5 18-2z' fill='%23fffdf8'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/style.css?v=3">
+<link rel="stylesheet" href="assets/style.css?v=4">
 </head>
 <body class="reader">
 <header class="r-top">
@@ -73,8 +73,8 @@
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="assets/common.js?v=3"></script>
-<script src="lib/page-flip.browser.js?v=3"></script>
+<script src="assets/common.js?v=4"></script>
+<script src="lib/page-flip.browser.js?v=4"></script>
 <script type="module">
 import * as pdfjs from "./lib/pdf.min.mjs";
 pdfjs.GlobalWorkerOptions.workerSrc = "lib/pdf.worker.min.mjs";
@@ -233,37 +233,36 @@ flip.on("changeOrientation", onChange);
 
 
 // ===== صوت تقليب الورق =====
-let soundOn = store.get("sound") !== "off", actx = null, noiseBuf = null;
+let soundOn = store.get("sound") !== "off", actx = null, flipBuf = null, loading = null;
+const flipData = fetch("assets/flip.mp3?v=4").then((r) => r.arrayBuffer()).catch(() => null); // تحميل مسبق
 function paintSound() {
-  $("sndOn").hidden = !soundOn; $("sndOff").hidden = soundOn;
+  const on = $("sndOn"), off = $("sndOff");
+  if (soundOn) { on.removeAttribute("hidden"); off.setAttribute("hidden", ""); }
+  else { off.removeAttribute("hidden"); on.setAttribute("hidden", ""); }
   $("soundBtn").setAttribute("aria-pressed", String(soundOn));
   $("soundBtn").title = soundOn ? "كتم صوت التقليب" : "تشغيل صوت التقليب";
+  $("soundBtn").classList.toggle("muted", !soundOn);
 }
 function audio() {
-  if (!actx) {
-    const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
-    actx = new AC();
-    noiseBuf = actx.createBuffer(1, Math.floor(actx.sampleRate * 0.6), actx.sampleRate);
-    const d = noiseBuf.getChannelData(0); let last = 0;
-    for (let i = 0; i < d.length; i++) { const w = Math.random() * 2 - 1; last = (last + 0.06 * w) / 1.06; d[i] = (w * 0.55 + last * 3) * 0.5; }
-  }
+  const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
+  if (!actx) actx = new AC();
   if (actx.state === "suspended") actx.resume();
+  if (!flipBuf && !loading) {
+    loading = fetch("assets/flip.mp3?v=4").then((r) => r.arrayBuffer())
+      .then((ab) => new Promise((ok, no) => actx.decodeAudioData(ab, ok, no)))
+      .then((buf) => { flipBuf = buf; }).catch((e) => { console.warn("sound", e); loading = null; });
+  }
   return actx;
 }
-function playFlip() {
+async function playFlip() {
   if (!soundOn) return;
   const a = audio(); if (!a) return;
-  const t = a.currentTime;
-  const src = a.createBufferSource(); src.buffer = noiseBuf; src.playbackRate.value = 0.9 + Math.random() * 0.25;
-  const bp = a.createBiquadFilter(); bp.type = "bandpass"; bp.Q.value = 0.8;
-  bp.frequency.setValueAtTime(1800, t); bp.frequency.exponentialRampToValueAtTime(4200, t + 0.18); bp.frequency.exponentialRampToValueAtTime(1200, t + 0.45);
-  const hp = a.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 400;
-  const g = a.createGain();
-  g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.32, t + 0.05);
-  g.gain.exponentialRampToValueAtTime(0.12, t + 0.22); g.gain.exponentialRampToValueAtTime(0.25, t + 0.3);
-  g.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
-  src.connect(bp); bp.connect(hp); hp.connect(g); g.connect(a.destination);
-  src.start(t); src.stop(t + 0.55);
+  if (!flipBuf && loading) await loading;
+  if (!flipBuf) return;
+  const src = a.createBufferSource(); src.buffer = flipBuf;
+  src.playbackRate.value = 0.92 + Math.random() * 0.16;
+  const g = a.createGain(); g.gain.value = 0.9;
+  src.connect(g); g.connect(a.destination); src.start();
 }
 paintSound();
 $("soundBtn").onclick = () => { soundOn = !soundOn; store.set("sound", soundOn ? "on" : "off"); paintSound(); if (soundOn) audio(); toast(soundOn ? "تم تشغيل الصوت" : "تم كتم الصوت"); };

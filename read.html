@@ -7,7 +7,7 @@
 <title>قراءة كتاب</title>
 <meta name="theme-color" content="#221d16">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23a8843f'/%3E%3Cpath d='M14 18c7-3 13-2 18 2v28c-5-4-11-5-18-2zM50 18c-7-3-13-2-18 2v28c5-4 11-5 18-2z' fill='%23fffdf8'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/style.css?v=4">
+<link rel="stylesheet" href="assets/style.css?v=5">
 </head>
 <body class="reader">
 <header class="r-top">
@@ -73,8 +73,8 @@
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="assets/common.js?v=4"></script>
-<script src="lib/page-flip.browser.js?v=4"></script>
+<script src="assets/common.js?v=5"></script>
+<script src="lib/page-flip.browser.js?v=5"></script>
 <script type="module">
 import * as pdfjs from "./lib/pdf.min.mjs";
 pdfjs.GlobalWorkerOptions.workerSrc = "lib/pdf.worker.min.mjs";
@@ -182,59 +182,175 @@ async function pump() {
   busy = false;
 }
 
-// ===== الكتاب المتقلب =====
+// ===== المحرّك: كتاب مزدوج (كمبيوتر) أو صفحة واحدة (جوال) =====
 const saved = parseInt(store.get("pos:" + book.file) || "1", 10);
 const startP = saved >= 1 && saved <= N ? saved : 1;
+const MODE = landscape ? "spread" : "single";
+const changeCbs = [], turnCbs = [];
+const emitChange = () => changeCbs.forEach((f) => f());
+const emitTurn = () => turnCbs.forEach((f) => f());
 
-const flip = new St.PageFlip($("book"), {
-  width: Math.round(vp1.width), height: Math.round(vp1.height),
-  size: "stretch", autoSize: true,
-  minWidth: 50, maxWidth: 4000, minHeight: 50, maxHeight: 6000,
-  showCover: true, usePortrait: true, mobileScrollSupport: false,
-  drawShadow: true, maxShadowOpacity: 0.45, flippingTime: 750,
-  showPageCorners: true, disableFlipByClick: false,
-  startPage: idxOf(startP),
-});
-const settings = flip.getSettings();
-function applyOrientation() { settings.minWidth = landscape ? pageW * 0.9 : pageW * 0.6; $("book").style.minWidth = "0"; $("book").style.minHeight = "0"; }
-applyOrientation();
-flip.loadFromHTML(els);
-
-function visiblePages() {
-  const i = flip.getCurrentPageIndex();
-  if (flip.getOrientation() === "portrait") return [pageOf(i)].filter((p) => p <= N);
-  if (i === 0 || i === T - 1) return [pageOf(i)].filter((p) => p <= N);
-  const s = i % 2 ? i : i - 1;
-  return [pageOf(s + 1), pageOf(s)].filter((p) => p <= N); // [يمين, يسار]
+function makeSpread() {
+  const flip = new St.PageFlip($("book"), {
+    width: Math.round(vp1.width), height: Math.round(vp1.height),
+    size: "stretch", autoSize: true,
+    minWidth: 50, maxWidth: 4000, minHeight: 50, maxHeight: 6000,
+    showCover: true, usePortrait: true, mobileScrollSupport: false,
+    drawShadow: true, maxShadowOpacity: 0.45, flippingTime: 750,
+    showPageCorners: true, disableFlipByClick: false,
+    startPage: idxOf(startP),
+  });
+  const settings = flip.getSettings();
+  const fit = () => { settings.minWidth = pageW * 0.9; $("book").style.minWidth = "0"; $("book").style.minHeight = "0"; };
+  fit();
+  flip.loadFromHTML(els);
+  let last = "";
+  flip.on("changeState", (e) => { if (e.data === "flipping" && last !== "flipping") emitTurn(); last = e.data; });
+  flip.on("flip", emitChange);
+  flip.on("changeOrientation", emitChange);
+  return {
+    ready: (cb) => flip.on("init", cb),
+    visible() {
+      const i = flip.getCurrentPageIndex();
+      if (i === 0 || i === T - 1 || flip.getOrientation() === "portrait") return [pageOf(i)].filter((p) => p <= N);
+      const s = i % 2 ? i : i - 1;
+      return [pageOf(s + 1), pageOf(s)].filter((p) => p <= N);
+    },
+    atEnd: () => flip.getCurrentPageIndex() === 0,
+    atStart: () => flip.getCurrentPageIndex() >= T - 1,
+    next: () => flip.flipPrev(),
+    prev: () => flip.flipNext(),
+    goTo(p) { flip.turnToPage(idxOf(p)); emitChange(); },
+    shift() { const ci = flip.getCurrentPageIndex(); return ci === T - 1 ? pageW / 2 : ci === 0 ? -pageW / 2 : 0; },
+    resize() { fit(); flip.update(); },
+  };
 }
+
+function makeSingle() {
+  $("book").remove();
+  const box = document.createElement("div"); box.className = "sp";
+  $("sizer").appendChild(box);
+  const shade = document.createElement("div"); shade.className = "sp-shade";
+  const size = () => { box.style.width = pageW + "px"; box.style.height = Math.round(pageW / RATIO) + "px"; };
+  size();
+  let cur = startP, busyAnim = false;
+  const el = (p) => els[idxOf(p)];
+  function mountOnly(p) {
+    box.replaceChildren(el(p));
+    Object.assign(el(p).style, { transform: "", transition: "", zIndex: 2, filter: "" });
+  }
+  // dir = 1 للأمام (الصفحة الحالية تنقلب من حافتها اليسرى نحو اليمين)، -1 للخلف
+  function setup(dir) {
+    const top = dir > 0 ? el(cur) : el(cur - 1), under = dir > 0 ? el(cur + 1) : el(cur);
+    [top, under].forEach((x) => Object.assign(x.style, { transition: "", filter: "" }));
+    under.style.zIndex = 1; under.style.transform = "";
+    top.style.zIndex = 3;
+    box.replaceChildren(under, shade, top);
+    return { top, dir };
+  }
+  function draw(st, prog) {
+    const ang = st.dir > 0 ? prog * 180 : (1 - prog) * 180;
+    st.top.style.transform = "rotateY(" + ang + "deg)";
+    st.top.style.filter = "brightness(" + (1 - Math.min(ang, 90) / 90 * 0.22) + ")";
+    shade.style.opacity = String(Math.sin(Math.min(ang, 180) * Math.PI / 180) * 0.45);
+  }
+  function finish(st, commit, ms = 420) {
+    busyAnim = true;
+    const target = commit ? (st.dir > 0 ? 180 : 0) : (st.dir > 0 ? 0 : 180);
+    st.top.style.transition = "transform " + ms + "ms cubic-bezier(.25,.75,.3,1), filter " + ms + "ms";
+    shade.style.transition = "opacity " + ms + "ms";
+    requestAnimationFrame(() => {
+      st.top.style.transform = "rotateY(" + target + "deg)";
+      st.top.style.filter = "brightness(1)";
+      shade.style.opacity = "0";
+    });
+    if (commit) emitTurn();
+    setTimeout(() => {
+      shade.style.transition = "";
+      if (commit) cur += st.dir;
+      mountOnly(cur); busyAnim = false;
+      if (commit) emitChange();
+    }, ms + 30);
+  }
+  function turn(dir) {
+    if (busyAnim || cur + dir < 1 || cur + dir > N) return;
+    const st = setup(dir);
+    draw(st, 0.02);
+    box.offsetWidth; // إجبار الرسم قبل الحركة
+    finish(st, true, 520);
+  }
+  // اللمس والسحب
+  let d = null;
+  box.addEventListener("pointerdown", (e) => {
+    if (busyAnim || e.button > 0) return;
+    d = { x: e.clientX, y: e.clientY, t: performance.now(), st: null, prog: 0 };
+    box.setPointerCapture(e.pointerId);
+  });
+  box.addEventListener("pointermove", (e) => {
+    if (!d) return;
+    const dx = e.clientX - d.x, dy = e.clientY - d.y;
+    if (!d.st) {
+      if (Math.abs(dx) < 10) return;
+      if (Math.abs(dy) > Math.abs(dx)) { d = null; return; }
+      const dir = dx > 0 ? 1 : -1;
+      if (cur + dir < 1 || cur + dir > N) { d.blocked = true; return; }
+      d.st = setup(dir);
+    }
+    d.prog = Math.max(0, Math.min(1, Math.abs(dx) / (box.clientWidth * 0.95)));
+    if ((dx > 0 ? 1 : -1) !== d.st.dir) d.prog = 0;
+    draw(d.st, d.prog);
+  });
+  const up = (e) => {
+    if (!d) return;
+    const dx = e.clientX - d.x, dt = performance.now() - d.t;
+    if (d.st) finish(d.st, d.prog > 0.28 || (Math.abs(dx) / dt > 0.45 && d.prog > 0.05));
+    else if (!d.blocked && Math.abs(dx) < 10 && Math.abs(e.clientY - d.y) < 10) {
+      const r = box.getBoundingClientRect(), x = e.clientX - r.left;
+      if (x < r.width * 0.42) turn(1); else if (x > r.width * 0.58) turn(-1);
+    }
+    d = null;
+  };
+  box.addEventListener("pointerup", up);
+  box.addEventListener("pointercancel", (e) => { if (d && d.st) finish(d.st, false); d = null; });
+  mountOnly(cur);
+  return {
+    ready: (cb) => setTimeout(cb, 0),
+    visible: () => [cur],
+    atEnd: () => cur >= N,
+    atStart: () => cur <= 1,
+    next: () => turn(1),
+    prev: () => turn(-1),
+    goTo(p) { if (busyAnim) return; cur = p; mountOnly(cur); emitChange(); },
+    shift: () => 0,
+    resize() { size(); },
+  };
+}
+
+const book2 = MODE === "spread" ? makeSpread() : makeSingle();
+document.body.classList.add("mode-" + MODE);
+
+function visiblePages() { return book2.visible(); }
 function current() { const v = visiblePages(); return v.length ? Math.min(...v) : N; }
 
 function onChange() {
   const v = visiblePages(); const p = current();
   const lo = Math.min(...v), hi = Math.max(...v);
   $("pageInput").value = lo === hi ? ar(lo) : ar(lo) + "–" + ar(hi);
-  // توسيط الغلاف عندما يكون الكتاب مغلقاً
-  const ci = flip.getCurrentPageIndex();
-  const shift = flip.getOrientation() === "portrait" ? 0 : ci === T - 1 ? pageW / 2 : ci === 0 ? -pageW / 2 : 0;
-  $("sizer").style.transform = "translateX(" + shift + "px)";
+  $("sizer").style.transform = "translateX(" + book2.shift() + "px)"; // توسيط الغلاف
   $("slider").value = p;
   store.set("pos:" + book.file, String(p));
-  const i = flip.getCurrentPageIndex();
-  $("nextBtn").disabled = $("nextSide").disabled = i === 0;
-  $("prevBtn").disabled = $("prevSide").disabled = i >= T - 1;
-  // ارسم الصفحات الظاهرة ثم المجاورة
+  $("nextBtn").disabled = $("nextSide").disabled = book2.atEnd();
+  $("prevBtn").disabled = $("prevSide").disabled = book2.atStart();
   v.forEach(want);
   for (let k = 1; k <= 4; k++) { want(hi + k); want(lo - k); }
 }
-
-flip.on("init", () => { onChange(); $("loader").hidden = true; if (startP > 1) toast("متابعة من الصفحة " + ar(startP)); });
-flip.on("flip", onChange);
-flip.on("changeOrientation", onChange);
-
+changeCbs.push(onChange);
+book2.ready(() => { onChange(); $("loader").hidden = true; if (startP > 1) toast("متابعة من الصفحة " + ar(startP)); });
 
 // ===== صوت تقليب الورق =====
 let soundOn = store.get("sound") !== "off", actx = null, flipBuf = null, loading = null;
-const flipData = fetch("assets/flip.mp3?v=4").then((r) => r.arrayBuffer()).catch(() => null); // تحميل مسبق
+const SND = "assets/flip.mp3?v=5";
+const flipData = fetch(SND).then((r) => r.arrayBuffer()).catch(() => null);
 function paintSound() {
   const on = $("sndOn"), off = $("sndOff");
   if (soundOn) { on.removeAttribute("hidden"); off.setAttribute("hidden", ""); }
@@ -246,38 +362,50 @@ function paintSound() {
 function audio() {
   const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return null;
   if (!actx) actx = new AC();
-  if (actx.state === "suspended") actx.resume();
+  if (actx.state !== "running") actx.resume().catch(() => {});
   if (!flipBuf && !loading) {
-    loading = fetch("assets/flip.mp3?v=4").then((r) => r.arrayBuffer())
+    loading = flipData.then((ab) => ab ? ab.slice(0) : fetch(SND).then((r) => r.arrayBuffer()))
       .then((ab) => new Promise((ok, no) => actx.decodeAudioData(ab, ok, no)))
       .then((buf) => { flipBuf = buf; }).catch((e) => { console.warn("sound", e); loading = null; });
   }
   return actx;
 }
+// المتصفحات (خاصة الجوال) لا تسمح بالصوت إلا بعد لمسة كاملة؛ نفتحه عند أول لمسة/نقرة
+function unlock() {
+  if (!soundOn) return;
+  const a = audio(); if (!a || a.state === "running" && unlock.done) return;
+  try { const b = a.createBuffer(1, 1, 22050), s = a.createBufferSource(); s.buffer = b; s.connect(a.destination); s.start(0); unlock.done = true; } catch (e) {}
+}
+["pointerup", "touchend", "click", "keydown"].forEach((ev) => window.addEventListener(ev, unlock, { passive: true, capture: true }));
+let fallbackEl = null;
 async function playFlip() {
   if (!soundOn) return;
-  const a = audio(); if (!a) return;
-  if (!flipBuf && loading) await loading;
-  if (!flipBuf) return;
-  const src = a.createBufferSource(); src.buffer = flipBuf;
-  src.playbackRate.value = 0.92 + Math.random() * 0.16;
-  const g = a.createGain(); g.gain.value = 0.9;
-  src.connect(g); g.connect(a.destination); src.start();
+  const a = audio();
+  if (a && a.state !== "running") { try { await a.resume(); } catch (e) {} }
+  if (a && a.state === "running") {
+    if (!flipBuf && loading) await loading;
+    if (flipBuf) {
+      const src = a.createBufferSource(); src.buffer = flipBuf;
+      src.playbackRate.value = 0.92 + Math.random() * 0.16;
+      const g = a.createGain(); g.gain.value = 1;
+      src.connect(g); g.connect(a.destination); src.start();
+      return;
+    }
+  }
+  try { fallbackEl = fallbackEl || new Audio(SND); fallbackEl.currentTime = 0; await fallbackEl.play(); } catch (e) {}
 }
 paintSound();
-$("soundBtn").onclick = () => { soundOn = !soundOn; store.set("sound", soundOn ? "on" : "off"); paintSound(); if (soundOn) audio(); toast(soundOn ? "تم تشغيل الصوت" : "تم كتم الصوت"); };
-["pointerdown", "keydown", "touchstart"].forEach((ev) => window.addEventListener(ev, () => { if (soundOn) audio(); }, { once: true, passive: true }));
-let lastState = "";
-flip.on("changeState", (e) => { if (e.data === "flipping" && lastState !== "flipping") playFlip(); lastState = e.data; });
+$("soundBtn").onclick = () => { soundOn = !soundOn; store.set("sound", soundOn ? "on" : "off"); paintSound(); if (soundOn) { unlock(); playFlip(); } toast(soundOn ? "تم تشغيل الصوت" : "تم كتم الصوت"); };
+turnCbs.push(playFlip);
 
 // ===== التنقل =====
-const next = () => flip.flipPrev(); // للأمام في الكتاب العربي
-const prev = () => flip.flipNext();
-function goTo(p) { p = Math.max(1, Math.min(N, p | 0)); flip.turnToPage(idxOf(p)); onChange(); }
+const next = () => book2.next(); // للأمام في الكتاب العربي
+const prev = () => book2.prev();
+function goTo(p) { p = Math.max(1, Math.min(N, p | 0)); book2.goTo(p); }
 
 $("nextBtn").onclick = $("nextSide").onclick = next;
 $("prevBtn").onclick = $("prevSide").onclick = prev;
-$("slider").addEventListener("input", (e) => { $("pageInput").value = e.target.value; });
+$("slider").addEventListener("input", (e) => { $("pageInput").value = ar(e.target.value); });
 $("slider").addEventListener("change", (e) => goTo(+e.target.value));
 $("pageInput").addEventListener("focus", (e) => e.target.select());
 $("pageInput").addEventListener("keydown", (e) => {
@@ -285,6 +413,10 @@ $("pageInput").addEventListener("keydown", (e) => {
     const v = parseInt(String(e.target.value).replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d)), 10);
     if (v) goTo(v); e.target.blur();
   }
+});
+$("pageInput").addEventListener("change", (e) => {
+  const v = parseInt(String(e.target.value).replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d)), 10);
+  if (v) goTo(v);
 });
 document.addEventListener("keydown", (e) => {
   if (e.target.tagName === "INPUT" || $("zoom").classList.contains("open")) { if (e.key === "Escape") closeZoom(); return; }
@@ -294,11 +426,15 @@ document.addEventListener("keydown", (e) => {
   else if (e.key === "End") goTo(N);
 });
 
-// ===== تغيير حجم النافذة =====
+// ===== تغيير حجم النافذة / تدوير الجوال =====
 let rt;
 window.addEventListener("resize", () => {
-  measure(); applyOrientation();
-  clearTimeout(rt); rt = setTimeout(() => { flip.update(); onChange(); }, 120);
+  clearTimeout(rt);
+  rt = setTimeout(() => {
+    const was = landscape; measure();
+    if (was !== landscape) { store.set("pos:" + book.file, String(current())); location.reload(); return; }
+    book2.resize(); onChange();
+  }, 150);
 });
 
 // ===== ملء الشاشة =====

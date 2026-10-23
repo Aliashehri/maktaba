@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex,nofollow">
 <title>إدارة المكتبة</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232b2419'/%3E%3Cpath d='M14 18c7-3 13-2 18 2v28c-5-4-11-5-18-2zM50 18c-7-3-13-2-18 2v28c5-4 11-5 18-2z' fill='%23c9a961'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/style.css?v=5">
+<link rel="stylesheet" href="assets/style.css?v=6">
 </head>
 <body class="admin">
 <div class="adm">
@@ -59,6 +59,10 @@
       <span>اسم الكتاب</span>
       <input class="input" id="bTitle" placeholder="مثال: فتاوى كبار العلماء في العقيدة">
     </label>
+    <label class="field">
+      <span>التصنيف</span>
+      <select class="input" id="bCat"></select>
+    </label>
     <div class="field">
       <span>الغلاف <small>اختياري — إن لم ترفع غلافاً تُستخدم الصفحة الأولى من الكتاب كغلاف.</small></span>
       <label class="drop" id="coverDrop">
@@ -100,7 +104,7 @@
   </section>
 </div>
 
-<script src="assets/common.js?v=5"></script>
+<script src="assets/common.js?v=6"></script>
 <script type="module">
 import * as pdfjs from "./lib/pdf.min.mjs";
 pdfjs.GlobalWorkerOptions.workerSrc = "lib/pdf.worker.min.mjs";
@@ -208,9 +212,31 @@ async function loadLib() {
     const known = new Set(lib.books.map((b) => b.file));
     extra = files.filter((f) => f.type === "file" && /\.pdf$/i.test(f.name) && !known.has("books/" + f.name));
   } catch (e) {}
+  fillCats();
   render(extra);
   $("sTitle").value = lib.site.title || ""; $("sSub").value = lib.site.subtitle || ""; $("sDl").checked = !!lib.site.allowDownload; $("sDate").value = lib.site.preparedDate || "";
 }
+function catList() {
+  const c = [...(lib.site.categories || [])];
+  lib.books.forEach((b) => { if (b.category && !c.includes(b.category)) c.push(b.category); });
+  return c;
+}
+function catSelect(sel, value) {
+  sel.innerHTML = "";
+  const o0 = document.createElement("option"); o0.value = ""; o0.textContent = "بدون تصنيف"; sel.appendChild(o0);
+  catList().forEach((c) => { const o = document.createElement("option"); o.value = c; o.textContent = c; sel.appendChild(o); });
+  const on = document.createElement("option"); on.value = "__new"; on.textContent = "＋ تصنيف جديد…"; sel.appendChild(on);
+  sel.value = value || "";
+}
+function pickNewCat(sel, prev) {
+  const v = (prompt("اسم التصنيف الجديد:") || "").trim();
+  if (!v) { sel.value = prev || ""; return null; }
+  if (!lib.site.categories) lib.site.categories = [];
+  if (!lib.site.categories.includes(v)) lib.site.categories.push(v);
+  return v;
+}
+function fillCats() { const prev = $("bCat").value; catSelect($("bCat"), prev && prev !== "__new" ? prev : ""); }
+$("bCat").addEventListener("change", (e) => { if (e.target.value === "__new") { const v = pickNewCat(e.target, ""); catSelect(e.target, v || ""); } });
 const saveLib = (msg, more = []) => commit([...more, { path: "books.json", text: JSON.stringify(lib, null, 2) + "\n" }], msg);
 
 // ===== عرض القائمة =====
@@ -223,12 +249,20 @@ function render(extra = []) {
     const img = new Image(); img.alt = ""; if (b.cover) img.src = b.cover + "?v=" + (b.v || 0);
     const bt = document.createElement("div"); bt.className = "bt";
     const t = document.createElement("b"); t.textContent = b.title;
-    const s = document.createElement("span"); s.textContent = (b.pages ? ar(b.pages) + " صفحة · " : "") + (b.added || "");
+    const s = document.createElement("span"); s.textContent = (b.pages ? ar(b.pages) + " صفحة · " : "") + (b.date || b.added || "");
     bt.append(t, s);
     const acts = document.createElement("div"); acts.className = "acts";
     const mk = (label, fn, cls = "ghost") => { const x = document.createElement("button"); x.className = "btn small " + cls; x.textContent = label; x.onclick = fn; acts.appendChild(x); return x; };
     mk("↑", () => move(i, -1)).disabled = i === 0;
     mk("↓", () => move(i, 1)).disabled = i === lib.books.length - 1;
+    const cs = document.createElement("select"); cs.className = "input catsel"; cs.title = "التصنيف";
+    catSelect(cs, b.category || "");
+    cs.onchange = () => {
+      let v = cs.value;
+      if (v === "__new") { v = pickNewCat(cs, b.category); if (!v) return; }
+      run("listStatus", async () => { lib.books[i].category = v; await saveLib("تصنيف كتاب: " + b.title); }, "تم تغيير التصنيف ✓");
+    };
+    acts.appendChild(cs);
     mk("تعديل الاسم", () => rename(i));
     mk("تغيير الغلاف", () => swapCover(i));
     mk("حذف", () => remove(i), "danger");
@@ -371,7 +405,7 @@ $("publish").onclick = async () => {
     const id = "b" + Date.now().toString(36);
     const file = `books/${id}.pdf`, cover = `covers/${id}.jpg`;
     say("addStatus", "info", "جارٍ رفع الكتاب… لا تغلق الصفحة" + (pdfFile.size > 30 * 1048576 ? " (الملف كبير وقد يستغرق عدة دقائق)" : ""));
-    lib.books.push({ id, title, file, cover, pages, date: today(), added: today() });
+    lib.books.push({ id, title, file, cover, pages, category: $("bCat").value === "__new" ? "" : $("bCat").value, date: today(), added: today() });
     await commit([
       { path: file, buf, big: true },
       { path: cover, buf: coverBuf },

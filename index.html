@@ -8,7 +8,7 @@
 <meta name="description" content="مكتبة رقمية لتصفّح الكتب وقراءتها">
 <meta name="theme-color" content="#f6f1e7">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23a8843f'/%3E%3Cpath d='M14 18c7-3 13-2 18 2v28c-5-4-11-5-18-2zM50 18c-7-3-13-2-18 2v28c5-4 11-5 18-2z' fill='%23fffdf8'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/style.css?v=5">
+<link rel="stylesheet" href="assets/style.css?v=6">
 </head>
 <body>
 <div class="datebar" id="today" aria-label="تاريخ اليوم"></div>
@@ -28,13 +28,18 @@
   </div>
 </header>
 
+<section class="cont" id="cont" hidden aria-label="تابع القراءة">
+  <h2 class="sec-h">📖 تابع القراءة</h2>
+  <div class="cont-row" id="contRow"></div>
+</section>
+<nav class="cats" id="cats" aria-label="تصنيفات الكتب" hidden></nav>
 <main class="shelf" id="shelf" aria-live="polite"></main>
 <footer class="lib-foot" id="foot"></footer>
 
-<script src="assets/common.js?v=5"></script>
+<script src="assets/common.js?v=6"></script>
 <script>
 (async function () {
-  const { loadLibrary, readerUrl, ar } = window.Lib;
+  const { loadLibrary, readerUrl, ar, store } = window.Lib;
   const data = await loadLibrary();
   const site = data.site, books = data.books;
   const shelf = document.getElementById("shelf");
@@ -63,6 +68,7 @@
     const a = document.createElement("a");
     a.className = "book"; a.href = readerUrl(b);
     a.dataset.q = (b.title || "").toLowerCase();
+    a.dataset.cat = b.category || "";
     const cv = document.createElement("div"); cv.className = "cover";
     if (b.cover) {
       const img = new Image(); img.loading = "lazy"; img.decoding = "async"; img.alt = "";
@@ -83,12 +89,53 @@
   empty.hidden = books.length > 0;
   shelf.appendChild(empty);
 
+  // ===== تابع القراءة: الكتب التي بدأها القارئ (محفوظة في جهازه) =====
+  function paintCont() {
+    const row = document.getElementById("contRow"); row.innerHTML = "";
+    const list = books.map((b) => ({ b, p: parseInt(store.get("pos:" + b.file) || "0", 10), t: parseInt(store.get("last:" + b.file) || "0", 10) }))
+      .filter((x) => x.p > 1 && x.t > 0).sort((a, z) => z.t - a.t).slice(0, 6);
+    document.getElementById("cont").hidden = !list.length;
+    list.forEach(({ b, p }) => {
+      const a = document.createElement("a"); a.className = "cont-card"; a.href = readerUrl(b);
+      const img = new Image(); img.alt = ""; img.src = b.cover || ""; img.loading = "lazy";
+      const info = document.createElement("div"); info.className = "cont-info";
+      const t = document.createElement("b"); t.textContent = b.title;
+      const total = b.pages || 0, pct = total ? Math.min(100, Math.round((p / total) * 100)) : 0;
+      const sp = document.createElement("span"); sp.textContent = "صفحة " + ar(p) + (total ? " من " + ar(total) : "");
+      const pr = document.createElement("div"); pr.className = "prog"; const bar = document.createElement("i"); bar.style.width = pct + "%"; pr.appendChild(bar);
+      info.append(t, sp, pr);
+      const x = document.createElement("button"); x.className = "cont-x"; x.textContent = "✕"; x.title = "إخفاء من القائمة"; x.setAttribute("aria-label", "إخفاء من القائمة");
+      x.onclick = (e) => { e.preventDefault(); store.del("last:" + b.file); paintCont(); };
+      a.append(img, info, x); row.appendChild(a);
+    });
+  }
+  paintCont();
+  window.addEventListener("pageshow", paintCont);
+
+  // ===== التصنيفات =====
+  let curCat = "";
+  const cats = (site.categories || []).filter((c) => books.some((b) => b.category === c));
+  books.forEach((b) => { if (b.category && !cats.includes(b.category)) cats.push(b.category); });
+  if (cats.length) {
+    const nav = document.getElementById("cats"); nav.hidden = false;
+    const mk = (label, val, n) => {
+      const c = document.createElement("button"); c.className = "chip" + (val === curCat ? " on" : ""); c.dataset.val = val;
+      c.textContent = label; const sm = document.createElement("small"); sm.textContent = ar(n); c.appendChild(sm);
+      c.onclick = () => { curCat = val; nav.querySelectorAll(".chip").forEach((x) => x.classList.toggle("on", x.dataset.val === curCat)); filter(); };
+      nav.appendChild(c);
+    };
+    mk("الكل", "", books.length);
+    cats.forEach((c) => mk(c, c, books.filter((b) => b.category === c).length));
+  }
+
   const norm = (s) => s.toLowerCase().replace(/[أإآ]/g, "ا").replace(/ة/g, "ه").replace(/ى/g, "ي").replace(/[ً-ْـ]/g, "");
-  document.getElementById("q").addEventListener("input", (e) => {
-    const q = norm(e.target.value.trim()); let n = 0;
-    cards.forEach((c) => { const show = !q || norm(c.dataset.q).includes(q); c.hidden = !show; if (show) n++; });
+  function filter() {
+    const q = norm(document.getElementById("q").value.trim()); let n = 0;
+    cards.forEach((c) => { const show = (!q || norm(c.dataset.q).includes(q)) && (!curCat || c.dataset.cat === curCat); c.hidden = !show; if (show) n++; });
     empty.hidden = n > 0;
-  });
+    document.getElementById("count").textContent = (q || curCat ? "النتائج: " : "عدد الكتب: ") + ar(n);
+  }
+  document.getElementById("q").addEventListener("input", filter);
 
   // الكتب بلا غلاف: نعرض صفحتها الأولى كغلاف
   if (needCover.length) {

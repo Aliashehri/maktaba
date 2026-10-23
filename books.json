@@ -3,7 +3,13 @@
     "title": "مؤلفات الأستاذ علي بن عبدالله الشهري",
     "subtitle": "مكتبة رقمية لتصفّح الكتب وقراءتها",
     "allowDownload": false,
-    "preparedDate": "2026-10-22"
+    "preparedDate": "2026-10-22",
+    "categories": [
+      "العقيدة والإيمان",
+      "الفقه والفتاوى",
+      "القرآن والحديث والسيرة",
+      "الآداب والرقائق"
+    ]
   },
   "books": [
     {
@@ -13,7 +19,8 @@
       "cover": "covers/qutuf-daniya.jpg",
       "pages": 37,
       "date": "2022-11-30",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الآداب والرقائق"
     },
     {
       "id": "bina-shakhsiyat-alabna",
@@ -22,7 +29,8 @@
       "cover": "covers/bina-shakhsiyat-alabna.jpg",
       "pages": 28,
       "date": "2023-01-17",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الآداب والرقائق"
     },
     {
       "id": "alqulub",
@@ -31,7 +39,8 @@
       "cover": "covers/alqulub.jpg",
       "pages": 18,
       "date": "2023-01-17",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الآداب والرقائق"
     },
     {
       "id": "ahkam-sujud-alsahw",
@@ -40,7 +49,8 @@
       "cover": "covers/ahkam-sujud-alsahw.jpg",
       "pages": 31,
       "date": "2023-01-17",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الفقه والفتاوى"
     },
     {
       "id": "nabi-alrahma",
@@ -49,7 +59,8 @@
       "cover": "covers/nabi-alrahma.jpg",
       "pages": 41,
       "date": "2023-01-17",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "القرآن والحديث والسيرة"
     },
     {
       "id": "masail-altahara",
@@ -58,7 +69,8 @@
       "cover": "covers/masail-altahara.jpg",
       "pages": 46,
       "date": "2023-01-23",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الفقه والفتاوى"
     },
     {
       "id": "masail-alsalat",
@@ -67,7 +79,8 @@
       "cover": "covers/masail-alsalat.jpg",
       "pages": 28,
       "date": "2023-01-24",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الفقه والفتاوى"
     },
     {
       "id": "fatawa-alshaykhayn",
@@ -76,7 +89,8 @@
       "cover": "covers/fatawa-alshaykhayn.jpg",
       "pages": 47,
       "date": "2023-01-25",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الفقه والفتاوى"
     },
     {
       "id": "masail-alsiyam",
@@ -85,7 +99,8 @@
       "cover": "covers/masail-alsiyam.jpg",
       "pages": 54,
       "date": "2023-02-04",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الفقه والفتاوى"
     },
     {
       "id": "mukhtasar-alwasitiya",
@@ -94,7 +109,8 @@
       "cover": "covers/mukhtasar-alwasitiya.jpg",
       "pages": 125,
       "date": "2023-02-11",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "العقيدة والإيمان"
     },
     {
       "id": "masail-alhajj",
@@ -103,7 +119,8 @@
       "cover": "covers/masail-alhajj.jpg",
       "pages": 65,
       "date": "2023-02-14",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الفقه والفتاوى"
     },
     {
       "id": "bida-alam",
@@ -112,7 +129,8 @@
       "cover": "covers/bida-alam.jpg",
       "pages": 67,
       "date": "2023-02-16",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "العقيدة والإيمان"
     },
     {
       "id": "aldua",
@@ -121,7 +139,8 @@
       "cover": "covers/aldua.jpg",
       "pages": 22,
       "date": "2023-02-20",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الآداب والرقائق"
     },
     {
       "id": "alistighfar",
@@ -130,7 +149,8 @@
       "cover": "covers/alistighfar.jpg",
       "pages": 18,
       "date": "2023-02-20",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الآداب والرقائق"
     },
     {
       "id": "khayr-alzad",
@@ -139,7 +159,8 @@
       "cover": "covers/khayr-alzad.jpg",
       "pages": 25,
       "date": "2023-02-22",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الآداب والرقائق"
     },
     {
       "id": "ahsan-alqawl",
@@ -148,7 +169,8 @@
       "cover": "covers/ahsan-alqawl.jpg",
       "pages": 19,
       "date": "2023-02-23",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الآداب والرقائق"
     },
     {
       "id": "alawaiq-alarba",
@@ -157,7 +179,8 @@
       "cover": "covers/alawaiq-alarba.jpg",
       "pages": 33,
       "date": "2023-02-26",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الآداب والرقائق"
     },
     {
       "id": "alilm",
@@ -166,7 +189,8 @@
       "cover": "covers/alilm.jpg",
       "pages": 28,
       "date": "2023-02-27",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الآداب والرقائق"
     },
     {
       "id": "dar-albawar",
@@ -175,7 +199,8 @@
       "cover": "covers/dar-albawar.jpg",
       "pages": 44,
       "date": "2023-03-05",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "العقيدة والإيمان"
     },
     {
       "id": "muqtatafat-sayd-alkhatir",
@@ -184,7 +209,8 @@
       "cover": "covers/muqtatafat-sayd-alkhatir.jpg",
       "pages": 18,
       "date": "2023-03-06",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الآداب والرقائق"
     },
     {
       "id": "khutab-aljalal",
@@ -193,7 +219,8 @@
       "cover": "covers/khutab-aljalal.jpg",
       "pages": 26,
       "date": "2023-03-07",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "القرآن والحديث والسيرة"
     },
     {
       "id": "alqawaid-alfiqhiya",
@@ -202,7 +229,8 @@
       "cover": "covers/alqawaid-alfiqhiya.jpg",
       "pages": 22,
       "date": "2023-03-10",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الفقه والفتاوى"
     },
     {
       "id": "ahadith-sunan-altirmidhi",
@@ -211,7 +239,8 @@
       "cover": "covers/ahadith-sunan-altirmidhi.jpg",
       "pages": 17,
       "date": "2023-03-12",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "القرآن والحديث والسيرة"
     },
     {
       "id": "dar-alsalam",
@@ -220,7 +249,8 @@
       "cover": "covers/dar-alsalam.jpg",
       "pages": 44,
       "date": "2023-03-13",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "العقيدة والإيمان"
     },
     {
       "id": "silat-alrahim",
@@ -229,7 +259,8 @@
       "cover": "covers/silat-alrahim.jpg",
       "pages": 44,
       "date": "2023-03-13",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الآداب والرقائق"
     },
     {
       "id": "lataif-ayat",
@@ -238,7 +269,8 @@
       "cover": "covers/lataif-ayat.jpg",
       "pages": 45,
       "date": "2023-03-13",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "القرآن والحديث والسيرة"
     },
     {
       "id": "altawheed",
@@ -247,7 +279,8 @@
       "cover": "covers/altawheed.jpg",
       "pages": 53,
       "date": "2023-03-14",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "العقيدة والإيمان"
     },
     {
       "id": "khasais-manhaj-ahl-alsunna",
@@ -256,7 +289,8 @@
       "cover": "covers/khasais-manhaj-ahl-alsunna.jpg",
       "pages": 19,
       "date": "2023-03-14",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "العقيدة والإيمان"
     },
     {
       "id": "min-qasas-alquran",
@@ -265,7 +299,8 @@
       "cover": "covers/min-qasas-alquran.jpg",
       "pages": 25,
       "date": "2023-03-14",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "القرآن والحديث والسيرة"
     },
     {
       "id": "alsaa-washratuha",
@@ -274,7 +309,8 @@
       "cover": "covers/alsaa-washratuha.jpg",
       "pages": 42,
       "date": "2023-03-15",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "العقيدة والإيمان"
     },
     {
       "id": "shadharat",
@@ -283,7 +319,8 @@
       "cover": "covers/shadharat.jpg",
       "pages": 22,
       "date": "2023-03-15",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "القرآن والحديث والسيرة"
     },
     {
       "id": "masail-alzakat",
@@ -292,7 +329,8 @@
       "cover": "covers/masail-alzakat.jpg",
       "pages": 44,
       "date": "2023-03-26",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الفقه والفتاوى"
     },
     {
       "id": "hidayat-ayat",
@@ -301,7 +339,8 @@
       "cover": "covers/hidayat-ayat.jpg",
       "pages": 71,
       "date": "2024-09-06",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "القرآن والحديث والسيرة"
     },
     {
       "id": "fiqhiyyat",
@@ -310,7 +349,8 @@
       "cover": "covers/fiqhiyyat.jpg",
       "pages": 214,
       "date": "2024-09-07",
-      "added": "2026-10-22"
+      "added": "2026-10-22",
+      "category": "الفقه والفتاوى"
     },
     {
       "id": "salat-almusafir",
@@ -319,7 +359,8 @@
       "cover": "covers/salat-almusafir.jpg",
       "pages": 29,
       "added": "2026-10-22",
-      "date": "2026-06-06"
+      "date": "2026-06-06",
+      "category": "الفقه والفتاوى"
     },
     {
       "id": "fatawa-aqeedah",
@@ -328,7 +369,8 @@
       "cover": "covers/fatawa-aqeedah.jpg",
       "pages": 136,
       "added": "2026-10-22",
-      "date": "2026-06-08"
+      "date": "2026-06-08",
+      "category": "العقيدة والإيمان"
     }
   ]
 }

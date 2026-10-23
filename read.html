@@ -7,7 +7,7 @@
 <title>قراءة كتاب</title>
 <meta name="theme-color" content="#221d16">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23a8843f'/%3E%3Cpath d='M14 18c7-3 13-2 18 2v28c-5-4-11-5-18-2zM50 18c-7-3-13-2-18 2v28c5-4 11-5 18-2z' fill='%23fffdf8'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/style.css?v=5">
+<link rel="stylesheet" href="assets/style.css?v=6">
 </head>
 <body class="reader">
 <header class="r-top">
@@ -18,6 +18,9 @@
   <a class="ibtn" id="download" hidden title="تحميل الكتاب" aria-label="تحميل الكتاب" download>
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0-5-5m5 5 5-5M4 19h16"/></svg>
   </a>
+  <button class="ibtn" id="shareBtn" title="مشاركة هذه الصفحة" aria-label="مشاركة هذه الصفحة">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>
+  </button>
   <button class="ibtn" id="soundBtn" title="صوت تقليب الصفحات" aria-label="صوت تقليب الصفحات" aria-pressed="true">
     <svg id="sndOn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
     <svg id="sndOff" hidden viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9 6 6m0-6-6 6"/></svg>
@@ -25,7 +28,7 @@
   <button class="ibtn" id="zoomBtn" title="تكبير" aria-label="تكبير">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M11 8v6M8 11h6"/></svg>
   </button>
-  <button class="ibtn" id="fsBtn" title="ملء الشاشة" aria-label="ملء الشاشة">
+  <button class="ibtn hide-sm" id="fsBtn" title="ملء الشاشة" aria-label="ملء الشاشة">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
   </button>
 </header>
@@ -44,6 +47,13 @@
 <footer class="r-bottom">
   <button class="ibtn" id="prevBtn" aria-label="الصفحة السابقة" title="السابقة">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
+  </button>
+  <button class="ibtn" id="bmBtn" title="إضافة علامة على هذه الصفحة" aria-label="إضافة علامة على هذه الصفحة" aria-pressed="false">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path id="bmPath" d="M6 3h12v18l-6-4.5L6 21z"/></svg>
+  </button>
+  <button class="ibtn" id="bmListBtn" title="العلامات المحفوظة" aria-label="العلامات المحفوظة">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="18" r="1"/></svg>
+    <span class="badge" id="bmCount" hidden></span>
   </button>
   <div class="pager">
     <label class="sr" for="slider">الانتقال إلى صفحة</label>
@@ -71,10 +81,22 @@
   </div>
   <div class="z-scroll" id="zScroll"><div class="z-pages" id="zPages"></div></div>
 </div>
+<div class="sheet" id="bmSheet" role="dialog" aria-label="العلامات المحفوظة" hidden>
+  <div class="sheet-head"><b>🔖 العلامات المحفوظة</b><button class="ibtn sheet-x" data-close aria-label="إغلاق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <ul class="bm-list" id="bmList"></ul>
+</div>
+<div class="sheet" id="shareSheet" role="dialog" aria-label="مشاركة الصفحة" hidden>
+  <div class="sheet-head"><b>📤 مشاركة الصفحة</b><button class="ibtn sheet-x" data-close aria-label="إغلاق"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
+  <p class="share-what" id="shareWhat"></p>
+  <div class="share-acts">
+    <a class="sbtn wa" id="shareWa" target="_blank" rel="noopener">واتساب</a>
+    <button class="sbtn" id="shareCopy">نسخ الرابط</button>
+  </div>
+</div>
 <div class="toast" id="toast"></div>
 
-<script src="assets/common.js?v=5"></script>
-<script src="lib/page-flip.browser.js?v=5"></script>
+<script src="assets/common.js?v=6"></script>
+<script src="lib/page-flip.browser.js?v=6"></script>
 <script type="module">
 import * as pdfjs from "./lib/pdf.min.mjs";
 pdfjs.GlobalWorkerOptions.workerSrc = "lib/pdf.worker.min.mjs";
@@ -184,7 +206,9 @@ async function pump() {
 
 // ===== المحرّك: كتاب مزدوج (كمبيوتر) أو صفحة واحدة (جوال) =====
 const saved = parseInt(store.get("pos:" + book.file) || "1", 10);
-const startP = saved >= 1 && saved <= N ? saved : 1;
+const linkP = parseInt(params.get("p") || "0", 10);
+const fromLink = linkP >= 1 && linkP <= N;
+const startP = fromLink ? linkP : (saved >= 1 && saved <= N ? saved : 1);
 const MODE = landscape ? "spread" : "single";
 const changeCbs = [], turnCbs = [];
 const emitChange = () => changeCbs.forEach((f) => f());
@@ -339,17 +363,19 @@ function onChange() {
   $("sizer").style.transform = "translateX(" + book2.shift() + "px)"; // توسيط الغلاف
   $("slider").value = p;
   store.set("pos:" + book.file, String(p));
+  store.set("last:" + book.file, String(Date.now()));
+  paintBm();
   $("nextBtn").disabled = $("nextSide").disabled = book2.atEnd();
   $("prevBtn").disabled = $("prevSide").disabled = book2.atStart();
   v.forEach(want);
   for (let k = 1; k <= 4; k++) { want(hi + k); want(lo - k); }
 }
 changeCbs.push(onChange);
-book2.ready(() => { onChange(); $("loader").hidden = true; if (startP > 1) toast("متابعة من الصفحة " + ar(startP)); });
+book2.ready(() => { onChange(); $("loader").hidden = true; if (fromLink) toast("الصفحة " + ar(startP)); else if (startP > 1) toast("متابعة من الصفحة " + ar(startP)); });
 
 // ===== صوت تقليب الورق =====
 let soundOn = store.get("sound") !== "off", actx = null, flipBuf = null, loading = null;
-const SND = "assets/flip.mp3?v=5";
+const SND = "assets/flip.mp3?v=6";
 const flipData = fetch(SND).then((r) => r.arrayBuffer()).catch(() => null);
 function paintSound() {
   const on = $("sndOn"), off = $("sndOff");
@@ -443,6 +469,67 @@ $("fsBtn").onclick = () => {
   if (d.fullscreenElement || d.webkitFullscreenElement) (d.exitFullscreen || d.webkitExitFullscreen).call(d);
   else { const el = d.documentElement; (el.requestFullscreen || el.webkitRequestFullscreen || (() => toast("ملء الشاشة غير مدعوم في هذا المتصفح"))).call(el); }
 };
+
+// ===== العلامات المرجعية (تُحفظ في جهاز القارئ) =====
+const BMK = "bm:" + book.file;
+function getBm() { try { return JSON.parse(store.get(BMK) || "[]").filter((x) => x.p >= 1 && x.p <= N); } catch (e) { return []; } }
+function setBm(a) { a.sort((x, y) => x.p - y.p); store.set(BMK, JSON.stringify(a)); paintBm(); }
+function paintBm() {
+  const a = getBm(), p = current(), on = a.some((x) => x.p === p);
+  $("bmBtn").classList.toggle("on", on); $("bmBtn").setAttribute("aria-pressed", String(on));
+  $("bmBtn").title = on ? "إزالة العلامة من هذه الصفحة" : "إضافة علامة على هذه الصفحة";
+  $("bmCount").hidden = !a.length; $("bmCount").textContent = ar(a.length);
+}
+$("bmBtn").onclick = () => {
+  const a = getBm(), p = current(), i = a.findIndex((x) => x.p === p);
+  if (i >= 0) { a.splice(i, 1); setBm(a); toast("أُزيلت العلامة من الصفحة " + ar(p)); }
+  else { a.push({ p, t: Date.now() }); setBm(a); toast("🔖 حُفظت علامة على الصفحة " + ar(p)); }
+};
+function openSheet(id) { document.querySelectorAll(".sheet").forEach((x) => x.hidden = x.id !== id ? true : x.hidden); $(id).hidden = false; }
+function closeSheets() { document.querySelectorAll(".sheet").forEach((x) => x.hidden = true); }
+document.querySelectorAll("[data-close]").forEach((b) => b.onclick = closeSheets);
+$("bmListBtn").onclick = () => {
+  if (!$("bmSheet").hidden) return closeSheets();
+  const ul = $("bmList"); ul.innerHTML = ""; const a = getBm();
+  if (!a.length) { const li = document.createElement("li"); li.className = "bm-empty"; li.textContent = "لا توجد علامات بعد. اضغط زر 🔖 لحفظ الصفحة الحالية."; ul.appendChild(li); }
+  a.forEach((x) => {
+    const li = document.createElement("li");
+    const go = document.createElement("button"); go.className = "bm-go";
+    const d = new Date(x.t);
+    go.innerHTML = "<b></b><small></small>";
+    go.querySelector("b").textContent = "صفحة " + ar(x.p);
+    go.querySelector("small").textContent = isNaN(d) ? "" : d.toLocaleDateString("ar-SA-u-ca-islamic-umalqura-nu-arab", { day: "numeric", month: "long" });
+    go.onclick = () => { closeSheets(); goTo(x.p); };
+    const del = document.createElement("button"); del.className = "bm-del"; del.setAttribute("aria-label", "حذف العلامة"); del.textContent = "✕";
+    del.onclick = () => { setBm(getBm().filter((y) => y.p !== x.p)); li.remove(); if (!getBm().length) $("bmListBtn").onclick(), $("bmListBtn").onclick(); };
+    li.append(go, del); ul.appendChild(li);
+  });
+  openSheet("bmSheet");
+};
+
+// ===== مشاركة صفحة محددة =====
+function pageLink(p) {
+  const u = new URL(location.href); u.search = "";
+  u.searchParams.set(book.id ? "id" : "file", book.id || book.file); u.searchParams.set("p", String(p));
+  return u.toString();
+}
+$("shareBtn").onclick = async () => {
+  const p = current(), url = pageLink(p);
+  const text = "📖 " + book.title + " — صفحة " + ar(p) + "\n" + (data.site.title || "") ;
+  if (navigator.share && matchMedia("(pointer:coarse)").matches) {
+    try { await navigator.share({ title: book.title, text, url }); return; } catch (e) { if (e && e.name === "AbortError") return; }
+  }
+  $("shareWhat").textContent = book.title + " — صفحة " + ar(p);
+  $("shareWa").href = "https://wa.me/?text=" + encodeURIComponent(text + "\n" + url);
+  $("shareCopy").onclick = async () => {
+    try { await navigator.clipboard.writeText(url); toast("تم نسخ الرابط ✓"); }
+    catch (e) { const t = document.createElement("textarea"); t.value = url; document.body.appendChild(t); t.select(); try { document.execCommand("copy"); toast("تم نسخ الرابط ✓"); } catch (_) { prompt("انسخ الرابط:", url); } t.remove(); }
+    closeSheets();
+  };
+  $("shareWa").onclick = () => setTimeout(closeSheets, 300);
+  openSheet("shareSheet");
+};
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeSheets(); });
 
 // ===== التكبير =====
 let zLevel = 1, zPages = [];

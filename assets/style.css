@@ -1,11 +1,13 @@
 /* ===== الخطوط (محفوظة داخل الموقع) ===== */
 @font-face{font-family:"Amiri";src:url(../fonts/amiri-arabic-400-normal.woff2) format("woff2");font-weight:400;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0898-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}
 @font-face{font-family:"Amiri";src:url(../fonts/amiri-arabic-700-normal.woff2) format("woff2");font-weight:700;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0898-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}
-@font-face{font-family:"Amiri";src:url(../fonts/amiri-latin-400-normal.woff2) format("woff2");font-weight:400 700;font-display:swap;unicode-range:U+0000-00FF}
+@font-face{font-family:"Amiri";src:url(../fonts/amiri-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap;unicode-range:U+0000-00FF}
+@font-face{font-family:"Amiri";src:url(../fonts/amiri-latin-400-normal.woff2) format("woff2");font-weight:700;font-display:swap;unicode-range:U+0000-00FF}
 @font-face{font-family:"Plex";src:url(../fonts/ibm-plex-sans-arabic-arabic-400-normal.woff2) format("woff2");font-weight:400;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0898-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}
 @font-face{font-family:"Plex";src:url(../fonts/ibm-plex-sans-arabic-arabic-500-normal.woff2) format("woff2");font-weight:500;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0898-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}
 @font-face{font-family:"Plex";src:url(../fonts/ibm-plex-sans-arabic-arabic-600-normal.woff2) format("woff2");font-weight:600 700;font-display:swap;unicode-range:U+0600-06FF,U+0750-077F,U+0870-088E,U+0890-0891,U+0898-08E1,U+08E3-08FF,U+200C-200E,U+2010-2011,U+204F,U+2E41,U+FB50-FDFF,U+FE70-FE74,U+FE76-FEFC}
-@font-face{font-family:"Plex";src:url(../fonts/ibm-plex-sans-arabic-latin-400-normal.woff2) format("woff2");font-weight:400 500;font-display:swap;unicode-range:U+0000-00FF}
+@font-face{font-family:"Plex";src:url(../fonts/ibm-plex-sans-arabic-latin-400-normal.woff2) format("woff2");font-weight:400;font-display:swap;unicode-range:U+0000-00FF}
+@font-face{font-family:"Plex";src:url(../fonts/ibm-plex-sans-arabic-latin-400-normal.woff2) format("woff2");font-weight:500;font-display:swap;unicode-range:U+0000-00FF}
 @font-face{font-family:"Plex";src:url(../fonts/ibm-plex-sans-arabic-latin-600-normal.woff2) format("woff2");font-weight:600 700;font-display:swap;unicode-range:U+0000-00FF}
 
 :root{
@@ -35,7 +37,8 @@ a{color:inherit}
   radial-gradient(ellipse at 50% -20%,rgba(201,169,97,.22),transparent 60%),var(--paper);
   border-bottom:1px solid var(--line)}
 .ornament{width:46px;height:46px;color:var(--gold);display:block;margin:0 auto 18px}
-.lib-title{font-family:var(--display);font-weight:700;font-size:clamp(30px,5vw,46px);line-height:1.5;margin:0;word-spacing:.1em}
+.lib-title{font-family:var(--display);font-weight:700;font-size:clamp(46px,8vw,76px);line-height:1.55;margin:0;color:#2f2618;display:flex;flex-direction:column;align-items:center}
+.lib-author{display:block;font-weight:400;font-size:clamp(24px,3.6vw,34px);line-height:1.6;color:#a8843f;margin-top:.25em;word-spacing:.04em}
 .lib-sub{color:var(--muted);margin:12px 0 0;font-size:16px;word-spacing:.08em}
 .lib-tools{display:flex;gap:12px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:24px}
 .search{position:relative;width:min(440px,100%)}

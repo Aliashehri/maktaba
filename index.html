@@ -8,7 +8,7 @@
 <meta name="description" content="مكتبة رقمية لتصفّح الكتب وقراءتها">
 <meta name="theme-color" content="#f6f1e7">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23a8843f'/%3E%3Cpath d='M14 18c7-3 13-2 18 2v28c-5-4-11-5-18-2zM50 18c-7-3-13-2-18 2v28c5-4 11-5 18-2z' fill='%23fffdf8'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/style.css?v=8">
+<link rel="stylesheet" href="assets/style.css?v=9">
 </head>
 <body>
 <div class="datebar" id="today" aria-label="تاريخ اليوم"></div>
@@ -25,6 +25,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
     </label>
     <span class="count" id="count"></span>
+    <span class="count visitors" id="visitors" hidden>الزوار <b dir="ltr"></b> زائر</span>
   </div>
 </header>
 
@@ -36,10 +37,10 @@
 <main class="shelf" id="shelf" aria-live="polite"></main>
 <footer class="lib-foot" id="foot"></footer>
 
-<script src="assets/common.js?v=8"></script>
+<script src="assets/common.js?v=9"></script>
 <script>
 (async function () {
-  const { loadLibrary, readerUrl, ar, store } = window.Lib;
+  const { loadLibrary, readerUrl, ar, store, en, track, hits, bookPath } = window.Lib;
   const data = await loadLibrary();
   const site = data.site, books = data.books;
   const shelf = document.getElementById("shelf");
@@ -81,7 +82,11 @@
     }
     const h = document.createElement("h2"); h.textContent = b.title;
     a.append(cv, h);
-    if (b.pages) { const m = document.createElement("div"); m.className = "meta"; m.textContent = ar(b.pages) + " صفحة"; a.appendChild(m); }
+    const m = document.createElement("div"); m.className = "meta";
+    const pg = document.createElement("span"); pg.textContent = b.pages ? ar(b.pages) + " صفحة" : ""; m.appendChild(pg);
+    const vw = document.createElement("span"); vw.className = "views"; vw.hidden = true; m.appendChild(vw);
+    a.dataset.path = bookPath(b);
+    a.appendChild(m);
     shelf.appendChild(a);
     return a;
   });
@@ -90,6 +95,25 @@
   empty.textContent = books.length ? "لا توجد نتائج مطابقة" : "لا توجد كتب بعد";
   empty.hidden = books.length > 0;
   shelf.appendChild(empty);
+
+  // ===== العدادات: زوار الموقع + مشاهدات كل كتاب =====
+  const gc = site.counter || "";
+  if (gc) {
+    track(gc, "/", plain(site.title));
+    hits(gc, "TOTAL").then((n) => {
+      if (n === null || n === 0) return;
+      const v = document.getElementById("visitors"); v.hidden = false;
+      v.querySelector("b").textContent = en(n);
+    });
+    const vio = new IntersectionObserver((ents) => ents.forEach(async (en_) => {
+      if (!en_.isIntersecting) return; vio.unobserve(en_.target);
+      const n = await hits(gc, en_.target.dataset.path);
+      if (n === null || n === 0) return;
+      const s = en_.target.querySelector(".views");
+      s.textContent = en(n) + " مشاهدة"; s.hidden = false;
+    }), { rootMargin: "300px" });
+    cards.forEach((c) => vio.observe(c));
+  }
 
   // ===== تابع القراءة: الكتب التي بدأها القارئ (محفوظة في جهازه) =====
   function paintCont() {

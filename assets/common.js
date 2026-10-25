@@ -66,5 +66,36 @@
 
   const ar = (n) => Number(n).toLocaleString("ar-SA");
 
-  window.Lib = { repoInfo, loadLibrary, readerUrl, store, ar, titleFromFile };
+  // ===== العدادات (GoatCounter) — إن تعطلت الخدمة يعمل الموقع عادياً وتختفي الأرقام فقط =====
+  const isLocal = () => /^(localhost|127\.|0\.0\.0\.0|\[::1\])/.test(location.hostname) || location.protocol === "file:";
+  const en = (n) => Number(n).toLocaleString("en-US");
+  function gcBase(code) {
+    code = (code || "").trim();
+    if (!code) return "";
+    if (/^https?:\/\//.test(code)) return code.replace(/\/+$/, "");
+    return "https://" + code + ".goatcounter.com";
+  }
+  // تسجيل زيارة لمسار معيّن
+  function track(code, path, title) {
+    const base = gcBase(code); if (!base || isLocal()) return;
+    try {
+      const q = new URLSearchParams({ p: path, t: title || document.title, r: document.referrer || "", s: String(screen.width || ""), rnd: Math.random().toString(36).slice(2) });
+      const img = new Image(); img.referrerPolicy = "no-referrer-when-downgrade"; img.src = base + "/count?" + q.toString();
+    } catch (e) {}
+  }
+  // قراءة العدد العام لمسار (أو TOTAL لكل الموقع)
+  async function hits(code, path) {
+    const base = gcBase(code); if (!base) return null;
+    try {
+      const r = await fetch(base + "/counter/" + (path === "TOTAL" ? "TOTAL" : encodeURIComponent(path)) + ".json", { cache: "no-store" });
+      if (r.status === 404) return 0;
+      if (!r.ok) return null;
+      const j = await r.json();
+      const n = parseInt(String(j.count ?? "").replace(/[^0-9]/g, ""), 10);
+      return isNaN(n) ? null : n;
+    } catch (e) { return null; }
+  }
+  const bookPath = (b) => "/book/" + (b.id || (b.file || "").replace(/^books\//, "").replace(/\.pdf$/i, ""));
+
+  window.Lib = { repoInfo, loadLibrary, readerUrl, store, ar, titleFromFile, en, track, hits, bookPath };
 })();

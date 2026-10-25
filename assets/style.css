@@ -225,3 +225,11 @@ details.help ol{padding-inline-start:20px;margin:8px 0}
 
 .catsel{width:auto;padding:5px 8px;font-size:13px;border-radius:8px}
 select.input{appearance:auto}
+
+/* ===== العدادات ===== */
+.book .meta{display:flex;gap:8px;flex-wrap:wrap}
+.book .meta .views::before{content:"•";margin-inline-end:8px;opacity:.6}
+.book .meta .views:first-child::before{content:none}
+.visitors{display:inline-flex;gap:5px;align-items:center}
+.visitors::before{content:"•";opacity:.6;margin-inline-end:4px}
+.visitors b{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}

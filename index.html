@@ -67,7 +67,7 @@
   if (site.title) { document.getElementById("title").textContent = site.title; document.title = plain(site.title) + (site.author ? " — " + site.author : ""); }
   const au = document.getElementById("author"); au.textContent = site.author || ""; au.hidden = !site.author;
   document.getElementById("subtitle").textContent = site.subtitle || "";
-  document.getElementById("count").textContent = "عدد الكتب: " + ar(books.length);
+  document.getElementById("count").hidden = true; // العدد يظهر في لوحة الإحصاءات
   // تاريخ اليوم (هجري وميلادي) — يتحدّث تلقائياً
   const fmtH = (d) => new Intl.DateTimeFormat("ar-SA-u-ca-islamic-umalqura-nu-arab", { weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(d);
   const fmtG = (d) => new Intl.DateTimeFormat("ar-SA-u-ca-gregory-nu-arab", { day: "numeric", month: "long", year: "numeric" }).format(d) + " م";
@@ -212,7 +212,8 @@
     const q = norm(document.getElementById("q").value.trim()); let n = 0;
     cards.forEach((c) => { const show = (!q || norm(c.dataset.q).includes(q)) && (!curCat || c.dataset.cat === curCat); c.hidden = !show; if (show) n++; });
     empty.hidden = n > 0;
-    document.getElementById("count").textContent = (q || curCat ? "النتائج: " : "عدد الكتب: ") + ar(n);
+    const cnt = document.getElementById("count");
+    cnt.hidden = !(q || curCat); cnt.textContent = "النتائج: " + ar(n);
   }
   document.getElementById("q").addEventListener("input", filter);
 

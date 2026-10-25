@@ -1,11 +1,11 @@
 {
- "updated": "2026-10-25T22:42Z",
- "total": 208,
+ "updated": "2026-10-25T23:40Z",
+ "total": 219,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 123
+   "count": 131
   },
   {
    "code": "MA",
@@ -23,14 +23,19 @@
    "count": 7
   },
   {
-   "code": "NG",
-   "name": "Nigeria",
+   "code": "DZ",
+   "name": "Algeria",
    "count": 6
   },
   {
-   "code": "DZ",
-   "name": "Algeria",
-   "count": 5
+   "code": "ID",
+   "name": "Indonesia",
+   "count": 6
+  },
+  {
+   "code": "NG",
+   "name": "Nigeria",
+   "count": 6
   },
   {
    "code": "NL",
@@ -45,11 +50,6 @@
   {
    "code": "GM",
    "name": "Gambia",
-   "count": 4
-  },
-  {
-   "code": "ID",
-   "name": "Indonesia",
    "count": 4
   },
   {

@@ -1,1 +1,26 @@
-{"updated":"","total":0,"countries":[]}
+{
+ "updated": "2026-10-25T19:35Z",
+ "total": 0,
+ "countries": [
+  {
+   "code": "SA",
+   "name": "Saudi Arabia",
+   "count": 18
+  },
+  {
+   "code": "DE",
+   "name": "Germany",
+   "count": 1
+  },
+  {
+   "code": "NL",
+   "name": "Netherlands",
+   "count": 1
+  },
+  {
+   "code": "TR",
+   "name": "Turkey",
+   "count": 1
+  }
+ ]
+}

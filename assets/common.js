@@ -110,7 +110,10 @@
       // نحدد فترة زمنية (من بداية المكتبة إلى الغد) لأن الرابط بدونها يُرجع نسخة مؤقتة قديمة
       const end = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
       const url = base + "/counter/" + (path === "TOTAL" ? "TOTAL" : encodeURIComponent(path)) + ".json";
-      let r = await fetch(url + "?start=2026-01-01&end=" + end, { cache: "no-store" });
+      // تاريخ البداية يتغيّر كل 10 دقائق (قبل إنشاء المكتبة دائماً) فلا يُرجع GoatCounter نسخة محفوظة قديمة
+      const slot = Math.floor(Date.now() / 600000) % 700;
+      const start = new Date(Date.UTC(2026, 0, 1) - slot * 86400000).toISOString().slice(0, 10);
+      let r = await fetch(url + "?start=" + start + "&end=" + end, { cache: "no-store" });
       if (!r.ok && r.status !== 404) r = await fetch(url + "?start=2026-01-01", { cache: "no-store" });
       if (r.status === 404) return 0;
       if (!r.ok) return null;

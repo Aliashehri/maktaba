@@ -8,7 +8,7 @@
 <meta name="description" content="مكتبة رقمية لتصفّح الكتب وقراءتها">
 <meta name="theme-color" content="#f6f1e7">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23a8843f'/%3E%3Cpath d='M14 18c7-3 13-2 18 2v28c-5-4-11-5-18-2zM50 18c-7-3-13-2-18 2v28c5-4 11-5 18-2z' fill='%23fffdf8'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/style.css?v=11">
+<link rel="stylesheet" href="assets/style.css?v=13">
 </head>
 <body>
 <div class="datebar" id="today" aria-label="تاريخ اليوم"></div>
@@ -25,10 +25,28 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
     </label>
     <span class="count" id="count"></span>
-    <span class="count visitors" id="visitors" hidden>الزوار <b dir="ltr"></b> زائر</span>
   </div>
 </header>
 
+<section class="stats" id="stats" hidden aria-label="إحصاءات المكتبة">
+  <div class="stats-card">
+    <div class="st-main">
+      <div class="st-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c.8-3.2 3.2-5 6-5s5.2 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M15.6 14.6c2.6-.4 4.6 1.2 5.4 4.4"/></svg></div>
+      <div>
+        <div class="st-lbl">عدد الزوار</div>
+        <div class="st-big"><b id="stVisitors" dir="ltr">0</b><span>زائر</span></div>
+      </div>
+    </div>
+    <div class="st-mini">
+      <div class="st-chip"><b id="stBooks" dir="ltr">0</b><span>كتاباً</span></div>
+      <div class="st-chip" id="stCountriesChip" hidden><b id="stCountries" dir="ltr">0</b><span>دولة</span></div>
+    </div>
+    <div class="st-countries" id="stCountryBox" hidden>
+      <div class="st-sub">الزوار حسب الدولة</div>
+      <ul id="stCountryList"></ul>
+    </div>
+  </div>
+</section>
 <section class="cont" id="cont" hidden aria-label="تابع القراءة">
   <h2 class="sec-h">📖 تابع القراءة</h2>
   <div class="cont-row" id="contRow"></div>
@@ -37,7 +55,7 @@
 <main class="shelf" id="shelf" aria-live="polite"></main>
 <footer class="lib-foot" id="foot"></footer>
 
-<script src="assets/common.js?v=11"></script>
+<script src="assets/common.js?v=13"></script>
 <script>
 (async function () {
   const { loadLibrary, readerUrl, ar, store, en, track, hits, bookPath } = window.Lib;
@@ -96,14 +114,49 @@
   empty.hidden = books.length > 0;
   shelf.appendChild(empty);
 
-  // ===== العدادات: زوار الموقع + مشاهدات كل كتاب =====
+  // ===== العدادات: لوحة الإحصاءات + مشاهدات كل كتاب =====
   const gc = site.counter || "";
+  function countUp(el, to) {
+    const dur = 900, t0 = performance.now(), from = 0;
+    const step = (t) => { const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = en(Math.round(from + (to - from) * e)); if (k < 1) requestAnimationFrame(step); };
+    requestAnimationFrame(step);
+  }
   if (gc) {
     track(gc, "/", plain(site.title));
-    hits(gc, "TOTAL").then((n) => {
-      if (n === null || n === 0) return;
-      const v = document.getElementById("visitors"); v.hidden = false;
-      v.querySelector("b").textContent = en(n);
+    const statsBox = document.getElementById("stats");
+    document.getElementById("stBooks").textContent = en(books.length);
+    // ملف الدول يُحدَّث تلقائياً كل بضع ساعات (GitHub Actions)
+    const loadCountries = async () => {
+      const info = window.Lib.repoInfo(); const urls = [];
+      if (info) urls.push(`https://raw.githubusercontent.com/${info.owner}/${info.repo}/main/stats.json?t=${Date.now()}`);
+      urls.push("stats.json?t=" + Date.now());
+      for (const u of urls) { try { const r = await fetch(u, { cache: "no-store" }); if (r.ok) return await r.json(); } catch (e) {} }
+      return null;
+    };
+    Promise.all([hits(gc, "TOTAL"), loadCountries()]).then(([n, st]) => {
+      const total = Math.max(n || 0, (st && st.total) || 0);
+      if (!total) return;
+      statsBox.hidden = false;
+      countUp(document.getElementById("stVisitors"), total);
+      const list = (st && Array.isArray(st.countries) ? st.countries : []).filter((c) => c && c.code && c.count > 0);
+      if (!list.length) return;
+      let names; try { names = new Intl.DisplayNames(["ar"], { type: "region" }); } catch (e) {}
+      const sum = list.reduce((a, c) => a + c.count, 0);
+      document.getElementById("stCountries").textContent = en(list.length);
+      document.getElementById("stCountriesChip").hidden = false;
+      const ul = document.getElementById("stCountryList");
+      list.sort((a, b) => b.count - a.count).slice(0, 6).forEach((c, i) => {
+        const li = document.createElement("li");
+        const pct = Math.max(2, Math.round((c.count / sum) * 100));
+        let nm = c.code; try { nm = (names && names.of(c.code.toUpperCase())) || c.name || c.code; } catch (e) { nm = c.name || c.code; }
+        li.innerHTML = '<span class="cn"></span><span class="bar"><i></i></span><span class="cv" dir="ltr"></span>';
+        li.querySelector(".cn").textContent = nm;
+        li.querySelector(".cv").textContent = en(c.count);
+        setTimeout(() => (li.querySelector("i").style.width = pct + "%"), 120 + i * 90);
+        ul.appendChild(li);
+      });
+      document.getElementById("stCountryBox").hidden = false;
     });
     const vio = new IntersectionObserver((ents) => ents.forEach(async (en_) => {
       if (!en_.isIntersecting) return; vio.unobserve(en_.target);

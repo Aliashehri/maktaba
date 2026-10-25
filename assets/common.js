@@ -75,19 +75,43 @@
     if (/^https?:\/\//.test(code)) return code.replace(/\/+$/, "");
     return "https://" + code + ".goatcounter.com";
   }
-  // تسجيل زيارة لمسار معيّن
+  // تسجيل زيارة لمسار معيّن — عبر سكربت GoatCounter الرسمي، مع بديل احتياطي
+  let gcLoading = null;
+  function loadGC(base) {
+    if (window.goatcounter && window.goatcounter.count) return Promise.resolve(window.goatcounter);
+    if (gcLoading) return gcLoading;
+    window.goatcounter = Object.assign(window.goatcounter || {}, { no_onload: true });
+    gcLoading = new Promise((ok, no) => {
+      const sc = document.createElement("script");
+      sc.async = true; sc.src = "https://gc.zgo.at/count.js";
+      sc.setAttribute("data-goatcounter", base + "/count");
+      sc.setAttribute("data-goatcounter-settings", JSON.stringify({ no_onload: true }));
+      sc.onload = () => (window.goatcounter && window.goatcounter.count ? ok(window.goatcounter) : no());
+      sc.onerror = no;
+      document.head.appendChild(sc);
+      setTimeout(no, 8000);
+    });
+    return gcLoading;
+  }
   function track(code, path, title) {
     const base = gcBase(code); if (!base || isLocal()) return;
-    try {
-      const q = new URLSearchParams({ p: path, t: title || document.title, r: document.referrer || "", s: String(screen.width || ""), rnd: Math.random().toString(36).slice(2) });
-      const img = new Image(); img.referrerPolicy = "no-referrer-when-downgrade"; img.src = base + "/count?" + q.toString();
-    } catch (e) {}
+    loadGC(base).then((gc) => gc.count({ path, title: title || document.title, event: false }))
+      .catch(() => {
+        try {
+          const q = new URLSearchParams({ p: path, t: title || document.title, r: document.referrer || "", s: String(screen.width || ""), rnd: Math.random().toString(36).slice(2) });
+          new Image().src = base + "/count?" + q.toString();
+        } catch (e) {}
+      });
   }
   // قراءة العدد العام لمسار (أو TOTAL لكل الموقع)
   async function hits(code, path) {
     const base = gcBase(code); if (!base) return null;
     try {
-      const r = await fetch(base + "/counter/" + (path === "TOTAL" ? "TOTAL" : encodeURIComponent(path)) + ".json", { cache: "no-store" });
+      // نحدد فترة زمنية (من بداية المكتبة إلى الغد) لأن الرابط بدونها يُرجع نسخة مؤقتة قديمة
+      const end = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
+      const url = base + "/counter/" + (path === "TOTAL" ? "TOTAL" : encodeURIComponent(path)) + ".json";
+      let r = await fetch(url + "?start=2026-01-01&end=" + end, { cache: "no-store" });
+      if (!r.ok && r.status !== 404) r = await fetch(url + "?start=2026-01-01", { cache: "no-store" });
       if (r.status === 404) return 0;
       if (!r.ok) return null;
       const j = await r.json();

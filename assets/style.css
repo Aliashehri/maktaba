@@ -252,7 +252,7 @@ select.input{appearance:auto}
 .st-countries{min-width:0}
 .st-sub{font-size:13px;opacity:.7;margin-bottom:8px}
 .st-countries ul{list-style:none;margin:0;padding:0;display:grid;gap:7px}
-.st-countries li{display:grid;grid-template-columns:150px 1fr 34px;align-items:center;gap:10px;font-size:14px}
+.st-countries li{display:grid;grid-template-columns:150px 1fr 44px;align-items:center;gap:10px;font-size:14px}
 .st-countries .cn{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .st-countries .bar{height:8px;border-radius:8px;background:rgba(255,255,255,.1);overflow:hidden}
 .st-countries .bar i{display:block;height:100%;width:0;border-radius:8px;background:linear-gradient(90deg,var(--gold),var(--gold-2));transition:width .9s cubic-bezier(.2,.7,.2,1)}
@@ -266,4 +266,4 @@ select.input{appearance:auto}
   .stats-card{grid-template-columns:1fr;text-align:start}
   .st-mini{flex-direction:row;gap:18px;padding-inline-start:0;border-inline-start:0;border-top:1px solid rgba(255,255,255,.1);padding-top:12px}
 }
-@media (max-width:420px){.st-countries li{grid-template-columns:118px 1fr 30px;font-size:13px}}
+@media (max-width:420px){.st-countries li{grid-template-columns:118px 1fr 40px;font-size:13px}}

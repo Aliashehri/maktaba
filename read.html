@@ -7,7 +7,7 @@
 <title>قراءة كتاب</title>
 <meta name="theme-color" content="#221d16">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23a8843f'/%3E%3Cpath d='M14 18c7-3 13-2 18 2v28c-5-4-11-5-18-2zM50 18c-7-3-13-2-18 2v28c5-4 11-5 18-2z' fill='%23fffdf8'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/style.css?v=13">
+<link rel="stylesheet" href="assets/style.css?v=14">
 </head>
 <body class="reader">
 <header class="r-top">
@@ -95,8 +95,8 @@
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="assets/common.js?v=13"></script>
-<script src="lib/page-flip.browser.js?v=13"></script>
+<script src="assets/common.js?v=14"></script>
+<script src="lib/page-flip.browser.js?v=14"></script>
 <script type="module">
 import * as pdfjs from "./lib/pdf.min.mjs";
 pdfjs.GlobalWorkerOptions.workerSrc = "lib/pdf.worker.min.mjs";
@@ -378,7 +378,7 @@ book2.ready(() => { onChange(); $("loader").hidden = true; if (fromLink) toast("
 
 // ===== صوت تقليب الورق =====
 let soundOn = store.get("sound") !== "off", actx = null, flipBuf = null, loading = null;
-const SND = "assets/flip.mp3?v=13";
+const SND = "assets/flip.mp3?v=14";
 const flipData = fetch(SND).then((r) => r.arrayBuffer()).catch(() => null);
 function paintSound() {
   const on = $("sndOn"), off = $("sndOff");

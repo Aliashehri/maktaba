@@ -1,12 +1,12 @@
 {
- "updated": "2026-10-26T17:51Z",
- "total": 631,
- "last28": 631,
+ "updated": "2026-10-26T19:04Z",
+ "total": 664,
+ "last28": 664,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 427
+   "count": 455
   },
   {
    "code": "ID",
@@ -39,6 +39,11 @@
    "count": 11
   },
   {
+   "code": "SD",
+   "name": "Sudan",
+   "count": 10
+  },
+  {
    "code": "NL",
    "name": "Netherlands",
    "count": 7
@@ -61,11 +66,6 @@
   {
    "code": "NE",
    "name": "Niger",
-   "count": 5
-  },
-  {
-   "code": "SD",
-   "name": "Sudan",
    "count": 5
   },
   {

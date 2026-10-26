@@ -1,11 +1,11 @@
 {
- "updated": "2026-10-26T09:00Z",
- "total": 451,
+ "updated": "2026-10-26T10:00Z",
+ "total": 467,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 317
+   "count": 327
   },
   {
    "code": "DZ",
@@ -13,13 +13,13 @@
    "count": 17
   },
   {
-   "code": "EG",
-   "name": "Egypt",
-   "count": 13
-  },
-  {
    "code": "MA",
    "name": "Morocco",
+   "count": 14
+  },
+  {
+   "code": "EG",
+   "name": "Egypt",
    "count": 13
   },
   {
@@ -68,6 +68,11 @@
    "count": 5
   },
   {
+   "code": "US",
+   "name": "United States",
+   "count": 5
+  },
+  {
    "code": "GM",
    "name": "Gambia",
    "count": 4
@@ -98,9 +103,9 @@
    "count": 3
   },
   {
-   "code": "US",
-   "name": "United States",
-   "count": 3
+   "code": "GH",
+   "name": "Ghana",
+   "count": 2
   },
   {
    "code": "LK",
@@ -110,6 +115,11 @@
   {
    "code": "ML",
    "name": "Mali",
+   "count": 2
+  },
+  {
+   "code": "TN",
+   "name": "Tunisia",
    "count": 2
   },
   {
@@ -138,18 +148,13 @@
    "count": 1
   },
   {
-   "code": "GH",
-   "name": "Ghana",
+   "code": "IQ",
+   "name": "Iraq",
    "count": 1
   },
   {
    "code": "KE",
    "name": "Kenya",
-   "count": 1
-  },
-  {
-   "code": "TN",
-   "name": "Tunisia",
    "count": 1
   },
   {

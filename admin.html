@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex,nofollow">
 <title>إدارة المكتبة</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232b2419'/%3E%3Cpath d='M14 18c7-3 13-2 18 2v28c-5-4-11-5-18-2zM50 18c-7-3-13-2-18 2v28c5-4 11-5 18-2z' fill='%23c9a961'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/style.css?v=17">
+<link rel="stylesheet" href="assets/style.css?v=19">
 </head>
 <body class="admin">
 <div class="adm">
@@ -29,17 +29,20 @@
       <button class="btn" id="saveToken">حفظ والاتصال</button>
       <button class="btn ghost" id="forget">نسيان المفتاح من هذا الجهاز</button>
     </div>
+    <div class="keybox">
+      <div><b>ما عندك مفتاح أو ضاع؟</b> اضغط الزر، وتفتح صفحة GitHub وكل شيء معبأ (صلاحية دائمة بلا انتهاء).</div>
+      <a class="btn" id="newKey" target="_blank" rel="noopener">🔑 إنشاء مفتاح جديد</a>
+    </div>
     <details class="help">
-      <summary>كيف أحصل على المفتاح؟</summary>
+      <summary>خطوات إنشاء المفتاح (دقيقة واحدة)</summary>
       <ol>
-        <li>ادخل إلى GitHub ثم افتح: <b dir="ltr">Settings → Developer settings → Personal access tokens → Fine-grained tokens</b></li>
-        <li>اضغط <b dir="ltr">Generate new token</b> واكتب أي اسم مثل «المكتبة».</li>
-        <li>في <b dir="ltr">Expiration</b> اختر أطول مدة متاحة.</li>
-        <li>في <b dir="ltr">Repository access</b> اختر <b dir="ltr">Only select repositories</b> ثم اختر مستودع المكتبة.</li>
-        <li>في <b dir="ltr">Permissions → Contents</b> اختر <b dir="ltr">Read and write</b>.</li>
-        <li>اضغط <b dir="ltr">Generate token</b> وانسخ المفتاح والصقه هنا.</li>
+        <li>اضغط زر «إنشاء مفتاح جديد» وسجّل دخولك في GitHub إن طُلب.</li>
+        <li>الاسم والمدة (<b dir="ltr">No expiration</b>) والصلاحية (<b dir="ltr">Contents: Read and write</b>) معبأة تلقائياً.</li>
+        <li>في <b dir="ltr">Repository access</b> اختر <b dir="ltr">Only select repositories</b> ثم اختر <b dir="ltr" id="repoName">maktaba</b>.</li>
+        <li>اضغط <b dir="ltr">Generate token</b> في الأسفل، وانسخ المفتاح (يبدأ بـ <span dir="ltr">github_pat_</span>).</li>
+        <li>ارجع هنا، والصقه في الخانة، واضغط «حفظ والاتصال».</li>
       </ol>
-      إذا ظهرت رسالة «انتهت صلاحية المفتاح» كرّر الخطوات نفسها وأدخل المفتاح الجديد.
+      المفتاح يبقى محفوظاً في هذا المتصفح، فلا تحتاجه مرة ثانية إلا إذا غيّرت الجهاز أو المتصفح أو مسحت بياناته. وإن ضاع، اصنع مفتاحاً جديداً بنفس الزر واحذف القديم من GitHub.
     </details>
     <details class="help" id="repoBox">
       <summary>إعدادات متقدمة (المستودع)</summary>
@@ -107,7 +110,7 @@
   </section>
 </div>
 
-<script src="assets/common.js?v=17"></script>
+<script src="assets/common.js?v=19"></script>
 <script type="module">
 import * as pdfjs from "./lib/pdf.min.mjs";
 pdfjs.GlobalWorkerOptions.workerSrc = "lib/pdf.worker.min.mjs";
@@ -125,6 +128,14 @@ $("repo").value = store.get("gh.repo") || auto.repo || "";
 $("token").value = store.get("gh.token") || "";
 let branch = "main", lib = null, connected = false;
 
+function setKeyLink() {
+  const o = $("owner").value.trim(), r = $("repo").value.trim() || "maktaba";
+  const q = new URLSearchParams({ name: (r + "-admin").slice(0, 40), description: "Library admin page for " + r, expires_in: "none", contents: "write" });
+  if (o) q.set("target_name", o);
+  $("newKey").href = "https://github.com/settings/personal-access-tokens/new?" + q.toString();
+  $("repoName").textContent = r;
+}
+setKeyLink(); $("owner").addEventListener("input", setKeyLink); $("repo").addEventListener("input", setKeyLink);
 const R = () => `https://api.github.com/repos/${$("owner").value.trim()}/${$("repo").value.trim()}`;
 
 async function gh(method, path, body) {
@@ -146,7 +157,7 @@ async function gh(method, path, body) {
   return r.status === 204 ? null : r.json();
 }
 function explain(e) {
-  if (e.status === 401) return "المفتاح غير صحيح أو انتهت صلاحيته. أنشئ مفتاحاً جديداً (انظر: كيف أحصل على المفتاح؟).";
+  if (e.status === 401) return "المفتاح غير صحيح أو انتهت صلاحيته. اضغط زر «إنشاء مفتاح جديد» بالأسفل.";
   if (e.status === 403) return "المفتاح لا يملك صلاحية الكتابة. تأكد من اختيار Contents: Read and write.";
   if (e.status === 404) return "لم يتم العثور على المستودع، أو أن المفتاح لا يملك صلاحية عليه.";
   if (e.status === 409 || e.status === 422) return "حدث تعارض مؤقت، حاول مرة أخرى.";

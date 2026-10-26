@@ -1,11 +1,11 @@
 {
- "updated": "2026-10-26T03:53Z",
- "total": 329,
+ "updated": "2026-10-26T04:52Z",
+ "total": 348,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 222
+   "count": 238
   },
   {
    "code": "MA",
@@ -13,14 +13,14 @@
    "count": 13
   },
   {
-   "code": "EG",
-   "name": "Egypt",
+   "code": "DZ",
+   "name": "Algeria",
    "count": 11
   },
   {
-   "code": "DZ",
-   "name": "Algeria",
-   "count": 8
+   "code": "EG",
+   "name": "Egypt",
+   "count": 11
   },
   {
    "code": "SN",

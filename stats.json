@@ -1,17 +1,17 @@
 {
- "updated": "2026-10-26T20:52Z",
- "total": 692,
- "last28": 692,
+ "updated": "2026-10-26T21:48Z",
+ "total": 706,
+ "last28": 706,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 475
+   "count": 482
   },
   {
    "code": "ID",
    "name": "Indonesia",
-   "count": 33
+   "count": 37
   },
   {
    "code": "EG",
@@ -44,6 +44,11 @@
    "count": 10
   },
   {
+   "code": "NG",
+   "name": "Nigeria",
+   "count": 7
+  },
+  {
    "code": "NL",
    "name": "Netherlands",
    "count": 7
@@ -52,11 +57,6 @@
    "code": "US",
    "name": "United States",
    "count": 7
-  },
-  {
-   "code": "NG",
-   "name": "Nigeria",
-   "count": 6
   },
   {
    "code": "FR",
@@ -114,6 +114,11 @@
    "count": 3
   },
   {
+   "code": "CG",
+   "name": "Congo Republic",
+   "count": 2
+  },
+  {
    "code": "GH",
    "name": "Ghana",
    "count": 2
@@ -139,6 +144,11 @@
    "count": 2
   },
   {
+   "code": "YE",
+   "name": "Yemen",
+   "count": 2
+  },
+  {
    "code": "BF",
    "name": "Burkina Faso",
    "count": 1
@@ -151,11 +161,6 @@
   {
    "code": "CA",
    "name": "Canada",
-   "count": 1
-  },
-  {
-   "code": "CG",
-   "name": "Congo Republic",
    "count": 1
   },
   {
@@ -181,11 +186,6 @@
   {
    "code": "TR",
    "name": "Turkey",
-   "count": 1
-  },
-  {
-   "code": "YE",
-   "name": "Yemen",
    "count": 1
   }
  ]

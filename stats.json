@@ -1,12 +1,22 @@
 {
- "updated": "2026-10-26T10:55Z",
- "total": 493,
- "last28": 493,
+ "updated": "2026-10-26T13:34Z",
+ "total": 551,
+ "last28": 551,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 348
+   "count": 380
+  },
+  {
+   "code": "EG",
+   "name": "Egypt",
+   "count": 19
+  },
+  {
+   "code": "AF",
+   "name": "Afghanistan",
+   "count": 17
   },
   {
    "code": "DZ",
@@ -16,22 +26,12 @@
   {
    "code": "MA",
    "name": "Morocco",
-   "count": 16
-  },
-  {
-   "code": "EG",
-   "name": "Egypt",
-   "count": 13
+   "count": 17
   },
   {
    "code": "ID",
    "name": "Indonesia",
-   "count": 9
-  },
-  {
-   "code": "AF",
-   "name": "Afghanistan",
-   "count": 8
+   "count": 15
   },
   {
    "code": "NL",
@@ -41,6 +41,11 @@
   {
    "code": "SN",
    "name": "Senegal",
+   "count": 7
+  },
+  {
+   "code": "US",
+   "name": "United States",
    "count": 7
   },
   {
@@ -69,11 +74,6 @@
    "count": 5
   },
   {
-   "code": "US",
-   "name": "United States",
-   "count": 5
-  },
-  {
    "code": "GM",
    "name": "Gambia",
    "count": 4
@@ -81,6 +81,11 @@
   {
    "code": "PL",
    "name": "Poland",
+   "count": 4
+  },
+  {
+   "code": "QA",
+   "name": "Qatar",
    "count": 4
   },
   {
@@ -94,11 +99,6 @@
    "count": 3
   },
   {
-   "code": "QA",
-   "name": "Qatar",
-   "count": 3
-  },
-  {
    "code": "SD",
    "name": "Sudan",
    "count": 3
@@ -106,6 +106,11 @@
   {
    "code": "GH",
    "name": "Ghana",
+   "count": 2
+  },
+  {
+   "code": "IQ",
+   "name": "Iraq",
    "count": 2
   },
   {
@@ -146,11 +151,6 @@
   {
    "code": "DE",
    "name": "Germany",
-   "count": 1
-  },
-  {
-   "code": "IQ",
-   "name": "Iraq",
    "count": 1
   },
   {

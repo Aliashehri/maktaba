@@ -1,21 +1,21 @@
 {
- "updated": "2026-10-26T05:51Z",
- "total": 361,
+ "updated": "2026-10-26T07:09Z",
+ "total": 402,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 249
+   "count": 281
+  },
+  {
+   "code": "DZ",
+   "name": "Algeria",
+   "count": 17
   },
   {
    "code": "MA",
    "name": "Morocco",
    "count": 13
-  },
-  {
-   "code": "DZ",
-   "name": "Algeria",
-   "count": 11
   },
   {
    "code": "EG",
@@ -43,8 +43,18 @@
    "count": 5
   },
   {
+   "code": "NE",
+   "name": "Niger",
+   "count": 5
+  },
+  {
    "code": "NL",
    "name": "Netherlands",
+   "count": 5
+  },
+  {
+   "code": "SO",
+   "name": "Somalia",
    "count": 5
   },
   {
@@ -58,18 +68,8 @@
    "count": 4
   },
   {
-   "code": "NE",
-   "name": "Niger",
-   "count": 4
-  },
-  {
    "code": "PL",
    "name": "Poland",
-   "count": 4
-  },
-  {
-   "code": "SO",
-   "name": "Somalia",
    "count": 4
   },
   {
@@ -105,6 +105,11 @@
   {
    "code": "QA",
    "name": "Qatar",
+   "count": 2
+  },
+  {
+   "code": "US",
+   "name": "United States",
    "count": 2
   },
   {
@@ -150,11 +155,6 @@
   {
    "code": "TR",
    "name": "Turkey",
-   "count": 1
-  },
-  {
-   "code": "US",
-   "name": "United States",
    "count": 1
   },
   {

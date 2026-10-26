@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex,nofollow">
 <title>إدارة المكتبة</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232b2419'/%3E%3Cpath d='M14 18c7-3 13-2 18 2v28c-5-4-11-5-18-2zM50 18c-7-3-13-2-18 2v28c5-4 11-5 18-2z' fill='%23c9a961'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/style.css?v=15">
+<link rel="stylesheet" href="assets/style.css?v=17">
 </head>
 <body class="admin">
 <div class="adm">
@@ -99,6 +99,7 @@
     <label class="field"><span>اسم المؤلف <small>يظهر تحت العنوان بلون ذهبي.</small></span><input class="input" id="sAuthor"></label>
     <label class="field"><span>الوصف تحت العنوان</span><input class="input" id="sSub"></label>
     <label class="field"><span>تاريخ الإعداد <small>يظهر أسفل الصفحة الرئيسية بالهجري والميلادي.</small></span><input class="input" id="sDate" type="date" dir="ltr" style="max-width:240px"></label>
+    <label class="field"><span>رقم واتساب للتواصل <small>مثال: 05xxxxxxxx — يظهر زر واتساب في الصفحة الرئيسية. اتركه فارغاً لإخفائه.</small></span><input class="input" id="sWa" dir="ltr" inputmode="tel" placeholder="05xxxxxxxx" style="max-width:280px"></label>
     <label class="field"><span>رمز عدّاد الزوار (GoatCounter) <small>مثال: almajmoaa — اتركه فارغاً لإخفاء العدادات.</small></span><input class="input" id="sCounter" dir="ltr" placeholder="almajmoaa" style="max-width:280px"></label>
     <label class="check"><input type="checkbox" id="sDl"> السماح للقرّاء بتحميل الكتب (يظهر زر تحميل في صفحة القراءة)</label>
     <button class="btn" id="saveSite">حفظ الإعدادات</button>
@@ -106,7 +107,7 @@
   </section>
 </div>
 
-<script src="assets/common.js?v=15"></script>
+<script src="assets/common.js?v=17"></script>
 <script type="module">
 import * as pdfjs from "./lib/pdf.min.mjs";
 pdfjs.GlobalWorkerOptions.workerSrc = "lib/pdf.worker.min.mjs";
@@ -216,7 +217,7 @@ async function loadLib() {
   } catch (e) {}
   fillCats();
   render(extra);
-  $("sTitle").value = lib.site.title || ""; $("sAuthor").value = lib.site.author || ""; $("sCounter").value = lib.site.counter || ""; $("sSub").value = lib.site.subtitle || ""; $("sDl").checked = !!lib.site.allowDownload; $("sDate").value = lib.site.preparedDate || "";
+  $("sTitle").value = lib.site.title || ""; $("sAuthor").value = lib.site.author || ""; $("sCounter").value = lib.site.counter || ""; $("sSub").value = lib.site.subtitle || ""; $("sDl").checked = !!lib.site.allowDownload; $("sDate").value = lib.site.preparedDate || ""; $("sWa").value = lib.site.whatsapp || "";
 }
 function catList() {
   const c = [...(lib.site.categories || [])];
@@ -427,7 +428,7 @@ $("publish").onclick = async () => {
 
 // ===== إعدادات الموقع =====
 $("saveSite").onclick = () => run("siteStatus", async () => {
-  lib.site.title = $("sTitle").value.trim(); lib.site.author = $("sAuthor").value.trim(); lib.site.counter = $("sCounter").value.trim().toLowerCase(); lib.site.subtitle = $("sSub").value.trim(); lib.site.allowDownload = $("sDl").checked; lib.site.preparedDate = $("sDate").value;
+  lib.site.title = $("sTitle").value.trim(); lib.site.author = $("sAuthor").value.trim(); lib.site.counter = $("sCounter").value.trim().toLowerCase(); lib.site.subtitle = $("sSub").value.trim(); lib.site.allowDownload = $("sDl").checked; lib.site.preparedDate = $("sDate").value; lib.site.whatsapp = $("sWa").value.replace(/[^0-9+]/g, "");
   await saveLib("تعديل إعدادات الموقع");
 }, "تم حفظ الإعدادات ✓");
 

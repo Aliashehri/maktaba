@@ -22,6 +22,14 @@ try:
 except Exception as e:
     print("total:", e)
 
+last28 = 0
+try:
+    s28 = (datetime.date.today() - datetime.timedelta(days=27)).isoformat()
+    t = get(f"stats/total?start={s28}&end={end}")
+    last28 = int(t.get("total_unique") or t.get("total") or 0)
+except Exception as e:
+    print("last28:", e)
+
 countries = []
 try:
     loc = get(f"stats/locations?{qs}&limit=50")
@@ -37,7 +45,7 @@ except Exception as e:
 merged = {}
 for c in countries:
     m = merged.setdefault(c["code"], {"code": c["code"], "name": c["name"], "count": 0}); m["count"] += c["count"]
-out = {"updated": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "total": total,
+out = {"updated": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%MZ"), "total": total, "last28": last28,
        "countries": sorted(merged.values(), key=lambda x: -x["count"])}
 old = None
 try: old = json.load(open("stats.json", encoding="utf-8"))

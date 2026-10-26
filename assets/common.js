@@ -104,7 +104,7 @@
       });
   }
   // قراءة العدد العام لمسار (أو TOTAL لكل الموقع)
-  async function hits(code, path) {
+  async function hits(code, path, from) {
     const base = gcBase(code); if (!base) return null;
     try {
       // نحدد فترة زمنية (من بداية المكتبة إلى الغد) لأن الرابط بدونها يُرجع نسخة مؤقتة قديمة
@@ -113,8 +113,11 @@
       // تاريخ البداية يتغيّر كل 10 دقائق (قبل إنشاء المكتبة دائماً) فلا يُرجع GoatCounter نسخة محفوظة قديمة
       const slot = Math.floor(Date.now() / 600000) % 700;
       const start = new Date(Date.UTC(2026, 0, 1) - slot * 86400000).toISOString().slice(0, 10);
-      let r = await fetch(url + "?start=" + start + "&end=" + end, { cache: "no-store" });
-      if (!r.ok && r.status !== 404) r = await fetch(url + "?start=2026-01-01", { cache: "no-store" });
+      let q = "?start=" + start + "&end=" + end;
+      // فترة محددة (مثل آخر 28 يوماً): نغيّر تاريخ النهاية المستقبلي كل 10 دقائق لنفس السبب
+      if (from) q = "?start=" + from + "&end=" + new Date(Date.now() + (1 + slot) * 86400000).toISOString().slice(0, 10);
+      let r = await fetch(url + q, { cache: "no-store" });
+      if (!r.ok && r.status !== 404) r = await fetch(url + "?start=" + (from || "2026-01-01"), { cache: "no-store" });
       if (r.status === 404) return 0;
       if (!r.ok) return null;
       const j = await r.json();

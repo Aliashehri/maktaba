@@ -267,6 +267,31 @@ select.input{appearance:auto}
   .st-mini{flex-direction:row;gap:18px;padding-inline-start:0;border-inline-start:0;border-top:1px solid rgba(255,255,255,.1);padding-top:12px}
 }
 @media (max-width:420px){.st-countries li{grid-template-columns:118px 1fr 40px;font-size:13px}}
+/* عدادان: منذ الإطلاق + آخر 28 يوماً */
+.st-vis{display:flex;align-items:stretch;gap:22px}
+.st-v2{padding-inline-start:22px;border-inline-start:1px solid rgba(255,255,255,.14)}
+.st-v2 .st-big b{font-size:clamp(30px,3.6vw,40px);color:var(--gold-2)}
+.st-v2 .st-big span{font-size:15px;color:#f3ead6;opacity:.8}
+.st-v2 .st-lbl{display:flex;align-items:center;gap:6px}
+.st-v2 .st-lbl::before{content:"";width:7px;height:7px;border-radius:50%;background:#5fd38a;box-shadow:0 0 0 3px rgba(95,211,138,.2)}
+.st-v{display:flex;flex-direction:column;justify-content:flex-end}
+@media (max-width:420px){
+  .st-main{align-items:flex-start}
+  .st-icon{width:46px;height:46px;border-radius:13px}.st-icon svg{width:26px;height:26px}
+  .st-vis{gap:16px}.st-v2{padding-inline-start:16px}
+  .st-big b{font-size:40px}.st-v2 .st-big b{font-size:28px}
+  .st-lbl{font-size:12.5px}
+}
+/* زر واتساب العائم */
+.wa-fab{position:fixed;left:20px;bottom:22px;z-index:40;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:#25d366;color:#fff;text-decoration:none;box-shadow:0 10px 26px rgba(37,211,102,.4),0 4px 10px rgba(0,0,0,.18);transition:transform .2s}
+.wa-fab[hidden]{display:none!important}
+.wa-fab svg{width:32px;height:32px}
+.wa-fab:hover{transform:scale(1.07)}
+.wa-fab::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #25d366;animation:waRing 2.4s ease-out infinite}
+@keyframes waRing{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.55);opacity:0}}
+.wa-tip{position:absolute;left:68px;white-space:nowrap;background:#fff;color:#1f3a2b;font:600 13.5px "Plex",system-ui,sans-serif;padding:7px 12px;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.15);opacity:0;transform:translateX(-6px);transition:.2s;pointer-events:none}
+.wa-fab:hover .wa-tip,.wa-fab:focus-visible .wa-tip{opacity:1;transform:none}
+@media (max-width:600px){.wa-fab{left:14px;bottom:16px;width:54px;height:54px}.wa-tip{display:none}}
 
 /* ===== وضع الكتابة على الصفحة ===== */
 body.ann-open{overflow:hidden}
@@ -309,3 +334,12 @@ body.ann-open{overflow:hidden}
   .ann-done{height:38px;padding:0 14px}
   .ann-pages button{padding:5px 9px;font-size:12px}
 }
+
+.ann-input{position:fixed;left:0;right:0;bottom:0;z-index:45;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:#2a241b;border-top:1px solid rgba(255,255,255,.1);box-shadow:0 -10px 30px rgba(0,0,0,.45);display:flex;flex-direction:column;gap:8px}
+.ann-input[hidden]{display:none!important}
+.ann-input textarea{width:100%;min-height:52px;max-height:30vh;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:#fffdf8;font:600 17px/1.5 "Plex",system-ui,sans-serif;resize:none;outline:none}
+.ann-input-acts{display:flex;gap:8px;justify-content:flex-start}
+.ann-input-acts button{flex:1;height:44px;border-radius:12px;border:0;background:var(--gold);color:#fff;font:700 15px "Plex",system-ui,sans-serif;cursor:pointer}
+.ann-input-acts .ghost{flex:0 0 96px;background:transparent;border:1px solid rgba(255,255,255,.2);color:var(--on-dark)}
+.ann-pin{position:absolute;z-index:3;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px rgba(0,0,0,.25),0 4px 10px rgba(0,0,0,.35);animation:pinPulse 1.2s ease-in-out infinite}
+@keyframes pinPulse{50%{transform:scale(1.25)}}

@@ -7,7 +7,7 @@
 <title>قراءة كتاب</title>
 <meta name="theme-color" content="#221d16">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23a8843f'/%3E%3Cpath d='M14 18c7-3 13-2 18 2v28c-5-4-11-5-18-2zM50 18c-7-3-13-2-18 2v28c5-4 11-5 18-2z' fill='%23fffdf8'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/style.css?v=15">
+<link rel="stylesheet" href="assets/style.css?v=17">
 </head>
 <body class="reader">
 <header class="r-top">
@@ -122,11 +122,15 @@
     </div>
   </div>
   <div class="ann-hint" id="annHint"></div>
+  <div class="ann-input" id="annInput" hidden>
+    <textarea id="annInputTa" rows="2" dir="auto" placeholder="اكتب النص هنا…"></textarea>
+    <div class="ann-input-acts"><button id="annInputCancel" class="ghost">إلغاء</button><button id="annInputAdd">إضافة</button></div>
+  </div>
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="assets/common.js?v=15"></script>
-<script src="lib/page-flip.browser.js?v=15"></script>
+<script src="assets/common.js?v=17"></script>
+<script src="lib/page-flip.browser.js?v=17"></script>
 <script type="module">
 import * as pdfjs from "./lib/pdf.min.mjs";
 pdfjs.GlobalWorkerOptions.workerSrc = "lib/pdf.worker.min.mjs";
@@ -409,7 +413,7 @@ book2.ready(() => { onChange(); $("loader").hidden = true; if (fromLink) toast("
 
 // ===== صوت تقليب الورق =====
 let soundOn = store.get("sound") !== "off", actx = null, flipBuf = null, loading = null;
-const SND = "assets/flip.mp3?v=15";
+const SND = "assets/flip.mp3?v=17";
 const flipData = fetch(SND).then((r) => r.arrayBuffer()).catch(() => null);
 function paintSound() {
   const on = $("sndOn"), off = $("sndOff");
@@ -490,6 +494,7 @@ document.addEventListener("keydown", (e) => {
 // ===== تغيير حجم النافذة / تدوير الجوال =====
 let rt;
 window.addEventListener("resize", () => {
+  if (document.body.classList.contains("ann-open")) return;
   clearTimeout(rt);
   rt = setTimeout(() => {
     const was = landscape; measure();
@@ -644,7 +649,12 @@ function closeAnn() {
   annDirty.forEach((p) => { rendered.delete(p); want(p); }); annDirty.clear();
 }
 $("annBtn").onclick = openAnn; $("annClose").onclick = closeAnn; $("annDone").onclick = closeAnn;
-window.addEventListener("resize", () => { if (!$("ann").hidden) loadAnnPage(annPage); });
+let annLastW = window.innerWidth;
+window.addEventListener("resize", () => {
+  if ($("ann").hidden) return;
+  if (Math.abs(window.innerWidth - annLastW) < 2) return; // تغيّر الارتفاع فقط = ظهور الكيبورد
+  annLastW = window.innerWidth; if (!tbox) loadAnnPage(annPage);
+});
 
 // الرسم والمسح
 const pos = (e) => { const r = ink.getBoundingClientRect(); return [(e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height]; };
@@ -700,8 +710,10 @@ function eraseAt([x, y]) {
 
 // النص
 let tbox = null;
+const coarse = () => matchMedia("(pointer: coarse)").matches || "ontouchstart" in window;
 function openTextBox(e) {
   closeTextBox(true);
+  if (coarse()) return openMobileInput(e);
   const r = $("annSheet").getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
   const ta = document.createElement("textarea"); ta.className = "ann-text"; ta.dir = "auto"; ta.rows = 1; ta.placeholder = "اكتب هنا…";
   const fs = Math.max(13, Math.round(annW * 0.032));
@@ -712,7 +724,34 @@ function openTextBox(e) {
   ta.addEventListener("blur", () => setTimeout(() => { if (tbox && tbox.ta === ta && document.activeElement !== ta) closeTextBox(true); }, 150));
   ta.focus(); requestAnimationFrame(() => ta.focus());
 }
+
+// إدخال النص على الجوال: لوحة ثابتة فوق الكيبورد + علامة لمكان النص
+let mpin = null;
+function placeInputAboveKeyboard() {
+  const vv = window.visualViewport, box = $("annInput");
+  if (!vv) return; box.style.bottom = Math.max(0, window.innerHeight - vv.height - vv.offsetTop) + "px";
+}
+if (window.visualViewport) { visualViewport.addEventListener("resize", placeInputAboveKeyboard); visualViewport.addEventListener("scroll", placeInputAboveKeyboard); }
+function openMobileInput(e) {
+  const r = $("annSheet").getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
+  mpin = { x: x / r.width, y: y / r.height, color: annColor, s: Math.max(13, Math.round(annW * 0.032)) / annW };
+  let pin = $("annPin"); if (!pin) { pin = document.createElement("div"); pin.id = "annPin"; pin.className = "ann-pin"; $("annSheet").appendChild(pin); }
+  Object.assign(pin.style, { left: x + "px", top: y + "px", background: annColor }); pin.hidden = false;
+  const ta = $("annInputTa"); ta.value = ""; ta.style.color = annColor;
+  $("annInput").hidden = false; placeInputAboveKeyboard();
+  ta.focus();
+}
+function closeMobileInput(save) {
+  if (!mpin) return; const t = mpin; mpin = null;
+  const v = $("annInputTa").value.trim(); $("annInputTa").blur();
+  $("annInput").hidden = true; const pin = $("annPin"); if (pin) pin.hidden = true;
+  if (save && v) { const l = (annAll[annPage] || []).slice(); l.push({ t: "x", c: t.color, x: +t.x.toFixed(4), y: +t.y.toFixed(4), s: +t.s.toFixed(4), v }); commit(l); hint("تمت إضافة النص"); }
+}
+$("annInputAdd").addEventListener("click", () => closeMobileInput(true));
+$("annInputCancel").addEventListener("click", () => closeMobileInput(false));
+$("annInputTa").addEventListener("keydown", (k) => { if (k.key === "Enter" && !k.shiftKey) { k.preventDefault(); closeMobileInput(true); } });
 function closeTextBox(save) {
+  if (mpin) closeMobileInput(save);
   if (!tbox) return; const t = tbox; tbox = null;
   const v = t.ta.value.trim(); t.ta.remove();
   if (save && v) { const l = (annAll[annPage] || []).slice(); l.push({ t: "x", c: t.color, x: +t.x.toFixed(4), y: +t.y.toFixed(4), s: +t.s.toFixed(4), v }); commit(l); }

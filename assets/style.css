@@ -378,3 +378,28 @@ body.ann-open{overflow:hidden}
   .st-big span,.st-v2 .st-big span{font-size:13px}
   .st-countries li{grid-template-columns:minmax(0,10em) 1fr 34px;gap:8px;font-size:12.5px}
 }
+
+/* حقوق التصميم أسفل الصفحة */
+.lib-foot{padding-bottom:22px}
+.credit{text-align:center;font-size:13px;color:var(--muted);padding:12px 16px 34px;max-width:1180px;margin:0 auto}
+.credit b{font-weight:600;color:var(--ink)}
+.credit .sep{margin:0 8px;color:var(--gold);opacity:.7}
+.credit a{color:var(--gold);text-decoration:none;font-weight:600;font-family:"Plex",system-ui,sans-serif;letter-spacing:.3px}
+.credit a:hover{text-decoration:underline}
+@media (max-width:420px){.credit .sep{display:block;height:0;overflow:hidden;margin:0}}
+
+/* مربع النص القابل للتحريك والتكبير */
+.ann-ebox{position:absolute;z-index:4;padding:8px;border:2px dashed var(--c,#c0392b);border-radius:10px;background:rgba(255,255,255,.55);touch-action:none;cursor:move;user-select:none;-webkit-user-select:none;box-shadow:0 6px 20px rgba(0,0,0,.18)}
+.ann-ebox.moving{box-shadow:0 12px 30px rgba(0,0,0,.28);background:rgba(255,255,255,.7)}
+.ann-etext{white-space:pre;direction:rtl;text-align:right;font-family:"Plex",system-ui,sans-serif;font-weight:600;line-height:1.35;pointer-events:none;
+  text-shadow:0 0 2px #fff,0 0 3px #fff,1px 1px 2px #fff,-1px -1px 2px #fff}
+.ann-ebox .eb{position:absolute;width:30px;height:30px;border-radius:50%;border:2px solid #fff;display:grid;place-items:center;padding:0;cursor:pointer;
+  font:700 15px/1 system-ui,sans-serif;color:#fff;box-shadow:0 3px 10px rgba(0,0,0,.3)}
+.ann-ebox .eb::before{content:"";position:absolute;inset:-8px}
+.ann-ebox .eb-x{top:-16px;left:-16px;background:#c0392b}
+.ann-ebox .eb-ok{top:-16px;right:-16px;background:#1f8a4c;font-size:17px}
+.ann-ebox .eb-ed{bottom:-16px;right:-16px;background:#3a3022;font-size:15px}
+.ann-ebox .eb-rs{position:absolute;bottom:-14px;left:-14px;width:28px;height:28px;border-radius:50%;background:var(--c,#c0392b);border:2px solid #fff;cursor:nesw-resize;box-shadow:0 3px 10px rgba(0,0,0,.3)}
+.ann-ebox .eb-rs::before{content:"";position:absolute;inset:-10px}
+.ann-ebox .eb-rs::after{content:"";position:absolute;inset:7px;border-left:2px solid #fff;border-bottom:2px solid #fff}
+@media (pointer:coarse){.ann-ebox .eb{width:34px;height:34px;font-size:17px}.ann-ebox .eb-x,.ann-ebox .eb-ok{top:-18px}.ann-ebox .eb-x{left:-18px}.ann-ebox .eb-ok{right:-18px}}

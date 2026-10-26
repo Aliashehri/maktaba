@@ -7,7 +7,7 @@
 <title>قراءة كتاب</title>
 <meta name="theme-color" content="#221d16">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23a8843f'/%3E%3Cpath d='M14 18c7-3 13-2 18 2v28c-5-4-11-5-18-2zM50 18c-7-3-13-2-18 2v28c5-4 11-5 18-2z' fill='%23fffdf8'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/style.css?v=19">
+<link rel="stylesheet" href="assets/style.css?v=21">
 </head>
 <body class="reader">
 <header class="r-top">
@@ -129,8 +129,8 @@
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="assets/common.js?v=19"></script>
-<script src="lib/page-flip.browser.js?v=19"></script>
+<script src="assets/common.js?v=21"></script>
+<script src="lib/page-flip.browser.js?v=21"></script>
 <script type="module">
 import * as pdfjs from "./lib/pdf.min.mjs";
 pdfjs.GlobalWorkerOptions.workerSrc = "lib/pdf.worker.min.mjs";
@@ -413,7 +413,7 @@ book2.ready(() => { onChange(); $("loader").hidden = true; if (fromLink) toast("
 
 // ===== صوت تقليب الورق =====
 let soundOn = store.get("sound") !== "off", actx = null, flipBuf = null, loading = null;
-const SND = "assets/flip.mp3?v=19";
+const SND = "assets/flip.mp3?v=21";
 const flipData = fetch(SND).then((r) => r.arrayBuffer()).catch(() => null);
 function paintSound() {
   const on = $("sndOn"), off = $("sndOff");
@@ -596,14 +596,14 @@ let annPage = 1, annTool = "pen", annColor = COLORS[1], annUndo = [], annDirty =
 const ink = $("annInk"), base = $("annBase"), ictx = ink.getContext("2d");
 COLORS.forEach((c) => {
   const b = document.createElement("button"); b.className = "dot" + (c === annColor ? " on" : ""); b.style.setProperty("--c", c);
-  b.setAttribute("aria-label", "لون"); b.onclick = () => { if (tbox) { tbox.color = c; tbox.ta.style.color = c; } annColor = c; document.querySelectorAll("#annColors .dot").forEach((d) => d.classList.toggle("on", d === b)); if (annTool === "eraser") setTool("pen"); };
+  b.setAttribute("aria-label", "لون"); b.onclick = () => { if (ebox) { ebox.it.c = c; layoutBox(); } annColor = c; document.querySelectorAll("#annColors .dot").forEach((d) => d.classList.toggle("on", d === b)); if (annTool === "eraser") setTool("pen"); };
   $("annColors").appendChild(b);
 });
 function hint(t) { const h = $("annHint"); h.textContent = t; h.classList.add("show"); clearTimeout(hint._t); hint._t = setTimeout(() => h.classList.remove("show"), 2200); }
 function setTool(t) {
   closeTextBox(true); annTool = t; document.querySelectorAll(".ann-bar .tool[data-tool]").forEach((b) => b.classList.toggle("on", b.dataset.tool === t));
   $("annSheet").dataset.tool = t;
-  if (t === "text") hint("اضغط على المكان الذي تريد الكتابة فيه");
+  if (t === "text") hint("اضغط مكاناً فارغاً لإضافة نص، أو اضغط على نص لتعديله");
   if (t === "eraser") hint("مرّر الممحاة على الكتابة لمسحها");
 }
 document.querySelectorAll(".ann-bar .tool[data-tool]").forEach((b) => b.onclick = (e) => {
@@ -625,7 +625,7 @@ function commit(list) { annUndo.push((annAll[annPage] || []).slice()); annAll[an
 $("annUndo").onclick = () => { closeTextBox(true); if (!annUndo.length) return hint("لا يوجد ما يمكن التراجع عنه"); annAll[annPage] = annUndo.pop(); annDirty.add(annPage); annSave(); redrawInk(); };
 
 async function loadAnnPage(p) {
-  annPage = p; annUndo = []; closeTextBox(false);
+  closeTextBox(); annPage = p; annUndo = [];
   $("annTitle").textContent = book.title + " — صفحة " + ar(p);
   document.querySelectorAll("#annPages button").forEach((b) => b.classList.toggle("on", +b.dataset.p === p));
   const st = $("annStage"), maxW = st.clientWidth - 24, maxH = st.clientHeight - 24;
@@ -653,7 +653,7 @@ let annLastW = window.innerWidth;
 window.addEventListener("resize", () => {
   if ($("ann").hidden) return;
   if (Math.abs(window.innerWidth - annLastW) < 2) return; // تغيّر الارتفاع فقط = ظهور الكيبورد
-  annLastW = window.innerWidth; if (!tbox) loadAnnPage(annPage);
+  annLastW = window.innerWidth; if (!ebox && !inputCb) loadAnnPage(annPage);
 });
 
 // الرسم والمسح
@@ -661,7 +661,7 @@ const pos = (e) => { const r = ink.getBoundingClientRect(); return [(e.clientX -
 let drawing = null;
 ink.addEventListener("pointerdown", (e) => {
   if (e.button > 0) return; e.preventDefault();
-  if (annTool === "text") return openTextBox(e);
+  if (annTool === "text") return textTap(e);
   ink.setPointerCapture(e.pointerId);
   if (annTool === "pen") { drawing = { t: "s", c: annColor, w: 0.006, p: [pos(e)] }; }
   else { lastErase = null; drawing = { erase: true, before: (annAll[annPage] || []).slice(), changed: false }; eraseAt(pos(e)); }
@@ -694,7 +694,7 @@ function hitItem(it, x, y, R) {
     for (let i = 1; i < it.p.length; i++) if (segDist(x, y, it.p[i - 1][0], it.p[i - 1][1], it.p[i][0], it.p[i][1]) < R + it.w) return true;
     return false;
   }
-  const lines = String(it.v).split("\n"), wid = Math.max(...lines.map((l) => l.length)) * it.s * 0.55, hei = lines.length * it.s * 1.35 * RATIO;
+  const lines = String(it.v).split("\n"), wid = textK(it) * it.s, hei = lines.length * it.s * 1.35 * RATIO;
   return x <= it.x + R && x >= it.x - wid - R && y >= it.y - R && y <= it.y + hei + R;
 }
 let lastErase = null;
@@ -708,54 +708,110 @@ function eraseAt([x, y]) {
   if (keep.length !== list.length) { annAll[annPage] = keep; drawing.changed = true; redrawInk(); }
 }
 
-// النص
-let tbox = null;
-const coarse = () => matchMedia("(pointer: coarse)").matches || "ontouchstart" in window;
-function openTextBox(e) {
-  closeTextBox(true);
-  if (coarse()) return openMobileInput(e);
-  const r = $("annSheet").getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
-  const ta = document.createElement("textarea"); ta.className = "ann-text"; ta.dir = "auto"; ta.rows = 1; ta.placeholder = "اكتب هنا…";
-  const fs = Math.max(13, Math.round(annW * 0.032));
-  Object.assign(ta.style, { right: Math.max(0, r.width - x) + "px", top: y + "px", color: annColor, fontSize: fs + "px", maxWidth: Math.max(120, x - 4) + "px" });
-  ta.addEventListener("input", () => { ta.style.height = "auto"; ta.style.height = ta.scrollHeight + "px"; });
-  ta.addEventListener("keydown", (k) => { if (k.key === "Escape") closeTextBox(false); if (k.key === "Enter" && !k.shiftKey) { k.preventDefault(); closeTextBox(true); } });
-  $("annSheet").appendChild(ta); tbox = { ta, x: x / r.width, y: y / r.height, color: annColor, s: fs / annW };
-  ta.addEventListener("blur", () => setTimeout(() => { if (tbox && tbox.ta === ta && document.activeElement !== ta) closeTextBox(true); }, 150));
-  ta.focus(); requestAnimationFrame(() => ta.focus());
+// ===== النص: نكتبه أولاً، ثم يظهر مربعاً يُحرَّك ويُكبَّر ويُحذف =====
+let ebox = null, inputCb = null;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+function textK(it) { // عرض النص نسبةً لحجم الخط
+  ictx.save(); ictx.font = '600 100px "Plex", system-ui, sans-serif';
+  const k = Math.max(...String(it.v).split("\n").map((l) => ictx.measureText(l).width)) / 100; ictx.restore(); return k || 0.5;
 }
-
-// إدخال النص على الجوال: لوحة ثابتة فوق الكيبورد + علامة لمكان النص
-let mpin = null;
 function placeInputAboveKeyboard() {
   const vv = window.visualViewport, box = $("annInput");
   if (!vv) return; box.style.bottom = Math.max(0, window.innerHeight - vv.height - vv.offsetTop) + "px";
 }
 if (window.visualViewport) { visualViewport.addEventListener("resize", placeInputAboveKeyboard); visualViewport.addEventListener("scroll", placeInputAboveKeyboard); }
-function openMobileInput(e) {
-  const r = $("annSheet").getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top;
-  mpin = { x: x / r.width, y: y / r.height, color: annColor, s: Math.max(13, Math.round(annW * 0.032)) / annW };
+function showPin(x, y) {
   let pin = $("annPin"); if (!pin) { pin = document.createElement("div"); pin.id = "annPin"; pin.className = "ann-pin"; $("annSheet").appendChild(pin); }
-  Object.assign(pin.style, { left: x + "px", top: y + "px", background: annColor }); pin.hidden = false;
-  const ta = $("annInputTa"); ta.value = ""; ta.style.color = annColor;
-  $("annInput").hidden = false; placeInputAboveKeyboard();
-  ta.focus();
+  Object.assign(pin.style, { left: x * annW + "px", top: y * annH + "px", background: annColor }); pin.hidden = false;
 }
-function closeMobileInput(save) {
-  if (!mpin) return; const t = mpin; mpin = null;
-  const v = $("annInputTa").value.trim(); $("annInputTa").blur();
+function openInput(val, cb) {
+  inputCb = cb; const ta = $("annInputTa"); ta.value = val || ""; ta.style.color = ebox ? ebox.it.c : annColor;
+  $("annInputAdd").textContent = val ? "حفظ" : "إضافة";
+  $("annInput").hidden = false; placeInputAboveKeyboard(); ta.focus();
+}
+function closeInput(ok) {
+  if (!inputCb) return; const cb = inputCb; inputCb = null;
+  const ta = $("annInputTa"), v = ta.value.trim(); ta.blur();
   $("annInput").hidden = true; const pin = $("annPin"); if (pin) pin.hidden = true;
-  if (save && v) { const l = (annAll[annPage] || []).slice(); l.push({ t: "x", c: t.color, x: +t.x.toFixed(4), y: +t.y.toFixed(4), s: +t.s.toFixed(4), v }); commit(l); hint("تمت إضافة النص"); }
+  cb(ok ? v : null);
 }
-$("annInputAdd").addEventListener("click", () => closeMobileInput(true));
-$("annInputCancel").addEventListener("click", () => closeMobileInput(false));
-$("annInputTa").addEventListener("keydown", (k) => { if (k.key === "Enter" && !k.shiftKey) { k.preventDefault(); closeMobileInput(true); } });
-function closeTextBox(save) {
-  if (mpin) closeMobileInput(save);
-  if (!tbox) return; const t = tbox; tbox = null;
-  const v = t.ta.value.trim(); t.ta.remove();
-  if (save && v) { const l = (annAll[annPage] || []).slice(); l.push({ t: "x", c: t.color, x: +t.x.toFixed(4), y: +t.y.toFixed(4), s: +t.s.toFixed(4), v }); commit(l); }
+$("annInputAdd").addEventListener("click", () => closeInput(true));
+$("annInputCancel").addEventListener("click", () => closeInput(false));
+$("annInputTa").addEventListener("keydown", (k) => {
+  if (k.key === "Enter" && !k.shiftKey) { k.preventDefault(); closeInput(true); }
+  if (k.key === "Escape") { k.stopPropagation(); closeInput(false); }
+});
+// ضغطة على الصفحة بأداة النص
+function textTap(e) {
+  const [x, y] = pos(e);
+  if (inputCb) { if (!ebox) showPin(x, y); return; }
+  if (ebox) return finishEdit(true);
+  const list = annAll[annPage] || [];
+  for (let i = list.length - 1; i >= 0; i--) if (list[i].t === "x" && hitItem(list[i], x, y, 0.012)) return openEdit(i);
+  showPin(x, y);
+  const at = { x, y };
+  openInput("", (v) => {
+    if (!v) return;
+    const pin = $("annPin"); if (pin && pin.style.left) { at.x = parseFloat(pin.style.left) / annW; at.y = parseFloat(pin.style.top) / annH; }
+    const it = { t: "x", c: annColor, x: at.x, y: at.y, s: Math.max(13, Math.round(annW * 0.032)) / annW, v };
+    it.x = clamp(it.x, Math.min(1, textK(it) * it.s + 0.02), 1);
+    openEditItem(it, (annAll[annPage] || []).slice(), true);
+  });
 }
+function openEdit(i) {
+  const list = annAll[annPage] || [], before = list.slice(), it = { ...list[i] };
+  annAll[annPage] = list.filter((_, j) => j !== i); redrawInk();
+  openEditItem(it, before, false);
+}
+function openEditItem(it, before, isNew) {
+  const el = document.createElement("div"); el.className = "ann-ebox";
+  el.innerHTML = '<div class="ann-etext"></div>' +
+    '<button class="eb eb-x" aria-label="حذف النص" title="حذف">✕</button>' +
+    '<button class="eb eb-ok" aria-label="تم" title="تم">✓</button>' +
+    '<button class="eb eb-ed" aria-label="تعديل النص" title="تعديل النص">✎</button>' +
+    '<span class="eb-rs" aria-label="تكبير وتصغير" title="اسحب للتكبير والتصغير"></span>';
+  $("annSheet").appendChild(el);
+  ebox = { el, it, before, page: annPage, t0: performance.now() };
+  const fresh = () => !ebox || performance.now() - ebox.t0 < 450; // تجاهل نفس الضغطة التي فتحت المربع
+  layoutBox();
+  el.querySelector(".eb-x").onclick = (e) => { e.stopPropagation(); if (!fresh()) finishEdit(false); };
+  el.querySelector(".eb-ok").onclick = (e) => { e.stopPropagation(); if (!fresh()) finishEdit(true); };
+  el.querySelector(".eb-ed").onclick = (e) => { e.stopPropagation(); if (fresh()) return; openInput(it.v, (v) => { if (v && ebox) { ebox.it.v = v; layoutBox(); } }); };
+  el.addEventListener("pointerdown", (ev) => {
+    if (ev.target.closest("button")) return;
+    ev.preventDefault(); ev.stopPropagation(); el.setPointerCapture(ev.pointerId);
+    const rs = ev.target.classList.contains("eb-rs"), r = $("annSheet").getBoundingClientRect();
+    const st = { cx: ev.clientX, cy: ev.clientY, x: it.x, y: it.y, s: it.s, ax: r.left + it.x * r.width, ay: r.top + it.y * r.height };
+    st.d = Math.max(8, Math.hypot(ev.clientX - st.ax, ev.clientY - st.ay));
+    el.classList.add(rs ? "sizing" : "moving");
+    const mv = (m) => {
+      if (rs) it.s = clamp(st.s * Math.hypot(m.clientX - st.ax, m.clientY - st.ay) / st.d, 0.012, 0.16);
+      else { it.x = clamp(st.x + (m.clientX - st.cx) / r.width, 0.03, 1); it.y = clamp(st.y + (m.clientY - st.cy) / r.height, 0, 0.97); }
+      layoutBox();
+    };
+    const up = () => { el.classList.remove("sizing", "moving"); el.removeEventListener("pointermove", mv); el.removeEventListener("pointerup", up); el.removeEventListener("pointercancel", up); };
+    el.addEventListener("pointermove", mv); el.addEventListener("pointerup", up); el.addEventListener("pointercancel", up);
+  });
+  hint(isNew ? "اسحب النص لتحريكه، والزاوية لتكبيره، ثم اضغط ✓" : "حرّك النص أو كبّره، ثم اضغط ✓");
+}
+function layoutBox() {
+  if (!ebox) return; const { el, it } = ebox, fs = it.s * annW, t = el.querySelector(".ann-etext");
+  t.textContent = it.v; t.style.fontSize = fs + "px"; t.style.color = it.c;
+  el.style.setProperty("--c", it.c);
+  el.style.right = (1 - it.x) * annW + "px"; el.style.top = it.y * annH + "px";
+  el.style.marginTop = -(8 + fs * 0.175) + "px"; el.style.marginRight = "-8px";
+}
+function finishEdit(save) {
+  if (!ebox) return; const b = ebox; ebox = null; b.el.remove();
+  if (inputCb) { inputCb = null; $("annInput").hidden = true; $("annInputTa").blur(); }
+  let list = (annAll[b.page] || []).slice();
+  const it = b.it;
+  if (save && it.v) list.push({ t: "x", c: it.c, x: +it.x.toFixed(4), y: +it.y.toFixed(4), s: +it.s.toFixed(4), v: it.v });
+  annAll[b.page] = list;
+  if (JSON.stringify(list) !== JSON.stringify(b.before)) { if (b.page === annPage) annUndo.push(b.before); annDirty.add(b.page); annSave(); hint(save ? "تم حفظ النص" : "تم حذف النص"); }
+  if (b.page === annPage) redrawInk();
+}
+function closeTextBox() { closeInput(false); finishEdit(true); }
 
 // ===== التكبير =====
 let zLevel = 1, zPages = [];

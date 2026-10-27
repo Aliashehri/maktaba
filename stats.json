@@ -1,12 +1,12 @@
 {
- "updated": "2026-10-27T16:59Z",
- "total": 918,
- "last28": 918,
+ "updated": "2026-10-27T17:57Z",
+ "total": 922,
+ "last28": 922,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 624
+   "count": 625
   },
   {
    "code": "ID",
@@ -41,7 +41,7 @@
   {
    "code": "SD",
    "name": "Sudan",
-   "count": 13
+   "count": 14
   },
   {
    "code": "SN",
@@ -151,6 +151,11 @@
   {
    "code": "MY",
    "name": "Malaysia",
+   "count": 2
+  },
+  {
+   "code": "PK",
+   "name": "Pakistan",
    "count": 2
   },
   {

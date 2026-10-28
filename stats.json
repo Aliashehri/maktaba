@@ -1,12 +1,12 @@
 {
- "updated": "2026-10-28T10:59Z",
- "total": 1060,
- "last28": 1060,
+ "updated": "2026-10-28T11:57Z",
+ "total": 1076,
+ "last28": 1076,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 723
+   "count": 733
   },
   {
    "code": "ID",
@@ -41,7 +41,7 @@
   {
    "code": "SD",
    "name": "Sudan",
-   "count": 15
+   "count": 17
   },
   {
    "code": "AE",
@@ -89,6 +89,11 @@
    "count": 5
   },
   {
+   "code": "ML",
+   "name": "Mali",
+   "count": 5
+  },
+  {
    "code": "NE",
    "name": "Niger",
    "count": 5
@@ -109,6 +114,11 @@
    "count": 4
   },
   {
+   "code": "JO",
+   "name": "Hashemite Kingdom of Jordan",
+   "count": 4
+  },
+  {
    "code": "PL",
    "name": "Poland",
    "count": 4
@@ -124,18 +134,8 @@
    "count": 3
   },
   {
-   "code": "JO",
-   "name": "Hashemite Kingdom of Jordan",
-   "count": 3
-  },
-  {
    "code": "KE",
    "name": "Kenya",
-   "count": 3
-  },
-  {
-   "code": "ML",
-   "name": "Mali",
    "count": 3
   },
   {
@@ -206,6 +206,11 @@
   {
    "code": "IN",
    "name": "India",
+   "count": 1
+  },
+  {
+   "code": "RU",
+   "name": "Russia",
    "count": 1
   },
   {

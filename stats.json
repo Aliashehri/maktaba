@@ -1,12 +1,12 @@
 {
- "updated": "2026-10-27T23:46Z",
- "total": 979,
- "last28": 979,
+ "updated": "2026-10-28T01:17Z",
+ "total": 988,
+ "last28": 988,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 666
+   "count": 673
   },
   {
    "code": "ID",
@@ -16,7 +16,7 @@
   {
    "code": "EG",
    "name": "Egypt",
-   "count": 47
+   "count": 48
   },
   {
    "code": "MA",
@@ -109,6 +109,11 @@
    "count": 4
   },
   {
+   "code": "GB",
+   "name": "United Kingdom",
+   "count": 3
+  },
+  {
    "code": "GW",
    "name": "Guinea-Bissau",
    "count": 3
@@ -131,11 +136,6 @@
   {
    "code": "CG",
    "name": "Congo Republic",
-   "count": 2
-  },
-  {
-   "code": "GB",
-   "name": "United Kingdom",
    "count": 2
   },
   {

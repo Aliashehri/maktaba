@@ -1,12 +1,12 @@
 {
- "updated": "2026-10-28T05:56Z",
- "total": 1014,
- "last28": 1014,
+ "updated": "2026-10-28T07:16Z",
+ "total": 1024,
+ "last28": 1024,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 686
+   "count": 692
   },
   {
    "code": "ID",
@@ -44,14 +44,14 @@
    "count": 14
   },
   {
-   "code": "SN",
-   "name": "Senegal",
+   "code": "AE",
+   "name": "United Arab Emirates",
    "count": 11
   },
   {
-   "code": "AE",
-   "name": "United Arab Emirates",
-   "count": 10
+   "code": "SN",
+   "name": "Senegal",
+   "count": 11
   },
   {
    "code": "NG",
@@ -84,6 +84,11 @@
    "count": 6
   },
   {
+   "code": "CH",
+   "name": "Switzerland",
+   "count": 5
+  },
+  {
    "code": "NE",
    "name": "Niger",
    "count": 5
@@ -92,11 +97,6 @@
    "code": "SY",
    "name": "Syria",
    "count": 5
-  },
-  {
-   "code": "CH",
-   "name": "Switzerland",
-   "count": 4
   },
   {
    "code": "CI",
@@ -124,6 +124,11 @@
    "count": 3
   },
   {
+   "code": "JO",
+   "name": "Hashemite Kingdom of Jordan",
+   "count": 3
+  },
+  {
    "code": "KE",
    "name": "Kenya",
    "count": 3
@@ -131,6 +136,11 @@
   {
    "code": "ML",
    "name": "Mali",
+   "count": 3
+  },
+  {
+   "code": "PK",
+   "name": "Pakistan",
    "count": 3
   },
   {
@@ -159,11 +169,6 @@
    "count": 2
   },
   {
-   "code": "JO",
-   "name": "Hashemite Kingdom of Jordan",
-   "count": 2
-  },
-  {
    "code": "LK",
    "name": "Sri Lanka",
    "count": 2
@@ -171,11 +176,6 @@
   {
    "code": "MY",
    "name": "Malaysia",
-   "count": 2
-  },
-  {
-   "code": "PK",
-   "name": "Pakistan",
    "count": 2
   },
   {

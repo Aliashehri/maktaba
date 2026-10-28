@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-28T22:54Z",
- "total": 1128,
- "last28": 1128,
+ "updated": "2026-10-28T23:50Z",
+ "total": 1130,
+ "last28": 1130,
  "countries": [
   {
    "code": "SA",
@@ -11,7 +11,7 @@
   {
    "code": "ID",
    "name": "Indonesia",
-   "count": 55
+   "count": 56
   },
   {
    "code": "EG",
@@ -21,7 +21,7 @@
   {
    "code": "MA",
    "name": "Morocco",
-   "count": 26
+   "count": 27
   },
   {
    "code": "US",

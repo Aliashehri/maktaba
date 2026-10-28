@@ -6,8 +6,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>إدارة المكتبة</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232b2419'/%3E%3Cpath d='M14 18c7-3 13-2 18 2v28c-5-4-11-5-18-2zM50 18c-7-3-13-2-18 2v28c5-4 11-5 18-2z' fill='%23c9a961'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/style.css?v=21">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23164e3b'/%3E%3Cpath d='M12 20c7-3 14-2 20 2v26c-6-4-13-5-20-2zM52 20c-7-3-14-2-20 2v26c6-4 13-5 20-2z' fill='%23c6a15b'/%3E%3Cpath d='M32 10l2.2 4.4 4.8.7-3.5 3.4.8 4.8-4.3-2.3-4.3 2.3.8-4.8-3.5-3.4 4.8-.7z' fill='%23f7f3e8'/%3E%3C/svg%3E">
+<script>try{var _t=localStorage.getItem("lib-theme:"+location.pathname.replace(/[^/]*$/,""));if(_t){var _s=document.createElement("style");_s.id="lib-theme";_s.textContent=_t;document.head.appendChild(_s)}}catch(e){}</script>
+<link rel="stylesheet" href="assets/style.css?v=33">
 </head>
 <body class="admin">
 <div class="adm">
@@ -103,14 +104,30 @@
     <label class="field"><span>الوصف تحت العنوان</span><input class="input" id="sSub"></label>
     <label class="field"><span>تاريخ الإعداد <small>يظهر أسفل الصفحة الرئيسية بالهجري والميلادي.</small></span><input class="input" id="sDate" type="date" dir="ltr" style="max-width:240px"></label>
     <label class="field"><span>رقم واتساب للتواصل <small>مثال: 05xxxxxxxx — يظهر زر واتساب في الصفحة الرئيسية. اتركه فارغاً لإخفائه.</small></span><input class="input" id="sWa" dir="ltr" inputmode="tel" placeholder="05xxxxxxxx" style="max-width:280px"></label>
-    <label class="field"><span>رمز عدّاد الزوار (GoatCounter) <small>مثال: almajmoaa — اتركه فارغاً لإخفاء العدادات.</small></span><input class="input" id="sCounter" dir="ltr" placeholder="almajmoaa" style="max-width:280px"></label>
+    <label class="field"><span>رمز عدّاد الزوار (GoatCounter) <small>مثال: mylibrary — اتركه فارغاً لإخفاء العدادات.</small></span><input class="input" id="sCounter" dir="ltr" placeholder="mylibrary" style="max-width:280px"></label>
     <label class="check"><input type="checkbox" id="sDl"> السماح للقرّاء بتحميل الكتب (يظهر زر تحميل في صفحة القراءة)</label>
+    <div class="theme-box" id="themeBox">
+      <div class="tb-head"><b>الهوية اللونية</b><small>اختر هوية جاهزة أو حدّد ألوان العميل. باقي الدرجات تُشتق تلقائياً، ويُضمن وضوح النص.</small></div>
+      <div class="tb-presets" id="tPresets"></div>
+      <div class="tb-grid">
+        <label class="tcol"><input type="color" id="tPrimary"><span>اللون الأساسي<small>القسم الافتتاحي والأزرار</small></span></label>
+        <label class="tcol"><input type="color" id="tAccent"><span>اللون المميز<small>الزخارف والتفاصيل</small></span></label>
+        <label class="tcol"><input type="color" id="tBg"><span>الخلفية<small>لون الصفحة</small></span></label>
+        <label class="tcol"><input type="color" id="tInk"><span>النصوص<small>لون الكتابة</small></span></label>
+        <div class="tcol"><input type="color" id="tHi" aria-label="لون مساعد"><span>لون مساعد<small>سطر المؤلف · <label style="cursor:pointer"><input type="checkbox" id="tHiAuto" checked> تلقائي</label></small></span></div>
+      </div>
+      <div class="tprev" aria-hidden="true">
+        <div class="tp-hero"><b id="tpTitle">عنوان المكتبة</b><i id="tpAuthor">مؤلفات ...</i><span class="tp-btn">بحث</span></div>
+        <div class="tp-body"><span class="tp-chip on">الكل</span><span class="tp-chip">مجموعة</span><p>نص تجريبي لقراءة الكتب بوضوح.</p></div>
+      </div>
+      <div class="row" style="margin-top:10px"><button class="btn ghost small" id="tReset" type="button">رجوع للهوية الافتراضية</button></div>
+    </div>
     <button class="btn" id="saveSite">حفظ الإعدادات</button>
     <div class="status" id="siteStatus"></div>
   </section>
 </div>
 
-<script src="assets/common.js?v=21"></script>
+<script src="assets/common.js?v=33"></script>
 <script type="module">
 import * as pdfjs from "./lib/pdf.min.mjs";
 pdfjs.GlobalWorkerOptions.workerSrc = "lib/pdf.worker.min.mjs";
@@ -218,6 +235,7 @@ async function loadLib() {
   try {
     const f = await gh("GET", `/contents/books.json?ref=${branch}`);
     lib = JSON.parse(fromB64text(f.content));
+    try { Lib.applyTheme(lib.site && lib.site.theme); } catch (e) {}
   } catch (e) { if (e.status === 404) lib = { site: {}, books: [] }; else throw e; }
   lib.site = lib.site || {}; lib.books = lib.books || [];
   let extra = [];
@@ -228,6 +246,7 @@ async function loadLib() {
   } catch (e) {}
   fillCats();
   render(extra);
+  tLoad();
   $("sTitle").value = lib.site.title || ""; $("sAuthor").value = lib.site.author || ""; $("sCounter").value = lib.site.counter || ""; $("sSub").value = lib.site.subtitle || ""; $("sDl").checked = !!lib.site.allowDownload; $("sDate").value = lib.site.preparedDate || ""; $("sWa").value = lib.site.whatsapp || "";
 }
 function catList() {
@@ -437,10 +456,45 @@ $("publish").onclick = async () => {
   } finally { $("publish").disabled = false; setTimeout(() => prog.classList.remove("show"), 1500); }
 };
 
+
+// ===== الهوية اللونية =====
+let tCur = null; // null = الهوية الافتراضية
+const T_KEYS = { tPrimary: "primary", tAccent: "accent", tBg: "bg", tInk: "ink" };
+function tEffective() { return Object.assign({}, Lib.PRESETS.emerald, tCur || {}); }
+function tShow() {
+  const e = tEffective();
+  for (const id in T_KEYS) $(id).value = (e[T_KEYS[id]] || "#000000").toLowerCase();
+  const v = Lib.deriveTheme(e);
+  $("tHiAuto").checked = !(tCur && tCur.highlight); $("tHi").value = (tCur && tCur.highlight) || v.highlight; $("tHi").disabled = $("tHiAuto").checked;
+  document.querySelectorAll("#tPresets button").forEach((b) => b.classList.toggle("on", (tCur ? tCur.preset : "emerald") === b.dataset.p && !(tCur && tCur.custom)));
+  Lib.applyTheme(tCur, { preview: true });
+  $("tpTitle").textContent = $("sTitle").value || "عنوان المكتبة"; $("tpAuthor").textContent = $("sAuthor").value || "مؤلفات ...";
+}
+Object.entries(Lib.PRESETS).forEach(([k, p]) => {
+  const b = document.createElement("button"); b.type = "button"; b.dataset.p = k;
+  b.innerHTML = `<span class="sw"><i style="background:${p.primary}"></i><i style="background:${p.accent}"></i><i style="background:${p.bg}"></i></span>${p.name}`;
+  b.onclick = () => { tCur = k === "emerald" ? null : Object.assign({ preset: k }, { primary: p.primary, accent: p.accent, bg: p.bg, ink: p.ink }); tShow(); };
+  $("tPresets").appendChild(b);
+});
+for (const id in T_KEYS) $(id).addEventListener("input", () => { const e = tEffective(); tCur = { primary: e.primary, accent: e.accent, bg: e.bg, ink: e.ink, custom: true }; if (!$("tHiAuto").checked) tCur.highlight = $("tHi").value; tCur[T_KEYS[id]] = $(id).value; tShow(); });
+$("tHiAuto").onchange = () => { const e = tEffective(); tCur = Object.assign({}, tCur || { primary: e.primary, accent: e.accent, bg: e.bg, ink: e.ink }); if ($("tHiAuto").checked) delete tCur.highlight; else tCur.highlight = $("tHi").value; tShow(); };
+$("tHi").addEventListener("input", () => { tCur = Object.assign({}, tCur || Lib.PRESETS.emerald, { highlight: $("tHi").value }); tShow(); });
+$("tReset").onclick = () => { tCur = null; tShow(); };
+function tLoad() { const t = lib && lib.site && lib.site.theme; tCur = t && typeof t === "object" ? Object.assign({}, t) : null; tShow(); }
+function tForSave() {
+  if (!tCur) return undefined;
+  const o = {}; ["primary", "accent", "bg", "ink", "highlight"].forEach((k) => { if (tCur[k]) o[k] = String(tCur[k]).toUpperCase(); });
+  if (tCur.preset && !tCur.custom) o.preset = tCur.preset;
+  return o;
+}
+tShow();
+
 // ===== إعدادات الموقع =====
 $("saveSite").onclick = () => run("siteStatus", async () => {
   lib.site.title = $("sTitle").value.trim(); lib.site.author = $("sAuthor").value.trim(); lib.site.counter = $("sCounter").value.trim().toLowerCase(); lib.site.subtitle = $("sSub").value.trim(); lib.site.allowDownload = $("sDl").checked; lib.site.preparedDate = $("sDate").value; lib.site.whatsapp = $("sWa").value.replace(/[^0-9+]/g, "");
+  const th = tForSave(); if (th) lib.site.theme = th; else delete lib.site.theme;
   await saveLib("تعديل إعدادات الموقع");
+  Lib.applyTheme(lib.site.theme);
 }, "تم حفظ الإعدادات ✓");
 
 if ($("token").value) connect();

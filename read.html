@@ -4,10 +4,31 @@
 <meta charset="utf-8">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>قراءة كتاب</title>
-<meta name="theme-color" content="#221d16">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23a8843f'/%3E%3Cpath d='M14 18c7-3 13-2 18 2v28c-5-4-11-5-18-2zM50 18c-7-3-13-2-18 2v28c5-4 11-5 18-2z' fill='%23fffdf8'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="assets/style.css?v=21">
+<!-- SHARE:START (يُولَّد تلقائياً: python3 tools/configure.py رابط-الموقع) -->
+<title>المَجمُوعَةُ العِلمِيَّةُ — أ. علي بن عبدالله الشهري</title>
+<meta name="description" content="مكتبة رقمية مجانية لـأ. علي بن عبدالله الشهري: مكتبة رقمية لتصفّح الكتب وقراءتها، تُقرأ بتقليب الصفحات على الجوال والكمبيوتر.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_SA">
+<meta property="og:site_name" content="المجموعة العلمية أ. علي بن عبدالله الشهري">
+<meta property="og:title" content="المَجمُوعَةُ العِلمِيَّةُ — أ. علي بن عبدالله الشهري">
+<meta property="og:description" content="مكتبة رقمية مجانية لـأ. علي بن عبدالله الشهري: مكتبة رقمية لتصفّح الكتب وقراءتها، تُقرأ بتقليب الصفحات على الجوال والكمبيوتر.">
+<meta property="og:image" content="https://aliashehri.github.io/maktaba/assets/og.jpg">
+<meta property="og:image:secure_url" content="https://aliashehri.github.io/maktaba/assets/og.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="المَجمُوعَةُ العِلمِيَّةُ — أ. علي بن عبدالله الشهري">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="المَجمُوعَةُ العِلمِيَّةُ — أ. علي بن عبدالله الشهري">
+<meta name="twitter:description" content="مكتبة رقمية مجانية لـأ. علي بن عبدالله الشهري: مكتبة رقمية لتصفّح الكتب وقراءتها، تُقرأ بتقليب الصفحات على الجوال والكمبيوتر.">
+<meta name="twitter:image" content="https://aliashehri.github.io/maktaba/assets/og.jpg">
+<!-- SHARE:END -->
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+<meta name="theme-color" content="#0c1f18">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23164e3b'/%3E%3Cpath d='M12 20c7-3 14-2 20 2v26c-6-4-13-5-20-2zM52 20c-7-3-14-2-20 2v26c6-4 13-5 20-2z' fill='%23c6a15b'/%3E%3Cpath d='M32 10l2.2 4.4 4.8.7-3.5 3.4.8 4.8-4.3-2.3-4.3 2.3.8-4.8-3.5-3.4 4.8-.7z' fill='%23f7f3e8'/%3E%3C/svg%3E">
+<script>try{var _t=localStorage.getItem("lib-theme:"+location.pathname.replace(/[^/]*$/,""));if(_t){var _s=document.createElement("style");_s.id="lib-theme";_s.textContent=_t;document.head.appendChild(_s)}}catch(e){}</script>
+<link rel="stylesheet" href="assets/style.css?v=33">
 </head>
 <body class="reader">
 <header class="r-top">
@@ -129,8 +150,8 @@
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="assets/common.js?v=21"></script>
-<script src="lib/page-flip.browser.js?v=21"></script>
+<script src="assets/common.js?v=33"></script>
+<script src="lib/page-flip.browser.js?v=33"></script>
 <script type="module">
 import * as pdfjs from "./lib/pdf.min.mjs";
 pdfjs.GlobalWorkerOptions.workerSrc = "lib/pdf.worker.min.mjs";
@@ -413,7 +434,7 @@ book2.ready(() => { onChange(); $("loader").hidden = true; if (fromLink) toast("
 
 // ===== صوت تقليب الورق =====
 let soundOn = store.get("sound") !== "off", actx = null, flipBuf = null, loading = null;
-const SND = "assets/flip.mp3?v=21";
+const SND = "assets/flip.mp3?v=33";
 const flipData = fetch(SND).then((r) => r.arrayBuffer()).catch(() => null);
 function paintSound() {
   const on = $("sndOn"), off = $("sndOff");

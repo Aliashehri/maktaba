@@ -1,0 +1,44 @@
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<!-- قالب صورة المشاركة 1200×630 — يملؤه tools/configure.py ثم يصوّره -->
+<link rel="stylesheet" href="../assets/style.css">
+@@THEME@@
+<style>
+html,body{margin:0;width:1200px;height:630px;overflow:hidden}
+body{position:relative;background:linear-gradient(160deg,var(--t-primary) 0%,var(--t-primary-d) 55%,var(--t-primary-dd) 100%);color:var(--t-bg);font-family:"Plex",sans-serif}
+.pat{position:absolute;inset:0;opacity:.6;background-image:var(--t-pat,url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='84' viewBox='0 0 84 84'%3E%3Cg fill='none' stroke='%23c6a15b' stroke-width='.7' stroke-opacity='.22'%3E%3Cpath d='M42 18l7 17 17 7-17 7-7 17-7-17-17-7 17-7z'/%3E%3Crect x='27' y='27' width='30' height='30' transform='rotate(45 42 42)'/%3E%3Ccircle cx='42' cy='42' r='5'/%3E%3Cpath d='M0 0l12 12M84 0L72 12M0 84l12-12M84 84L72 72'/%3E%3C/g%3E%3C/svg%3E"));-webkit-mask-image:radial-gradient(ellipse at 25% 50%,#000,rgba(0,0,0,.4) 50%,transparent 85%)}
+.glow{position:absolute;width:560px;height:560px;left:20px;top:35px;border-radius:50%;background:radial-gradient(circle,rgb(var(--t-accent-rgb) / .2),transparent 62%)}
+.txt{position:absolute;right:64px;top:0;bottom:0;width:650px;display:flex;flex-direction:column;justify-content:center}
+body.nocovers .txt{right:0;left:0;width:auto;align-items:center;text-align:center;padding:0 80px}
+.brand{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.mark{width:62px;height:62px;border-radius:16px;background:var(--t-primary-dd);display:grid;place-items:center;box-shadow:inset 0 0 0 1.5px rgb(var(--t-accent-rgb) / .55)}
+.mark svg{width:38px;height:38px}
+.eye{color:var(--t-accent);font-size:22px;font-weight:600}
+h1{margin:0;font-family:"Amiri",serif;font-weight:700;font-size:var(--h1,60px);line-height:1.35;color:#fff;white-space:nowrap}
+h2{margin:8px 0 0;font-family:"Amiri",serif;font-weight:700;font-size:38px;line-height:1.5;color:var(--t-highlight)}
+p{margin:18px 0 0;font-size:23px;line-height:1.7;color:rgb(var(--t-bg-rgb) / .85)}
+.facts{display:flex;gap:14px;margin-top:26px}
+.facts div{border:1px solid rgb(var(--t-bg-rgb) / .18);background:rgba(255,255,255,.05);border-radius:14px;padding:10px 20px;font-size:19px;color:rgb(var(--t-bg-rgb) / .85)}
+.fan{position:absolute;left:40px;top:0;bottom:0;width:470px}
+.fan img{position:absolute;bottom:92px;width:200px;aspect-ratio:5/7;object-fit:cover;border-radius:3px 8px 8px 3px;box-shadow:0 28px 40px -18px rgba(0,0,0,.8),0 2px 6px rgba(0,0,0,.3)}
+.fan .c{left:135px;width:220px;z-index:3;bottom:88px}
+.fan .l{left:10px;transform:scale(.86);transform-origin:50% 100%;filter:brightness(.92);z-index:1}
+.fan .r{left:270px;transform:scale(.86);transform-origin:50% 100%;filter:brightness(.92);z-index:1}
+.shadow{position:absolute;left:30px;width:430px;bottom:70px;height:34px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.5),transparent);filter:blur(4px)}
+.line{position:absolute;left:60px;width:370px;bottom:88px;height:1px;background:linear-gradient(90deg,transparent,rgb(var(--t-accent-rgb) / .6),transparent)}
+.foot{position:absolute;bottom:0;left:0;right:0;height:6px;background:linear-gradient(90deg,var(--t-accent),var(--t-primary),var(--t-accent))}
+</style></head><body class="@@BODYCLASS@@">
+<div class="pat"></div><div class="glow"></div>
+@@FAN@@
+<div class="txt">
+ <div class="brand"><span class="mark"><svg viewBox="0 0 64 64"><path d="M10 22c8-3.5 15-2.5 22 2.5v27c-7-5-14-6-22-2.5z M54 22c-8-3.5-15-2.5-22 2.5v27c7-5 14-6 22-2.5z" style="fill:var(--t-accent)"/><path d="M32 7l2.4 4.9 5.4.8-3.9 3.8.9 5.4L32 19.4l-4.8 2.5.9-5.4-3.9-3.8 5.4-.8z" style="fill:var(--t-bg)"/></svg></span><span class="eye">المكتبة العلمية الرقمية</span></div>
+ <h1 id="h1">@@TITLE@@</h1>
+ <h2>@@AUTHOR@@</h2>
+ <p>@@SUBTITLE@@</p>
+ <div class="facts"><div>قراءة مجانية</div><div>تقليب الصفحات</div><div>على الجوال والكمبيوتر</div></div>
+</div>
+<div class="foot"></div>
+<script>
+// تصغير العنوان تلقائياً حتى يتسع في سطر واحد
+const h=document.getElementById('h1'); let s=60; while(h.scrollWidth>h.clientWidth+2 && s>36){s-=2;document.body.style.setProperty('--h1',s+'px');}
+</script>
+</body></html>

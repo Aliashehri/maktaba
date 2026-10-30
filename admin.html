@@ -8,7 +8,7 @@
 <title>إدارة المكتبة</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23164e3b'/%3E%3Cpath d='M12 20c7-3 14-2 20 2v26c-6-4-13-5-20-2zM52 20c-7-3-14-2-20 2v26c6-4 13-5 20-2z' fill='%23c6a15b'/%3E%3Cpath d='M32 10l2.2 4.4 4.8.7-3.5 3.4.8 4.8-4.3-2.3-4.3 2.3.8-4.8-3.5-3.4 4.8-.7z' fill='%23f7f3e8'/%3E%3C/svg%3E">
 <script>try{var _t=localStorage.getItem("lib-theme:"+location.pathname.replace(/[^/]*$/,""));if(_t){var _s=document.createElement("style");_s.id="lib-theme";_s.textContent=_t;document.head.appendChild(_s)}}catch(e){}</script>
-<link rel="stylesheet" href="assets/style.css?v=33">
+<link rel="stylesheet" href="assets/style.css?v=36">
 </head>
 <body class="admin">
 <div class="adm">
@@ -106,6 +106,7 @@
     <label class="field"><span>رقم واتساب للتواصل <small>مثال: 05xxxxxxxx — يظهر زر واتساب في الصفحة الرئيسية. اتركه فارغاً لإخفائه.</small></span><input class="input" id="sWa" dir="ltr" inputmode="tel" placeholder="05xxxxxxxx" style="max-width:280px"></label>
     <label class="field"><span>رمز عدّاد الزوار (GoatCounter) <small>مثال: mylibrary — اتركه فارغاً لإخفاء العدادات.</small></span><input class="input" id="sCounter" dir="ltr" placeholder="mylibrary" style="max-width:280px"></label>
     <label class="check"><input type="checkbox" id="sDl"> السماح للقرّاء بتحميل الكتب (يظهر زر تحميل في صفحة القراءة)</label>
+    <label class="check"><input type="checkbox" id="sPs"> زر «شاركها في حالة الواتس» في صفحة القراءة (يصمّم صورة للصفحة الحالية بمقاس الحالة)</label>
     <div class="theme-box" id="themeBox">
       <div class="tb-head"><b>الهوية اللونية</b><small>اختر هوية جاهزة أو حدّد ألوان العميل. باقي الدرجات تُشتق تلقائياً، ويُضمن وضوح النص.</small></div>
       <div class="tb-presets" id="tPresets"></div>
@@ -127,11 +128,11 @@
   </section>
 </div>
 
-<script src="assets/common.js?v=33"></script>
+<script src="assets/common.js?v=36"></script>
 <script type="module">
 import * as pdfjs from "./lib/pdf.min.mjs";
 pdfjs.GlobalWorkerOptions.workerSrc = "lib/pdf.worker.min.mjs";
-const { store, repoInfo, ar, titleFromFile } = window.Lib;
+const { store, repoInfo, ar, plural, titleFromFile } = window.Lib;
 const $ = (id) => document.getElementById(id);
 
 // ===== رسائل الحالة =====
@@ -247,7 +248,7 @@ async function loadLib() {
   fillCats();
   render(extra);
   tLoad();
-  $("sTitle").value = lib.site.title || ""; $("sAuthor").value = lib.site.author || ""; $("sCounter").value = lib.site.counter || ""; $("sSub").value = lib.site.subtitle || ""; $("sDl").checked = !!lib.site.allowDownload; $("sDate").value = lib.site.preparedDate || ""; $("sWa").value = lib.site.whatsapp || "";
+  $("sTitle").value = lib.site.title || ""; $("sAuthor").value = lib.site.author || ""; $("sCounter").value = lib.site.counter || ""; $("sSub").value = lib.site.subtitle || ""; $("sDl").checked = !!lib.site.allowDownload; $("sPs").checked = lib.site.allowPageShare !== false; $("sDate").value = lib.site.preparedDate || ""; $("sWa").value = lib.site.whatsapp || "";
 }
 function catList() {
   const c = [...(lib.site.categories || [])];
@@ -282,7 +283,7 @@ function render(extra = []) {
     const img = new Image(); img.alt = ""; if (b.cover) img.src = b.cover + "?v=" + (b.v || 0);
     const bt = document.createElement("div"); bt.className = "bt";
     const t = document.createElement("b"); t.textContent = b.title;
-    const s = document.createElement("span"); s.textContent = (b.pages ? ar(b.pages) + " صفحة · " : "") + (b.date || b.added || "");
+    const s = document.createElement("span"); s.textContent = (b.pages ? ar(b.pages) + " " + plural(b.pages, "page") + " · " : "") + (b.date || b.added || "");
     bt.append(t, s);
     const acts = document.createElement("div"); acts.className = "acts";
     const mk = (label, fn, cls = "ghost") => { const x = document.createElement("button"); x.className = "btn small " + cls; x.textContent = label; x.onclick = fn; acts.appendChild(x); return x; };
@@ -491,7 +492,7 @@ tShow();
 
 // ===== إعدادات الموقع =====
 $("saveSite").onclick = () => run("siteStatus", async () => {
-  lib.site.title = $("sTitle").value.trim(); lib.site.author = $("sAuthor").value.trim(); lib.site.counter = $("sCounter").value.trim().toLowerCase(); lib.site.subtitle = $("sSub").value.trim(); lib.site.allowDownload = $("sDl").checked; lib.site.preparedDate = $("sDate").value; lib.site.whatsapp = $("sWa").value.replace(/[^0-9+]/g, "");
+  lib.site.title = $("sTitle").value.trim(); lib.site.author = $("sAuthor").value.trim(); lib.site.counter = $("sCounter").value.trim().toLowerCase(); lib.site.subtitle = $("sSub").value.trim(); lib.site.allowDownload = $("sDl").checked; lib.site.allowPageShare = $("sPs").checked; lib.site.preparedDate = $("sDate").value; lib.site.whatsapp = $("sWa").value.replace(/[^0-9+]/g, "");
   const th = tForSave(); if (th) lib.site.theme = th; else delete lib.site.theme;
   await saveLib("تعديل إعدادات الموقع");
   Lib.applyTheme(lib.site.theme);

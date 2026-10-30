@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-30T16:59Z",
- "total": 1216,
- "last28": 1216,
+ "updated": "2026-10-30T17:54Z",
+ "total": 1218,
+ "last28": 1218,
  "countries": [
   {
    "code": "SA",
@@ -9,14 +9,14 @@
    "count": 830
   },
   {
-   "code": "ID",
-   "name": "Indonesia",
+   "code": "EG",
+   "name": "Egypt",
    "count": 58
   },
   {
-   "code": "EG",
-   "name": "Egypt",
-   "count": 56
+   "code": "ID",
+   "name": "Indonesia",
+   "count": 58
   },
   {
    "code": "MA",

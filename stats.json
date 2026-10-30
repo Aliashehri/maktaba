@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-30T17:54Z",
- "total": 1218,
- "last28": 1218,
+ "updated": "2026-10-30T19:01Z",
+ "total": 1220,
+ "last28": 1220,
  "countries": [
   {
    "code": "SA",
@@ -29,14 +29,14 @@
    "count": 25
   },
   {
-   "code": "US",
-   "name": "United States",
+   "code": "DZ",
+   "name": "Algeria",
    "count": 21
   },
   {
-   "code": "DZ",
-   "name": "Algeria",
-   "count": 20
+   "code": "US",
+   "name": "United States",
+   "count": 21
   },
   {
    "code": "SD",
@@ -49,14 +49,14 @@
    "count": 18
   },
   {
-   "code": "SN",
-   "name": "Senegal",
+   "code": "CH",
+   "name": "Switzerland",
    "count": 11
   },
   {
-   "code": "CH",
-   "name": "Switzerland",
-   "count": 10
+   "code": "SN",
+   "name": "Senegal",
+   "count": 11
   },
   {
    "code": "NE",

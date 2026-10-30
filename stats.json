@@ -1,12 +1,12 @@
 {
- "updated": "2026-10-29T21:57Z",
- "total": 1179,
- "last28": 1179,
+ "updated": "2026-10-30T01:19Z",
+ "total": 1182,
+ "last28": 1182,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 806
+   "count": 808
   },
   {
    "code": "ID",
@@ -36,7 +36,7 @@
   {
    "code": "DZ",
    "name": "Algeria",
-   "count": 19
+   "count": 20
   },
   {
    "code": "SD",

@@ -1,7 +1,7 @@
 {
- "updated": "2026-10-31T22:49Z",
- "total": 0,
- "last28": 1272,
+ "updated": "2026-10-31T23:47Z",
+ "total": 1273,
+ "last28": 1273,
  "countries": [
   {
    "code": "SA",
@@ -61,7 +61,7 @@
   {
    "code": "NG",
    "name": "Nigeria",
-   "count": 9
+   "count": 10
   },
   {
    "code": "ML",

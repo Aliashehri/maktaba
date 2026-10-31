@@ -1,12 +1,12 @@
 {
- "updated": "2026-10-31T07:11Z",
- "total": 1241,
- "last28": 1241,
+ "updated": "2026-10-31T08:02Z",
+ "total": 1245,
+ "last28": 1245,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 849
+   "count": 852
   },
   {
    "code": "EG",
@@ -159,6 +159,11 @@
    "count": 2
   },
   {
+   "code": "ES",
+   "name": "Spain",
+   "count": 2
+  },
+  {
    "code": "GH",
    "name": "Ghana",
    "count": 2
@@ -206,11 +211,6 @@
   {
    "code": "CA",
    "name": "Canada",
-   "count": 1
-  },
-  {
-   "code": "ES",
-   "name": "Spain",
    "count": 1
   },
   {

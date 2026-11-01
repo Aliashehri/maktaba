@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-01T17:47Z",
- "total": 1282,
- "last28": 1282,
+ "updated": "2026-11-01T18:59Z",
+ "total": 1286,
+ "last28": 1286,
  "countries": [
   {
    "code": "SA",
@@ -34,14 +34,14 @@
    "count": 24
   },
   {
-   "code": "US",
-   "name": "United States",
+   "code": "AE",
+   "name": "United Arab Emirates",
    "count": 21
   },
   {
-   "code": "AE",
-   "name": "United Arab Emirates",
-   "count": 19
+   "code": "US",
+   "name": "United States",
+   "count": 21
   },
   {
    "code": "SD",
@@ -54,14 +54,14 @@
    "count": 11
   },
   {
-   "code": "SN",
-   "name": "Senegal",
+   "code": "NG",
+   "name": "Nigeria",
    "count": 11
   },
   {
-   "code": "NG",
-   "name": "Nigeria",
-   "count": 10
+   "code": "SN",
+   "name": "Senegal",
+   "count": 11
   },
   {
    "code": "NL",
@@ -129,6 +129,11 @@
    "count": 3
   },
   {
+   "code": "GH",
+   "name": "Ghana",
+   "count": 3
+  },
+  {
    "code": "GW",
    "name": "Guinea-Bissau",
    "count": 3
@@ -166,11 +171,6 @@
   {
    "code": "ES",
    "name": "Spain",
-   "count": 2
-  },
-  {
-   "code": "GH",
-   "name": "Ghana",
    "count": 2
   },
   {

@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-02T20:02Z",
- "total": 1302,
- "last28": 1302,
+ "updated": "2026-11-02T21:55Z",
+ "total": 1303,
+ "last28": 1303,
  "countries": [
   {
    "code": "SA",
@@ -56,7 +56,7 @@
   {
    "code": "CH",
    "name": "Switzerland",
-   "count": 11
+   "count": 12
   },
   {
    "code": "NG",

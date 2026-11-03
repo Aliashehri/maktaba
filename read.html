@@ -187,7 +187,7 @@ else if (params.get("file")) book = data.books.find((b) => b.file === params.get
 if (!book) { fail("لم يتم العثور على الكتاب"); throw new Error("book not found"); }
 
 const siteName = (data.site.title || "المكتبة").replace(/[\u064B-\u0652]/g, "") + (data.site.author ? " — " + data.site.author : "");
-document.title = book.title + " — " + siteName;
+document.title = book.title + " — " + ((data.site.title || "المكتبة").replace(/[\u064B-\u0652]/g, "")); // «اسم الكتاب — اسم المكتبة»
 $("title").textContent = book.title; $("zTitle").textContent = book.title;
 // تسجيل مشاهدة الكتاب
 if (data.site.counter) track(data.site.counter, bookPath(book), book.title);

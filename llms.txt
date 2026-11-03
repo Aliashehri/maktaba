@@ -1,0 +1,54 @@
+# المجموعة العلمية — أ. علي بن عبدالله الشهري
+
+> مكتبة رقمية لتصفّح الكتب وقراءتها — أ. علي بن عبدالله الشهري، فيها ٣٦ كتاباً باللغة العربية.
+> تُقرأ الكتب مجاناً على الموقع بتقليب الصفحات؛ ولكل كتاب صفحة فيها بياناته ورابط قراءته.
+
+- الموقع: https://aliashehri.github.io/maktaba/
+
+## العقيدة والإيمان
+
+- [المختصر من شرح العقيدة الواسطية](https://aliashehri.github.io/maktaba/kitab/mukhtasar-alwasitiya.html): العقيدة والإيمان، ١٢٥ صفحة
+- [بِدَع العام](https://aliashehri.github.io/maktaba/kitab/bida-alam.html): العقيدة والإيمان، ٦٧ صفحة
+- [دار البوار](https://aliashehri.github.io/maktaba/kitab/dar-albawar.html): العقيدة والإيمان، ٤٤ صفحة
+- [دار السلام](https://aliashehri.github.io/maktaba/kitab/dar-alsalam.html): العقيدة والإيمان، ٤٤ صفحة
+- [التوحيد](https://aliashehri.github.io/maktaba/kitab/altawheed.html): العقيدة والإيمان، ٥٣ صفحة
+- [خصائص وسِمات منهج أهل السنة والجماعة](https://aliashehri.github.io/maktaba/kitab/khasais-manhaj-ahl-alsunna.html): العقيدة والإيمان، ١٩ صفحة
+- [الساعة وأشراطها](https://aliashehri.github.io/maktaba/kitab/alsaa-washratuha.html): العقيدة والإيمان، ٤٢ صفحة
+- [فتاوى كبار العلماء في العقيدة](https://aliashehri.github.io/maktaba/kitab/fatawa-aqeedah.html): العقيدة والإيمان، ١٣٦ صفحة
+
+## الفقه والفتاوى
+
+- [أحكام سجود السهو](https://aliashehri.github.io/maktaba/kitab/ahkam-sujud-alsahw.html): الفقه والفتاوى، ٣١ صفحة
+- [مسائل في الطهارة](https://aliashehri.github.io/maktaba/kitab/masail-altahara.html): الفقه والفتاوى، ٤٦ صفحة
+- [مسائل في الصلاة](https://aliashehri.github.io/maktaba/kitab/masail-alsalat.html): الفقه والفتاوى، ٢٨ صفحة
+- [من فتاوى الشيخين (ابن باز - ابن عثيمين)](https://aliashehri.github.io/maktaba/kitab/fatawa-alshaykhayn.html): الفقه والفتاوى، ٤٧ صفحة
+- [مسائل في الصيام](https://aliashehri.github.io/maktaba/kitab/masail-alsiyam.html): الفقه والفتاوى، ٥٤ صفحة
+- [مسائل في الحجّ](https://aliashehri.github.io/maktaba/kitab/masail-alhajj.html): الفقه والفتاوى، ٦٥ صفحة
+- [القواعد الفقهية الكبرى](https://aliashehri.github.io/maktaba/kitab/alqawaid-alfiqhiya.html): الفقه والفتاوى، ٢٢ صفحة
+- [مسائل في الزكاة](https://aliashehri.github.io/maktaba/kitab/masail-alzakat.html): الفقه والفتاوى، ٤٤ صفحة
+- [فقهيات](https://aliashehri.github.io/maktaba/kitab/fiqhiyyat.html): الفقه والفتاوى، ٢١٤ صفحة
+- [فتاوى صلاة المسافر](https://aliashehri.github.io/maktaba/kitab/salat-almusafir.html): الفقه والفتاوى، ٢٩ صفحة
+
+## القرآن والحديث والسيرة
+
+- [نبيّ الرَّحمة محمد ﷺ](https://aliashehri.github.io/maktaba/kitab/nabi-alrahma.html): القرآن والحديث والسيرة، ٤١ صفحة
+- [الخطب الجلل](https://aliashehri.github.io/maktaba/kitab/khutab-aljalal.html): القرآن والحديث والسيرة، ٢٦ صفحة
+- [أحاديث من سنن الترمذي](https://aliashehri.github.io/maktaba/kitab/ahadith-sunan-altirmidhi.html): القرآن والحديث والسيرة، ١٧ صفحة
+- [لطائف آيات](https://aliashehri.github.io/maktaba/kitab/lataif-ayat.html): القرآن والحديث والسيرة، ٤٥ صفحة
+- [من قصص القرآن](https://aliashehri.github.io/maktaba/kitab/min-qasas-alquran.html): القرآن والحديث والسيرة، ٢٥ صفحة
+- [شذرات](https://aliashehri.github.io/maktaba/kitab/shadharat.html): القرآن والحديث والسيرة، ٢٢ صفحة
+- [هداية آيات](https://aliashehri.github.io/maktaba/kitab/hidayat-ayat.html): القرآن والحديث والسيرة، ٧١ صفحة
+
+## الآداب والرقائق
+
+- [قطوف دانية](https://aliashehri.github.io/maktaba/kitab/qutuf-daniya.html): الشيخ عبدالله بن علي الحسيني الشهري، الآداب والرقائق، ٣٧ صفحة
+- [بناء شخصيّة الأبناء](https://aliashehri.github.io/maktaba/kitab/bina-shakhsiyat-alabna.html): الآداب والرقائق، ٢٨ صفحة
+- [القلوب (أنواعها - أمراضها - علاجها)](https://aliashehri.github.io/maktaba/kitab/alqulub.html): الآداب والرقائق، ١٨ صفحة
+- [الدعاء (فضائله - شروطه - آدابه)](https://aliashehri.github.io/maktaba/kitab/aldua.html): الآداب والرقائق، ٢٢ صفحة
+- [الاستغفار (فضائله - أوقاته - صيغه)](https://aliashehri.github.io/maktaba/kitab/alistighfar.html): الآداب والرقائق، ١٨ صفحة
+- [خير الزاد](https://aliashehri.github.io/maktaba/kitab/khayr-alzad.html): الآداب والرقائق، ٢٥ صفحة
+- [أحسن القول](https://aliashehri.github.io/maktaba/kitab/ahsan-alqawl.html): الآداب والرقائق، ١٩ صفحة
+- [العوائق الأربع](https://aliashehri.github.io/maktaba/kitab/alawaiq-alarba.html): الآداب والرقائق، ٣٣ صفحة
+- [العلم (فضائله - آدابه - آفاته)](https://aliashehri.github.io/maktaba/kitab/alilm.html): الآداب والرقائق، ٢٨ صفحة
+- [مقتطفات من (صيد الخاطر) لابن الجوزي](https://aliashehri.github.io/maktaba/kitab/muqtatafat-sayd-alkhatir.html): الآداب والرقائق، ١٨ صفحة
+- [صِلة الرَّحم](https://aliashehri.github.io/maktaba/kitab/silat-alrahim.html): الآداب والرقائق، ٤٤ صفحة

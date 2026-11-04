@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-04T17:11Z",
- "total": 1326,
- "last28": 1326,
+ "updated": "2026-11-04T19:15Z",
+ "total": 1327,
+ "last28": 1327,
  "countries": [
   {
    "code": "SA",
@@ -54,14 +54,14 @@
    "count": 16
   },
   {
-   "code": "NG",
-   "name": "Nigeria",
+   "code": "CH",
+   "name": "Switzerland",
    "count": 13
   },
   {
-   "code": "CH",
-   "name": "Switzerland",
-   "count": 12
+   "code": "NG",
+   "name": "Nigeria",
+   "count": 13
   },
   {
    "code": "NL",

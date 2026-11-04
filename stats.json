@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-04T10:21Z",
- "total": 1319,
- "last28": 1319,
+ "updated": "2026-11-04T12:03Z",
+ "total": 1320,
+ "last28": 1320,
  "countries": [
   {
    "code": "SA",
@@ -84,6 +84,11 @@
    "count": 8
   },
   {
+   "code": "QA",
+   "name": "Qatar",
+   "count": 7
+  },
+  {
    "code": "SO",
    "name": "Somalia",
    "count": 7
@@ -96,11 +101,6 @@
   {
    "code": "FR",
    "name": "France",
-   "count": 6
-  },
-  {
-   "code": "QA",
-   "name": "Qatar",
    "count": 6
   },
   {

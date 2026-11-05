@@ -318,3 +318,7 @@
 .hero h1 .name-art{display:block;width:100%;max-width:600px;height:auto}
 @media (max-width:900px){.hero h1 .name-art{margin-inline:auto}}
 @media (max-width:640px){.hero h1.h1-art{margin-top:4px}}
+
+/* ===== v39: شارة «جديد» فوق غلاف الكتاب المضاف حديثاً ===== */
+.badge-new{position:absolute;z-index:4;top:8px;left:8px;padding:3px 11px 4px;border-radius:999px;background:linear-gradient(135deg,var(--t-highlight),var(--t-accent));color:var(--t-primary-dd);font-size:12.5px;font-weight:700;line-height:1.6;letter-spacing:0;box-shadow:0 4px 12px -4px rgb(var(--t-primary-dd-rgb) / .55),0 0 0 1.5px rgb(255 255 255 / .7);pointer-events:none}
+@media (max-width:640px){.badge-new{top:6px;left:6px;padding:2px 9px 3px;font-size:11.5px}}

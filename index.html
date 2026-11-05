@@ -30,7 +30,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23164e3b'/%3E%3Cpath d='M12 20c7-3 14-2 20 2v26c-6-4-13-5-20-2zM52 20c-7-3-14-2-20 2v26c6-4 13-5 20-2z' fill='%23c6a15b'/%3E%3Cpath d='M32 10l2.2 4.4 4.8.7-3.5 3.4.8 4.8-4.3-2.3-4.3 2.3.8-4.8-3.5-3.4 4.8-.7z' fill='%23f7f3e8'/%3E%3C/svg%3E">
 <script>try{var _t=localStorage.getItem("lib-theme:"+location.pathname.replace(/[^/]*$/,""));if(_t){var _s=document.createElement("style");_s.id="lib-theme";_s.textContent=_t;document.head.appendChild(_s)}}catch(e){}</script>
 <link rel="stylesheet" href="assets/style.css?v=36">
-<link rel="stylesheet" href="assets/home.css?v=38">
+<link rel="stylesheet" href="assets/home.css?v=39">
 </head>
 <body class="home">
 <div class="datebar" id="today" aria-label="تاريخ اليوم"></div>
@@ -261,9 +261,14 @@
   }
 
   // ===== بطاقة الكتاب =====
+  // شارة «جديد»: كتاب أُضيف بعد إطلاق المكتبة (preparedDate) وخلال آخر site.newDays يوماً (الافتراضي 30)
+  const DAY = 86400000, newDays = Number.isFinite(+site.newDays) ? +site.newDays : 30;
+  const isNew = (b) => { const t = Date.parse(b.added || ""); if (isNaN(t) || newDays <= 0) return false;
+    if (site.preparedDate && (b.added || "") <= site.preparedDate) return false; return Date.now() - t < (newDays + 1) * DAY; };
   function card(b) {
     const a = el("a", "card"); a.href = readerUrl(b); a.dataset.path = bookPath(b);
     const fr = el("div", "frame"), cv = el("div", "cv"); coverInto(cv, b); fr.appendChild(cv);
+    if (isNew(b)) { fr.appendChild(el("span", "badge-new", "جديد")); a.classList.add("is-new"); }
     a.appendChild(fr);
     if (b.category) a.appendChild(el("div", "card-tag", catsOf(b).join(" • ")));
     a.appendChild(el("h3", "", b.title)); a.title = b.title;

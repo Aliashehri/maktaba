@@ -1,6 +1,6 @@
 # المجموعة العلمية — أ. علي بن عبدالله الشهري
 
-> مكتبة رقمية لتصفّح الكتب وقراءتها — أ. علي بن عبدالله الشهري، فيها ٣٨ كتاباً باللغة العربية.
+> مكتبة رقمية لتصفّح الكتب وقراءتها — أ. علي بن عبدالله الشهري، فيها ٤٢ كتاباً باللغة العربية.
 > تُقرأ الكتب مجاناً على الموقع بتقليب الصفحات؛ ولكل كتاب صفحة فيها بياناته ورابط قراءته.
 
 - الموقع: https://aliashehri.github.io/maktaba/
@@ -10,12 +10,15 @@
 - [لطائف آيات](https://aliashehri.github.io/maktaba/kitab/lataif-ayat.html): القرآن الكريم، ٤٥ صفحة
 - [من قصص القرآن](https://aliashehri.github.io/maktaba/kitab/min-qasas-alquran.html): القرآن الكريم، ٢٥ صفحة
 - [هداية آيات](https://aliashehri.github.io/maktaba/kitab/hidayat-ayat.html): القرآن الكريم، ٧١ صفحة
+- [ليدبروا آياته (في رحاب الفهم القرآني)](https://aliashehri.github.io/maktaba/kitab/liyaddabbaru-ayatih.html): القرآن الكريم، ٢١ صفحة
+- [أعظم سورة في القرآن (وقفات مع سورة الفاتحة)](https://aliashehri.github.io/maktaba/kitab/aazam-sura-fi-alquran.html): القرآن الكريم، ٢٧ صفحة
 
 ## الحديث والسيرة
 
 - [نبيّ الرَّحمة محمد ﷺ](https://aliashehri.github.io/maktaba/kitab/nabi-alrahma.html): الحديث والسيرة، ٤١ صفحة
 - [الخطب الجلل](https://aliashehri.github.io/maktaba/kitab/khutab-aljalal.html): الحديث والسيرة، ٢٦ صفحة
 - [أحاديث من سنن الترمذي](https://aliashehri.github.io/maktaba/kitab/ahadith-sunan-altirmidhi.html): الحديث والسيرة، ١٧ صفحة
+- [سيرة صحابي](https://aliashehri.github.io/maktaba/kitab/sirat-sahabi.html): الحديث والسيرة، ١٢ صفحة
 
 ## العقيدة والإيمان
 
@@ -56,10 +59,11 @@
 - [خير الزاد](https://aliashehri.github.io/maktaba/kitab/khayr-alzad.html): الآداب والرقائق، ٢٥ صفحة
 - [العوائق الأربع](https://aliashehri.github.io/maktaba/kitab/alawaiq-alarba.html): الآداب والرقائق، ٣٣ صفحة
 - [مقتطفات من (صيد الخاطر) لابن الجوزي](https://aliashehri.github.io/maktaba/kitab/muqtatafat-sayd-alkhatir.html): الآداب والرقائق، ١٨ صفحة
+- [صِلة الرَّحم](https://aliashehri.github.io/maktaba/kitab/silat-alrahim.html): الآداب والرقائق، ٤٤ صفحة
 - [شذرات](https://aliashehri.github.io/maktaba/kitab/shadharat.html): الآداب والرقائق، ٢٢ صفحة
 
 ## التربية والسلوك
 
 - [بناء شخصيّة الأبناء](https://aliashehri.github.io/maktaba/kitab/bina-shakhsiyat-alabna.html): التربية والسلوك، ٢٨ صفحة
-- [صِلة الرَّحم](https://aliashehri.github.io/maktaba/kitab/silat-alrahim.html): التربية والسلوك، ٤٤ صفحة
 - [خطوات في التربية](https://aliashehri.github.io/maktaba/kitab/khutuwat-fi-altarbiya.html): التربية والسلوك، ١٤ صفحة
+- [الثبات على الدين](https://aliashehri.github.io/maktaba/kitab/althabat-ala-aldeen.html): التربية والسلوك، ١٢ صفحة

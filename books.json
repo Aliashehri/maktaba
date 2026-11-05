@@ -7,10 +7,13 @@
   "counter": "almajmoaa",
   "preparedDate": "2026-10-22",
   "categories": [
+   "القرآن الكريم",
+   "الحديث والسيرة",
    "العقيدة والإيمان",
    "الفقه والفتاوى",
-   "القرآن والحديث والسيرة",
-   "الآداب والرقائق"
+   "العلم والدعوة",
+   "الآداب والرقائق",
+   "التربية والسلوك"
   ],
   "brandTitle": "المجموعة العلمية",
   "brandSub": "أ. علي بن عبدالله الشهري",
@@ -42,7 +45,7 @@
    "pages": 28,
    "date": "2023-01-17",
    "added": "2026-10-22",
-   "category": "الآداب والرقائق"
+   "category": "التربية والسلوك"
   },
   {
    "id": "alqulub",
@@ -72,7 +75,7 @@
    "pages": 41,
    "date": "2023-01-17",
    "added": "2026-10-22",
-   "category": "القرآن والحديث والسيرة"
+   "category": "الحديث والسيرة"
   },
   {
    "id": "masail-altahara",
@@ -182,7 +185,7 @@
    "pages": 19,
    "date": "2023-02-23",
    "added": "2026-10-22",
-   "category": "الآداب والرقائق"
+   "category": "العلم والدعوة"
   },
   {
    "id": "alawaiq-alarba",
@@ -192,7 +195,7 @@
    "pages": 33,
    "date": "2023-02-26",
    "added": "2026-10-22",
-   "category": "الآداب والرقائق"
+   "category": "التربية والسلوك"
   },
   {
    "id": "alilm",
@@ -202,7 +205,7 @@
    "pages": 28,
    "date": "2023-02-27",
    "added": "2026-10-22",
-   "category": "الآداب والرقائق"
+   "category": "العلم والدعوة"
   },
   {
    "id": "dar-albawar",
@@ -232,7 +235,7 @@
    "pages": 26,
    "date": "2023-03-07",
    "added": "2026-10-22",
-   "category": "القرآن والحديث والسيرة"
+   "category": "الحديث والسيرة"
   },
   {
    "id": "alqawaid-alfiqhiya",
@@ -252,7 +255,7 @@
    "pages": 17,
    "date": "2023-03-12",
    "added": "2026-10-22",
-   "category": "القرآن والحديث والسيرة"
+   "category": "الحديث والسيرة"
   },
   {
    "id": "dar-alsalam",
@@ -272,7 +275,7 @@
    "pages": 44,
    "date": "2023-03-13",
    "added": "2026-10-22",
-   "category": "الآداب والرقائق"
+   "category": "التربية والسلوك"
   },
   {
    "id": "lataif-ayat",
@@ -282,7 +285,7 @@
    "pages": 45,
    "date": "2023-03-13",
    "added": "2026-10-22",
-   "category": "القرآن والحديث والسيرة"
+   "category": "القرآن الكريم"
   },
   {
    "id": "altawheed",
@@ -312,7 +315,7 @@
    "pages": 25,
    "date": "2023-03-14",
    "added": "2026-10-22",
-   "category": "القرآن والحديث والسيرة"
+   "category": "القرآن الكريم"
   },
   {
    "id": "alsaa-washratuha",
@@ -332,7 +335,7 @@
    "pages": 22,
    "date": "2023-03-15",
    "added": "2026-10-22",
-   "category": "القرآن والحديث والسيرة"
+   "category": "الآداب والرقائق"
   },
   {
    "id": "masail-alzakat",
@@ -352,7 +355,7 @@
    "pages": 71,
    "date": "2024-09-06",
    "added": "2026-10-22",
-   "category": "القرآن والحديث والسيرة"
+   "category": "القرآن الكريم"
   },
   {
    "id": "fiqhiyyat",
@@ -383,6 +386,26 @@
    "added": "2026-10-22",
    "date": "2026-06-08",
    "category": "العقيدة والإيمان"
+  },
+  {
+   "id": "almanhaj-alnabawi-fi-aldawa",
+   "title": "المنهج النبوي في الدعوة",
+   "file": "books/almanhaj-alnabawi-fi-aldawa.pdf",
+   "cover": "covers/almanhaj-alnabawi-fi-aldawa.jpg",
+   "pages": 18,
+   "date": "2026-11-03",
+   "added": "2026-11-05",
+   "category": "العلم والدعوة"
+  },
+  {
+   "id": "khutuwat-fi-altarbiya",
+   "title": "خطوات في التربية",
+   "file": "books/khutuwat-fi-altarbiya.pdf",
+   "cover": "covers/khutuwat-fi-altarbiya.jpg",
+   "pages": 14,
+   "date": "2026-11-03",
+   "added": "2026-11-05",
+   "category": "التربية والسلوك"
   }
  ]
 }

@@ -311,3 +311,10 @@
 @keyframes cvld{to{background-position:-300% 0}}
 .frame img{background:transparent}
 @media (prefers-reduced-motion:reduce){.frame .cv.ld{animation:none}}
+
+/* ===== v38: عنوان المكتبة بالخط اليدوي + خلفية القسم الافتتاحي أفتح قليلاً ===== */
+.hero{background:linear-gradient(160deg,color-mix(in srgb,var(--t-primary) 80%,#fff) 0%,color-mix(in srgb,var(--t-primary) 92%,#fff) 55%,var(--t-primary) 100%)}
+.hero h1.h1-art{margin:6px 0 0;line-height:0;font-size:0}
+.hero h1 .name-art{display:block;width:100%;max-width:600px;height:auto}
+@media (max-width:900px){.hero h1 .name-art{margin-inline:auto}}
+@media (max-width:640px){.hero h1.h1-art{margin-top:4px}}

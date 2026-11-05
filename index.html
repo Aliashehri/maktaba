@@ -328,7 +328,9 @@
   // ===== جميع الكتب =====
   const shelf = $("shelf");
   $("libSub").textContent = books.length ? ar(books.length) + " " + plural(books.length, "book") + "، مرتبة كما أعدّها المؤلف" : "";
-  const cards = books.map((b, i) => { const c = card(b); c._b = b; c._i = i; c.dataset.q = norm([b.title, ...catsOf(b), site.author].join(" ")); c._cats = catsOf(b); shelf.appendChild(c); return c; });
+  // الكتب الجديدة (شارة «جديد») أولاً — الأحدث فالأقدم — ثم باقي الكتب بترتيب المؤلف، في «الكل» وفي كل مجموعة
+  const shelfBooks = [...books.filter(isNew).sort((x, y) => (stamp(y) > stamp(x) ? 1 : stamp(y) < stamp(x) ? -1 : books.indexOf(y) - books.indexOf(x))), ...books.filter((b) => !isNew(b))];
+  const cards = shelfBooks.map((b, i) => { const c = card(b); c._b = b; c._i = i; c.dataset.q = norm([b.title, ...catsOf(b), site.author].join(" ")); c._cats = catsOf(b); shelf.appendChild(c); return c; });
   const empty = el("div", "empty"); empty.innerHTML = "<b></b><span></span>";
   empty.querySelector("b").textContent = books.length ? "لا توجد نتائج مطابقة" : "لا توجد كتب بعد";
   empty.querySelector("span").textContent = books.length ? "جرّب كلمة أخرى، أو اختر «الكل»." : "";

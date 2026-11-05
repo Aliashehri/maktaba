@@ -1,17 +1,17 @@
 {
- "updated": "2026-11-05T10:19Z",
- "total": 1337,
- "last28": 1337,
+ "updated": "2026-11-05T12:09Z",
+ "total": 1347,
+ "last28": 1347,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 906
+   "count": 914
   },
   {
    "code": "EG",
    "name": "Egypt",
-   "count": 63
+   "count": 64
   },
   {
    "code": "ID",
@@ -124,6 +124,11 @@
    "count": 4
   },
   {
+   "code": "YE",
+   "name": "Yemen",
+   "count": 4
+  },
+  {
    "code": "GB",
    "name": "United Kingdom",
    "count": 3
@@ -146,11 +151,6 @@
   {
    "code": "PK",
    "name": "Pakistan",
-   "count": 3
-  },
-  {
-   "code": "YE",
-   "name": "Yemen",
    "count": 3
   },
   {

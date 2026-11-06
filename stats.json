@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-05T23:55Z",
- "total": 1380,
- "last28": 1380,
+ "updated": "2026-11-06T03:04Z",
+ "total": 1382,
+ "last28": 1382,
  "countries": [
   {
    "code": "SA",
@@ -114,6 +114,11 @@
    "count": 4
   },
   {
+   "code": "DE",
+   "name": "Germany",
+   "count": 4
+  },
+  {
    "code": "GM",
    "name": "Gambia",
    "count": 4
@@ -166,11 +171,6 @@
   {
    "code": "CG",
    "name": "Congo Republic",
-   "count": 2
-  },
-  {
-   "code": "DE",
-   "name": "Germany",
    "count": 2
   },
   {

@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-13T12:12Z",
- "total": 1467,
- "last28": 1467,
+ "updated": "2026-11-13T21:59Z",
+ "total": 1471,
+ "last28": 1471,
  "countries": [
   {
    "code": "SA",
@@ -112,6 +112,11 @@
    "code": "PK",
    "name": "Pakistan",
    "count": 6
+  },
+  {
+   "code": "BE",
+   "name": "Belgium",
+   "count": 4
   },
   {
    "code": "CI",

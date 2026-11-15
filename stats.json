@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-15T14:56Z",
- "total": 1487,
- "last28": 1487,
+ "updated": "2026-11-15T15:54Z",
+ "total": 1489,
+ "last28": 1489,
  "countries": [
   {
    "code": "SA",
@@ -69,14 +69,14 @@
    "count": 11
   },
   {
+   "code": "KW",
+   "name": "Kuwait",
+   "count": 10
+  },
+  {
    "code": "NL",
    "name": "Netherlands",
    "count": 9
-  },
-  {
-   "code": "KW",
-   "name": "Kuwait",
-   "count": 8
   },
   {
    "code": "ML",

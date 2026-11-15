@@ -1,7 +1,7 @@
 {
- "updated": "2026-11-15T11:55Z",
- "total": 1482,
- "last28": 1482,
+ "updated": "2026-11-15T14:05Z",
+ "total": 1484,
+ "last28": 1484,
  "countries": [
   {
    "code": "SA",
@@ -69,6 +69,11 @@
    "count": 9
   },
   {
+   "code": "QA",
+   "name": "Qatar",
+   "count": 9
+  },
+  {
    "code": "KW",
    "name": "Kuwait",
    "count": 8
@@ -87,11 +92,6 @@
    "code": "OM",
    "name": "Oman",
    "count": 8
-  },
-  {
-   "code": "QA",
-   "name": "Qatar",
-   "count": 7
   },
   {
    "code": "SO",

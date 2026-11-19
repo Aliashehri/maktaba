@@ -1,22 +1,27 @@
 {
- "updated": "2026-11-19T16:18Z",
- "total": 1589,
- "last28": 1589,
+ "updated": "2026-11-19T18:06Z",
+ "total": 1641,
+ "last28": 1641,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 1109
+   "count": 1144
   },
   {
    "code": "EG",
    "name": "Egypt",
-   "count": 69
+   "count": 72
   },
   {
    "code": "ID",
    "name": "Indonesia",
    "count": 66
+  },
+  {
+   "code": "DZ",
+   "name": "Algeria",
+   "count": 33
   },
   {
    "code": "MA",
@@ -29,19 +34,14 @@
    "count": 26
   },
   {
-   "code": "DZ",
-   "name": "Algeria",
-   "count": 25
-  },
-  {
    "code": "SD",
    "name": "Sudan",
-   "count": 22
+   "count": 23
   },
   {
    "code": "AE",
    "name": "United Arab Emirates",
-   "count": 21
+   "count": 22
   },
   {
    "code": "US",
@@ -114,6 +114,11 @@
    "count": 6
   },
   {
+   "code": "YE",
+   "name": "Yemen",
+   "count": 6
+  },
+  {
    "code": "TZ",
    "name": "Tanzania",
    "count": 5
@@ -146,11 +151,6 @@
   {
    "code": "PL",
    "name": "Poland",
-   "count": 4
-  },
-  {
-   "code": "YE",
-   "name": "Yemen",
    "count": 4
   },
   {
@@ -204,6 +204,11 @@
    "count": 2
   },
   {
+   "code": "SE",
+   "name": "Sweden",
+   "count": 2
+  },
+  {
    "code": "TN",
    "name": "Tunisia",
    "count": 2
@@ -234,13 +239,13 @@
    "count": 1
   },
   {
-   "code": "RU",
-   "name": "Russia",
+   "code": "KG",
+   "name": "Kyrgyzstan",
    "count": 1
   },
   {
-   "code": "SE",
-   "name": "Sweden",
+   "code": "RU",
+   "name": "Russia",
    "count": 1
   },
   {

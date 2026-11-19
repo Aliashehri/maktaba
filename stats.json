@@ -1,12 +1,12 @@
 {
- "updated": "2026-11-19T22:05Z",
- "total": 1760,
- "last28": 1760,
+ "updated": "2026-11-19T23:01Z",
+ "total": 1767,
+ "last28": 1767,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 1221
+   "count": 1225
   },
   {
    "code": "EG",
@@ -179,6 +179,11 @@
    "count": 3
   },
   {
+   "code": "PS",
+   "name": "Palestine",
+   "count": 3
+  },
+  {
    "code": "AL",
    "name": "Albania",
    "count": 2
@@ -246,11 +251,6 @@
   {
    "code": "MR",
    "name": "Mauritania",
-   "count": 1
-  },
-  {
-   "code": "RU",
-   "name": "Russia",
    "count": 1
   }
  ]

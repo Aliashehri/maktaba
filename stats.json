@@ -1,17 +1,17 @@
 {
- "updated": "2026-11-19T23:01Z",
- "total": 1767,
- "last28": 1767,
+ "updated": "2026-11-19T23:57Z",
+ "total": 1778,
+ "last28": 1778,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 1225
+   "count": 1234
   },
   {
    "code": "EG",
    "name": "Egypt",
-   "count": 80
+   "count": 81
   },
   {
    "code": "ID",
@@ -34,13 +34,13 @@
    "count": 26
   },
   {
-   "code": "SD",
-   "name": "Sudan",
-   "count": 23
-  },
-  {
    "code": "US",
    "name": "United States",
+   "count": 24
+  },
+  {
+   "code": "SD",
+   "name": "Sudan",
    "count": 23
   },
   {

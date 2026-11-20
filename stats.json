@@ -1,12 +1,12 @@
 {
- "updated": "2026-11-19T23:57Z",
- "total": 1778,
- "last28": 1778,
+ "updated": "2026-11-20T01:26Z",
+ "total": 1784,
+ "last28": 1784,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 1234
+   "count": 1237
   },
   {
    "code": "EG",
@@ -89,6 +89,11 @@
    "count": 9
   },
   {
+   "code": "OM",
+   "name": "Oman",
+   "count": 9
+  },
+  {
    "code": "DE",
    "name": "Germany",
    "count": 8
@@ -101,11 +106,6 @@
   {
    "code": "NE",
    "name": "Niger",
-   "count": 8
-  },
-  {
-   "code": "OM",
-   "name": "Oman",
    "count": 8
   },
   {
@@ -152,6 +152,11 @@
    "code": "JO",
    "name": "Hashemite Kingdom of Jordan",
    "count": 4
+  },
+  {
+   "code": "CA",
+   "name": "Canada",
+   "count": 3
   },
   {
    "code": "CG",
@@ -231,11 +236,6 @@
   {
    "code": "BJ",
    "name": "Benin",
-   "count": 1
-  },
-  {
-   "code": "CA",
-   "name": "Canada",
    "count": 1
   },
   {

@@ -1,12 +1,12 @@
 {
- "updated": "2026-11-21T15:59Z",
- "total": 1956,
- "last28": 1956,
+ "updated": "2026-11-21T17:00Z",
+ "total": 1960,
+ "last28": 1960,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 1355
+   "count": 1356
   },
   {
    "code": "EG",
@@ -129,6 +129,11 @@
    "count": 6
   },
   {
+   "code": "PS",
+   "name": "Palestine",
+   "count": 6
+  },
+  {
    "code": "LB",
    "name": "Lebanon",
    "count": 5
@@ -186,11 +191,6 @@
   {
    "code": "KE",
    "name": "Kenya",
-   "count": 3
-  },
-  {
-   "code": "PS",
-   "name": "Palestine",
    "count": 3
   },
   {

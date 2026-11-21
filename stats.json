@@ -1,17 +1,17 @@
 {
- "updated": "2026-11-21T11:01Z",
- "total": 1937,
- "last28": 1937,
+ "updated": "2026-11-21T11:58Z",
+ "total": 0,
+ "last28": 1944,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 1341
+   "count": 1344
   },
   {
    "code": "EG",
    "name": "Egypt",
-   "count": 97
+   "count": 99
   },
   {
    "code": "ID",
@@ -51,7 +51,7 @@
   {
    "code": "SY",
    "name": "Syria",
-   "count": 19
+   "count": 21
   },
   {
    "code": "KW",

@@ -1,12 +1,12 @@
 {
- "updated": "2026-11-24T17:52Z",
- "total": 0,
- "last28": 1042,
+ "updated": "2026-11-25T02:33Z",
+ "total": 2025,
+ "last28": 894,
  "countries": [
   {
    "code": "SA",
    "name": "Saudi Arabia",
-   "count": 1407
+   "count": 1408
   },
   {
    "code": "EG",
@@ -99,6 +99,11 @@
    "count": 8
   },
   {
+   "code": "FR",
+   "name": "France",
+   "count": 8
+  },
+  {
    "code": "ML",
    "name": "Mali",
    "count": 8
@@ -112,11 +117,6 @@
    "code": "SO",
    "name": "Somalia",
    "count": 8
-  },
-  {
-   "code": "FR",
-   "name": "France",
-   "count": 6
   },
   {
    "code": "PK",
